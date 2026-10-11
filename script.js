@@ -4,6 +4,26 @@ const currentYear = document.querySelector("#current-year");
 
 if (currentYear) currentYear.textContent = new Date().getFullYear();
 
+const marqueeMessage = document.querySelector(".marquee-message span");
+const marqueePhrases = [
+  "Authentic experiences all around",
+  "17 October 2026",
+  "Are we happy only because we feel good?",
+  "Join the Barazas",
+];
+
+if (marqueeMessage) {
+  let phraseIndex = 0;
+  window.setInterval(() => {
+    phraseIndex = (phraseIndex + 1) % marqueePhrases.length;
+    marqueeMessage.classList.add("is-changing");
+    window.setTimeout(() => {
+      marqueeMessage.textContent = marqueePhrases[phraseIndex];
+      marqueeMessage.classList.remove("is-changing");
+    }, 220);
+  }, 3000);
+}
+
 if (menuToggle && primaryNavigation) {
   const closeMenu = () => {
     primaryNavigation.classList.remove("is-open");
