@@ -3,17 +3,87 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Roundsquare event dashboard." />
+    <meta name="description" content="Your Roundsquare event dashboard." />
     <title>Dashboard | Roundsquare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="dashboard.css" />
   </head>
   <body>
     <main class="dashboard-page">
-      <a class="sign-out" href="index.html">Sign out <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      <div class="dashboard-shell">
+        <header class="dashboard-header">
+          <a class="brand" href="index.html" aria-label="Roundsquare home">
+            <span class="brand-logos" aria-hidden="true">
+              <img src="Images/ihslogo.png" alt="" />
+              <img src="Images/roundsquarelogo.jpeg" alt="" />
+            </span>
+            <span>Roundsquare <small>2026</small></span>
+          </a>
+          <div class="header-actions">
+            <button class="icon-button" type="button" aria-label="View notifications"><i class="fa-regular fa-bell" aria-hidden="true"></i><span class="notification-dot"></span></button>
+            <a class="avatar" href="#profile" aria-label="Open profile">T</a>
+          </div>
+        </header>
+
+        <nav class="dashboard-nav" aria-label="Dashboard navigation">
+          <a class="is-active" href="#home"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Home</span></a>
+          <a href="#schedule"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>Schedule</span></a>
+          <a href="#speakers"><i class="fa-solid fa-users" aria-hidden="true"></i><span>People</span></a>
+          <a href="#profile"><i class="fa-regular fa-user" aria-hidden="true"></i><span>Profile</span></a>
+        </nav>
+
+        <section class="welcome-section" id="home">
+          <div class="welcome-copy">
+            <p class="eyebrow"><span class="pulse"></span> Your event companion</p>
+            <h1>Good morning,<br /><span>Thanush.</span></h1>
+            <p class="welcome-text">A day to connect, discover and grow. Everything you need for your Roundsquare experience is right here.</p>
+            <a class="primary-action" href="#schedule">Explore your day <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
+          <div class="welcome-art" aria-hidden="true">
+            <div class="art-glow"></div>
+            <div class="art-ring art-ring-one"></div>
+            <div class="art-ring art-ring-two"></div>
+            <span class="art-star star-one">✦</span><span class="art-star star-two">✦</span>
+            <img src="Images/roundsquarelogo.jpeg" alt="" />
+            <span class="art-label">Pursuit<br />of happiness</span>
+          </div>
+        </section>
+
+        <section class="event-strip" aria-label="Event details">
+          <div><i class="fa-regular fa-calendar" aria-hidden="true"></i><span><small>DATE</small><strong>17 October 2026</strong></span></div>
+          <div><i class="fa-regular fa-clock" aria-hidden="true"></i><span><small>TIME</small><strong>9:00 AM — 5:30 PM</strong></span></div>
+          <div><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span><small>VENUE</small><strong>The Indian High School</strong></span></div>
+        </section>
+
+        <section class="section-block" id="schedule">
+          <div class="section-heading"><div><p class="eyebrow">Make it count</p><h2>Your day, <em>your way.</em></h2></div><a class="section-link" href="#schedule">Full schedule <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
+          <div class="feature-grid">
+            <a class="feature-card feature-card-photo" href="#schedule">
+              <span class="card-shade"></span><span class="card-content"><small>UP NEXT · 09:30 AM</small><strong>Opening<br />ceremony</strong><span>Auditorium <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></span></span>
+            </a>
+            <a class="feature-card feature-card-gold" href="#speakers"><span class="card-icon"><i class="fa-solid fa-microphone-lines" aria-hidden="true"></i></span><span class="card-content"><small>DON'T MISS</small><strong>Meet the<br />speakers</strong><span>Discover who's joining us <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span></span></a>
+          </div>
+        </section>
+
+        <section class="section-block" id="speakers">
+          <div class="section-heading"><div><p class="eyebrow">People to meet</p><h2>Find your <em>spark.</em></h2></div><a class="section-link" href="#speakers">View all <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
+          <div class="people-row">
+            <article class="person-card"><div class="person-avatar person-one">A</div><strong>Amal Joseph</strong><span>Keynote speaker</span></article>
+            <article class="person-card"><div class="person-avatar person-two">R</div><strong>Rohan Mehta</strong><span>Student leader</span></article>
+            <article class="person-card"><div class="person-avatar person-three">S</div><strong>Sarah Khan</strong><span>Baraza host</span></article>
+          </div>
+        </section>
+
+        <section class="quick-links" id="profile">
+          <a href="#schedule"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i><span><strong>Explore campus</strong><small>Find your way around</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+          <a href="index.html"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span><strong>Sign out</strong><small>Return to the home page</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </section>
+
+        <footer class="dashboard-footer"><span>THE INDIAN HIGH SCHOOL, DUBAI</span><span>Made for meaningful moments <i class="fa-solid fa-heart" aria-hidden="true"></i></span></footer>
+      </div>
     </main>
     <script src="dashboard.js"></script>
   </body>
