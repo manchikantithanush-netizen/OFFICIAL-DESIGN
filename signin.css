@@ -15,8 +15,9 @@ body {
   margin: 0;
   color: var(--warm-ivory);
   background: var(--midnight-navy);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
+h1, .eyebrow, .school-name, .submit-button { font-family: "Plus Jakarta Sans", "Inter", sans-serif; }
 .signin-page { animation: signin-page-in 650ms cubic-bezier(.22, .75, .25, 1) both; }
 @keyframes signin-page-in {
   from { opacity: 0; transform: translateY(12px); }
@@ -74,7 +75,7 @@ body {
 .signin-card { position: relative; padding: 3rem 3.5rem 2rem; background: rgba(7, 23, 44, .83); border: 1px solid rgba(244, 235, 221, .4); border-radius: 22px; box-shadow: 0 25px 60px rgba(0, 0, 0, .32), inset 0 0 45px rgba(155, 170, 192, .05); backdrop-filter: blur(14px); }
 .card-accent { width: 5rem; height: .25rem; margin-bottom: 1.2rem; background: linear-gradient(90deg, var(--warm-gold), #d34875); border-radius: 99px; }
 .eyebrow { margin: 0 0 .7rem; color: var(--warm-gold); font-size: .72rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
-h1 { max-width: 520px; margin: 0 0 .8rem; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.4rem, 4vw, 4rem); font-weight: 400; line-height: .98; letter-spacing: -.05em; }
+h1 { max-width: 520px; margin: 0 0 .8rem; font-family: "Plus Jakarta Sans", "Inter", sans-serif; font-size: clamp(2.4rem, 4vw, 4rem); font-weight: 800; line-height: .98; letter-spacing: -.05em; }
 h1 span { color: var(--warm-gold); }
 .form-intro { margin: 0 0 1.8rem; color: var(--muted-blue-grey); }
 label { display: block; margin: 1.1rem 0 .45rem; color: var(--warm-ivory); font-size: .9rem; font-weight: 600; }
@@ -85,7 +86,7 @@ input:focus { border-color: var(--warm-gold); box-shadow: 0 0 0 3px rgba(242, 19
 input[aria-invalid="true"] { border-color: #e94677; }
 .field-error { display: block; min-height: 1.05rem; margin: .3rem 0 0; color: #ff5a87; font-size: .75rem; }
 .submit-button { width: 100%; min-height: 3.4rem; margin-top: 1.1rem; color: var(--midnight-navy); background: linear-gradient(105deg, var(--warm-gold), #ffc967, #f13e7b); border: 0; border-radius: 999px; cursor: pointer; font: inherit; font-size: 1rem; font-weight: 800; box-shadow: 0 5px 18px rgba(242, 190, 85, .2); transition: filter 180ms ease, transform 180ms ease; }
-.submit-button:hover { filter: brightness(1.08); transform: translateY(-2px); }
+.submit-button:hover { filter: brightness(1.08); transform: translateY(-4px) scale(1.01); box-shadow: 0 12px 28px rgba(242, 190, 85, .3); }
 .form-status, .registered-note { min-height: 1.2rem; margin: .85rem 0 0; color: var(--muted-blue-grey); font-size: .76rem; text-align: center; }
 .registered-note { margin: 1.2rem 0 0; }
 

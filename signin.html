@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Sign in to the Roundsquare dashboard." />
     <title>Sign in | Roundsquare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="signin.css" />
     <link rel="stylesheet" href="signin-status.css" />
   </head>
@@ -15,7 +19,7 @@
       <div class="scratch scratch-two" aria-hidden="true"></div>
       <div class="scratch scratch-three" aria-hidden="true"></div>
 
-      <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Back to home</a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home</a>
 
       <section class="event-intro" aria-label="Event introduction">
         <div class="event-logos">
@@ -48,7 +52,7 @@
             <input id="gr-number" name="grNumber" type="text" autocomplete="off" placeholder="Enter your GR number" required />
             <span class="field-error" data-error-for="gr-number"></span>
 
-            <button class="submit-button" type="submit">Continue to event <span aria-hidden="true">→</span></button>
+            <button class="submit-button" type="submit">Continue to event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
             <p class="form-status" role="status" aria-live="polite"></p>
           </form>
           <p class="registered-note">For registered students of our school only.</p>
@@ -70,10 +74,10 @@
       </div>
 
       <div class="event-footer" aria-hidden="true">
-        <span>✧<small>CONNECT</small></span>
-        <span>◈<small>DISCOVER</small></span>
-        <span>♧<small>GROW</small></span>
-        <span>☺<small>BE HAPPY</small></span>
+        <span><i class="fa-solid fa-link" aria-hidden="true"></i><small>CONNECT</small></span>
+        <span><i class="fa-solid fa-compass" aria-hidden="true"></i><small>DISCOVER</small></span>
+        <span><i class="fa-solid fa-seedling" aria-hidden="true"></i><small>GROW</small></span>
+        <span><i class="fa-solid fa-face-smile" aria-hidden="true"></i><small>BE HAPPY</small></span>
       </div>
     </main>
     <script src="signin.js"></script>
