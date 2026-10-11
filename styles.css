@@ -105,10 +105,17 @@ h2 { margin-bottom: 1.25rem; font-size: clamp(2.2rem, 5vw, 4.25rem); letter-spac
   .container { width: min(calc(100% - 2rem), var(--content-width)); }
   .header-inner { min-height: 72px; }
   .menu-toggle { display: block; }
-  .primary-navigation { position: absolute; top: 72px; right: 1rem; left: 1rem; display: none; align-items: stretch; flex-direction: column; gap: 0; padding: .75rem; background: var(--deep-blue); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, .3); }
-  .primary-navigation.is-open { display: flex; }
+  .primary-navigation { position: absolute; top: calc(100% + .75rem); right: 1rem; left: 1rem; display: flex; align-items: stretch; flex-direction: column; gap: .2rem; padding: .75rem; background: var(--deep-blue); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, .3); opacity: 0; visibility: hidden; transform: translateY(-10px) scale(.98); transform-origin: top right; pointer-events: none; transition: opacity 220ms ease, transform 220ms ease, visibility 220ms ease; }
+  .primary-navigation.is-open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
   .primary-navigation a { padding: .8rem; }
   .primary-navigation .button { margin-top: .35rem; }
+  .menu-toggle > span:not(.sr-only) { transition: transform 220ms ease, opacity 220ms ease; }
+  .menu-toggle.is-open > span:nth-child(2) { transform: translateY(6px) rotate(45deg); }
+  .menu-toggle.is-open > span:nth-child(3) { opacity: 0; }
+  .menu-toggle.is-open > span:nth-child(4) { transform: translateY(-6px) rotate(-45deg); }
+  .marquee-banner { font-size: .56rem; letter-spacing: .1em; }
+  .marquee-group { justify-content: flex-start; gap: .9rem; width: 100vw; padding: .65rem 1rem; }
+  .marquee-group span, .marquee-group i { flex: 0 0 auto; }
   .hero { padding: 4rem 0 5rem; }
   .hero-grid, .intro-grid { grid-template-columns: 1fr; gap: 3.5rem; }
   .hero-art, .art-panel { min-height: 440px; }
@@ -124,5 +131,6 @@ h2 { margin-bottom: 1.25rem; font-size: clamp(2.2rem, 5vw, 4.25rem); letter-spac
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
   .page-transition { display: none; }
+  .marquee-track, .menu-toggle > span:not(.sr-only), .primary-navigation { transition: none; }
   .marquee-track { animation: none; }
 }

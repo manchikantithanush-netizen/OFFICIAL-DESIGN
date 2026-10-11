@@ -7,11 +7,13 @@ if (currentYear) currentYear.textContent = new Date().getFullYear();
 if (menuToggle && primaryNavigation) {
   const closeMenu = () => {
     primaryNavigation.classList.remove("is-open");
+    menuToggle.classList.remove("is-open");
     menuToggle.setAttribute("aria-expanded", "false");
   };
 
   menuToggle.addEventListener("click", () => {
     const isOpen = primaryNavigation.classList.toggle("is-open");
+    menuToggle.classList.toggle("is-open", isOpen);
     menuToggle.setAttribute("aria-expanded", String(isOpen));
   });
 
