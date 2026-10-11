@@ -95,7 +95,6 @@ h2 { margin-bottom: 1.25rem; font-size: clamp(2.2rem, 5vw, 4.25rem); letter-spac
 .intro-grid p:last-child { max-width: 620px; color: var(--muted-blue-grey); font-size: 1.1rem; }
 .approach-ideals { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; }
 .approach-ideals span { padding: 1.25rem 1.4rem; color: var(--warm-ivory); border: 1px solid rgba(244, 235, 221, .18); border-radius: 12px; background: rgba(7, 23, 44, .4); font-family: Georgia, "Times New Roman", serif; font-size: 1.2rem; transition: border-color 180ms ease, transform 180ms ease, background 180ms ease; }
-.approach-ideals span:nth-child(2n) { transform: translateY(1.25rem); }
 .approach-ideals span:hover { background: rgba(242, 190, 85, .1); border-color: var(--warm-gold); transform: translateY(-3px); }
 .site-footer { padding: 2rem 0; border-top: 1px solid rgba(244, 235, 221, .13); }
 .footer-copy, .copyright { margin: .8rem 0 0; color: var(--muted-blue-grey); font-size: .82rem; }
