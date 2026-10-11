@@ -4,6 +4,7 @@
   z-index: 200;
   display: grid;
   place-items: center;
+  overflow: hidden;
   background: var(--midnight-navy);
   animation: loading-screen-exit 600ms 2.1s ease forwards;
 }

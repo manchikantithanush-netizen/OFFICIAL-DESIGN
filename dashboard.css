@@ -23,10 +23,16 @@ body {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  animation: dashboard-page-in 600ms cubic-bezier(.22, .75, .25, 1) both;
   background:
     radial-gradient(circle at 100% 0, rgba(242, 190, 85, .08), transparent 28%),
     radial-gradient(circle at 0 100%, rgba(20, 41, 68, .75), transparent 38%),
     var(--midnight-navy);
+}
+
+@keyframes dashboard-page-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .dashboard-page::before,
@@ -75,5 +81,9 @@ body {
   .sign-out {
     top: 1.25rem;
     right: 1.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dashboard-page { animation: none; }
   }
 }
