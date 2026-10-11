@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sign in to the Roundsquare dashboard." />
+    <title>Sign in | Roundsquare</title>
+    <link rel="stylesheet" href="signin.css" />
+    <link rel="stylesheet" href="signin-status.css" />
+  </head>
+  <body>
+    <main class="signin-page">
+      <div class="school-photo" aria-hidden="true"></div>
+      <div class="scratch scratch-one" aria-hidden="true"></div>
+      <div class="scratch scratch-two" aria-hidden="true"></div>
+      <div class="scratch scratch-three" aria-hidden="true"></div>
+
+      <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Back to home</a>
+
+      <section class="event-intro" aria-label="Event introduction">
+        <div class="event-logos">
+          <img class="school-logo" src="Images/ihslogo.png" alt="The Indian High School Dubai logo" />
+          <span class="logo-divider" aria-hidden="true"></span>
+          <img class="roundsquare-logo" src="Images/roundsquarelogo.jpeg" alt="Roundsquare logo" />
+        </div>
+        <p class="school-name">THE INDIAN HIGH SCHOOL, DUBAI</p>
+        <img class="event-heading" src="Images/heading.png" alt="The Pursuit of Happiness" />
+        <p class="event-tagline">A day to connect, discover and grow.</p>
+        <div class="welcome-message">
+          <strong>Welcome, future changemakers!</strong>
+          <p>Get ready for a day filled with inspiring experiences, new friendships and opportunities to discover the best version of yourself.</p>
+        </div>
+      </section>
+
+      <section class="signin-content">
+        <div class="signin-card">
+          <div class="card-accent" aria-hidden="true"></div>
+          <p class="eyebrow">Student access</p>
+          <h1>Welcome to the <span>experience</span></h1>
+          <p class="form-intro">Enter your school details to access the event.</p>
+
+          <form id="signin-form" novalidate>
+            <label for="student-name">Full name <b>*</b></label>
+            <input id="student-name" name="name" type="text" autocomplete="name" placeholder="Enter your full name" required />
+            <span class="field-error" data-error-for="student-name"></span>
+
+            <label for="gr-number">GR number <b>*</b></label>
+            <input id="gr-number" name="grNumber" type="text" autocomplete="off" placeholder="Enter your GR number" required />
+            <span class="field-error" data-error-for="gr-number"></span>
+
+            <button class="submit-button" type="submit">Continue to event <span aria-hidden="true">→</span></button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </form>
+          <p class="registered-note">For registered students of our school only.</p>
+        </div>
+      </section>
+
+      <div class="verification-status" aria-hidden="true">
+        <div class="status-card">
+          <div class="loading-spinner"></div>
+          <div class="verification-check">
+            <svg viewBox="0 0 52 52" aria-hidden="true">
+              <circle class="check-circle" cx="26" cy="26" r="24" />
+              <path class="check-path" d="M14 27.5 22 35l16-18" />
+            </svg>
+          </div>
+          <p class="status-title">Verifying your details</p>
+          <p class="status-copy">Please wait while we prepare your event access.</p>
+        </div>
+      </div>
+
+      <div class="event-footer" aria-hidden="true">
+        <span>✧<small>CONNECT</small></span>
+        <span>◈<small>DISCOVER</small></span>
+        <span>♧<small>GROW</small></span>
+        <span>☺<small>BE HAPPY</small></span>
+      </div>
+    </main>
+    <script src="signin.js"></script>
+    <script src="signin-status.js"></script>
+  </body>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Roundsquare - thoughtful spaces for meaningful moments." />
+    <title>Roundsquare</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="loading-screen.css" />
+    <link rel="stylesheet" href="video-background.css" />
+  </head>
+  <body>
+    <div class="loading-screen" aria-label="Loading Roundsquare" aria-live="polite">
+      <div class="loading-logos">
+        <img class="loading-logo loading-logo-ihs" src="Images/ihslogo.png" alt="The Indian High School Dubai" />
+        <span class="loading-divider" aria-hidden="true"></span>
+        <img class="loading-logo loading-logo-roundsquare" src="Images/roundsquarelogo.jpeg" alt="Roundsquare" />
+      </div>
+    </div>
+
+    <div class="video-background" aria-hidden="true">
+      <video class="background-video" muted playsinline preload="metadata"></video>
+    </div>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Roundsquare home">
+          <span class="brand-logos" aria-hidden="true">
+            <img class="school-brand-logo" src="Images/ihslogo.png" alt="" />
+            <img class="brand-logo" src="Images/roundsquarelogo.jpeg" alt="" />
+          </span>
+          <span>Roundsquare</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+          <span class="sr-only">Toggle navigation</span><span></span><span></span><span></span>
+        </button>
+        <nav id="primary-navigation" class="primary-navigation" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+          <a class="button button-small" href="#get-started">Get started</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="get-started">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="hero-logo-row">
+              <img class="hero-logo" src="Images/roundsquarelogo.jpeg" alt="Roundsquare logo" />
+              <span class="hero-rule"></span>
+            </div>
+            <p class="eyebrow">The Indian High School Dubai Presents....</p>
+            <img class="hero-heading-image" src="Images/heading.png" alt="The Pursuit of Happiness" />
+            <p class="hero-copy">An intraschool conference bringing students together to share ideas, build leadership skills, and embrace the Round Square IDEALS.</p>
+            <div class="event-details" aria-label="Event date and time">
+              <div>
+                <span class="event-label">Date</span>
+                <strong>October 17th, 2026</strong>
+              </div>
+              <span class="event-divider" aria-hidden="true"></span>
+              <div>
+                <span class="event-label">Time</span>
+                <strong>9 AM to 5:30 PM</strong>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <a class="button" href="#about">Explore Roundsquare</a>
+              <a class="text-link" href="#about">Learn more <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="hero-art">
+            <div class="art-panel">
+              <img class="school-logo" src="Images/ihslogo.png" alt="The Indian High School Dubai logo" />
+              <p class="panel-kicker">WELCOME BACK</p>
+              <h2>Sign in to access your dashboard.</h2>
+              <p class="panel-copy">Continue to your Roundsquare dashboard and pick up where you left off.</p>
+              <a class="button panel-button" href="signin.html">Sign in <span aria-hidden="true">→</span></a>
+              <span class="panel-spark panel-spark-one" aria-hidden="true">✦</span>
+              <span class="panel-spark panel-spark-two" aria-hidden="true">✧</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="intro-section" id="about">
+        <span class="intro-orbit intro-orbit-large" aria-hidden="true"></span>
+        <span class="intro-orbit intro-orbit-small" aria-hidden="true"></span>
+        <span class="intro-dot intro-dot-one" aria-hidden="true"></span>
+        <span class="intro-dot intro-dot-two" aria-hidden="true"></span>
+        <div class="container intro-grid">
+          <p class="eyebrow">The Roundsquare approach</p>
+          <div>
+            <h2>Built around the things that matter.</h2>
+            <p>We are creating a calm, considered experience that brings people and ideas together. This is the foundation for everything that comes next.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer" id="contact">
+      <div class="container footer-inner">
+        <div>
+          <a class="brand" href="/" aria-label="Roundsquare home">
+            <img class="brand-logo" src="Images/roundsquarelogo.jpeg" alt="" />
+            <span>Roundsquare</span>
+          </a>
+          <p class="footer-copy">Made by Thanush, Keshav &amp; Evan</p>
+        </div>
+        <p class="copyright">© <span id="current-year"></span> Roundsquare</p>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="loading-screen.js"></script>
+    <script src="video-background.js"></script>
+  </body>
+</html>
