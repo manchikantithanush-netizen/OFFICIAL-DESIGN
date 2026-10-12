@@ -9,7 +9,6 @@ const dashboardShell = document.querySelector(".dashboard-shell");
 const settingsNavLink = document.querySelector(".settings-nav-link");
 const settingsView = document.querySelector(".settings-view");
 const standardDashboardContent = document.querySelectorAll(".welcome-section, .event-strip, .resource-links, .event-countdown, .section-block, .quick-links, .dashboard-footer");
-const countdownUnits = document.querySelectorAll("[data-countdown-unit]");
 const reminderButton = document.querySelector(".reminder-button");
 const reminderModal = document.querySelector(".reminder-modal");
 const reminderClose = document.querySelector(".reminder-close");
@@ -48,43 +47,6 @@ const reminderSchedules = {
     ["16:30", "Team Dance"], ["17:45", "Dispersal"],
   ],
 };
-
-const eventStart = new Date(2026, 9, 17, 9, 0, 0);
-const eventEnd = new Date(2026, 9, 17, 17, 30, 0);
-const updateCountdown = () => {
-  const remaining = eventStart.getTime() - Date.now();
-  if (remaining <= 0) {
-    countdownUnits.forEach((unit) => {
-      unit.textContent = "00";
-    });
-    const countdownTitle = document.querySelector("#countdown-title");
-    const countdownNote = document.querySelector(".countdown-note");
-    if (countdownTitle) countdownTitle.textContent = Date.now() < eventEnd.getTime() ? "We are live." : "What a day.";
-    if (countdownNote) countdownNote.textContent = Date.now() < eventEnd.getTime()
-      ? "The event is happening now at The Indian High School."
-      : "Thank you for being part of Round Square IHS.";
-    return false;
-  }
-
-  const totalSeconds = Math.floor(remaining / 1000);
-  const values = {
-    days: Math.floor(totalSeconds / 86400),
-    hours: Math.floor((totalSeconds % 86400) / 3600),
-    minutes: Math.floor((totalSeconds % 3600) / 60),
-    seconds: totalSeconds % 60,
-  };
-  countdownUnits.forEach((unit) => {
-    unit.textContent = String(values[unit.dataset.countdownUnit]).padStart(2, "0");
-  });
-  return true;
-};
-
-if (countdownUnits.length) {
-  updateCountdown();
-  const countdownTimer = window.setInterval(() => {
-    if (!updateCountdown()) window.clearInterval(countdownTimer);
-  }, 1000);
-}
 
 if (timeGreeting) {
   const hour = new Date().getHours();
