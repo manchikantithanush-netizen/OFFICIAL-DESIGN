@@ -1,9 +1,9 @@
 const backgroundVideo = document.querySelector(".background-video");
 
 const backgroundVideos = [
-  "Videos/C6164.MP4",
-  "Videos/C6159.MP4",
-  "Videos/C6161.MP4",
+  "Videos/C6164.mp4",
+  "Videos/C6159.mp4",
+  "Videos/C6161.mp4",
 ];
 
 const visibleDuration = 7000;
