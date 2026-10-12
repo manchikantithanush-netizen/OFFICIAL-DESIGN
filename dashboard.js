@@ -146,7 +146,7 @@ const updateNotificationBadge = () => {
 };
 
 const showNotificationToast = (title, message) => {
-  if (!notificationToast) return;
+  if (!notificationToast || notificationPanel?.classList.contains("is-open")) return;
   notificationToastTitle.textContent = title;
   notificationToastMessage.textContent = message;
   notificationToast.classList.remove("is-dismissing");
@@ -422,6 +422,11 @@ const toggleNotifications = (isOpen) => {
   notificationPanel.classList.toggle("is-open", isOpen);
   notificationPanel.setAttribute("aria-hidden", String(!isOpen));
   notificationButton.setAttribute("aria-expanded", String(isOpen));
+  if (isOpen && notificationToast) {
+    window.clearTimeout(notificationToastTimer);
+    notificationToast.classList.remove("is-visible", "is-dismissing");
+    notificationToast.setAttribute("aria-hidden", "true");
+  }
   if (isOpen) {
     unreadNotifications = 0;
     window.localStorage.removeItem(unreadNotificationsKey);
