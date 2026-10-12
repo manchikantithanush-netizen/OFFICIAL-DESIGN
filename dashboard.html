@@ -24,7 +24,7 @@
             <span>Roundsquare <small>2026</small></span>
           </a>
           <div class="header-actions">
-            <button class="icon-button notification-button" type="button" aria-label="View notifications" aria-expanded="false" aria-controls="notification-panel"><i class="fa-regular fa-bell" aria-hidden="true"></i></button>
+            <button class="icon-button notification-button" type="button" aria-label="View notifications" aria-expanded="false" aria-controls="notification-panel"><i class="fa-regular fa-bell" aria-hidden="true"></i><span class="notification-badge" aria-label="0 unread notifications" hidden>0</span></button>
           </div>
         </header>
 
@@ -160,6 +160,10 @@
           <p class="no-notifications">NO NOTIFICATIONS</p>
           <div class="notification-list" aria-live="polite">
             <p class="notification-empty">You are all caught up for now.</p>
+          </div>
+          <div class="notification-toast" role="status" aria-live="polite" aria-hidden="true">
+            <i class="fa-regular fa-bell" aria-hidden="true"></i>
+            <span><strong class="notification-toast-title">New notification</strong><small class="notification-toast-message"></small></span>
           </div>
           <button class="notification-clear-button" type="button"><i class="fa-solid fa-trash-can" aria-hidden="true"></i> CLEAR REMINDERS</button>
         </div>

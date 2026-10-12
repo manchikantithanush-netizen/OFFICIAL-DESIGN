@@ -19,9 +19,13 @@ const notificationCopy = document.querySelector(".notification-copy");
 const noNotifications = document.querySelector(".no-notifications");
 const notificationList = document.querySelector(".notification-list");
 const notificationButton = document.querySelector(".notification-button");
+const notificationBadge = document.querySelector(".notification-badge");
 const notificationPanel = document.querySelector(".notification-panel");
 const notificationClose = document.querySelector(".notification-close");
 const notificationClearButton = document.querySelector(".notification-clear-button");
+const notificationToast = document.querySelector(".notification-toast");
+const notificationToastTitle = document.querySelector(".notification-toast-title");
+const notificationToastMessage = document.querySelector(".notification-toast-message");
 const campusButton = document.querySelector(".campus-button");
 const comingSoonOverlay = document.querySelector(".coming-soon-overlay");
 const signOutLink = document.querySelector(".sign-out-link");
@@ -31,7 +35,11 @@ const currentStudentNameKey = "roundsquare-current-student-name";
 const registrationKey = "roundsquare-student-registered";
 const reminderScheduleKey = "roundsquare-reminder-schedule";
 const reminderHistoryKey = "roundsquare-reminder-history";
+const unreadNotificationsKey = "roundsquare-unread-notifications";
 const reminderTimers = [];
+let unreadNotifications = Number(window.localStorage.getItem(unreadNotificationsKey) || 0);
+let notificationToastTimer;
+let notificationToastStartX = null;
 let selectedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
 const reminderSchedules = {
   intermediate: [
@@ -130,6 +138,53 @@ agendaTabs.forEach((tab) => {
 const getReminderHistory = () => JSON.parse(window.localStorage.getItem(reminderHistoryKey) || "[]");
 const saveReminderHistory = (history) => window.localStorage.setItem(reminderHistoryKey, JSON.stringify(history.slice(-8)));
 
+const updateNotificationBadge = () => {
+  if (!notificationBadge) return;
+  notificationBadge.textContent = unreadNotifications > 99 ? "99+" : String(unreadNotifications);
+  notificationBadge.hidden = unreadNotifications === 0;
+  notificationBadge.setAttribute("aria-label", `${unreadNotifications} unread notification${unreadNotifications === 1 ? "" : "s"}`);
+};
+
+const showNotificationToast = (title, message) => {
+  if (!notificationToast) return;
+  notificationToastTitle.textContent = title;
+  notificationToastMessage.textContent = message;
+  notificationToast.classList.remove("is-dismissing");
+  notificationToast.classList.add("is-visible");
+  notificationToast.setAttribute("aria-hidden", "false");
+  window.clearTimeout(notificationToastTimer);
+  notificationToastTimer = window.setTimeout(() => {
+    notificationToast.classList.remove("is-visible");
+    notificationToast.setAttribute("aria-hidden", "true");
+  }, 5000);
+};
+
+notificationToast?.addEventListener("touchstart", (event) => {
+  notificationToastStartX = event.touches[0].clientX;
+}, { passive: true });
+
+notificationToast?.addEventListener("touchend", (event) => {
+  if (notificationToastStartX === null) return;
+  const distance = event.changedTouches[0].clientX - notificationToastStartX;
+  notificationToastStartX = null;
+  if (Math.abs(distance) < 60) return;
+  window.clearTimeout(notificationToastTimer);
+  notificationToast.classList.add("is-dismissing");
+  window.setTimeout(() => {
+    notificationToast.classList.remove("is-visible", "is-dismissing");
+    notificationToast.setAttribute("aria-hidden", "true");
+  }, 220);
+});
+
+const addUnreadNotification = (title, message) => {
+  unreadNotifications += 1;
+  window.localStorage.setItem(unreadNotificationsKey, String(unreadNotifications));
+  updateNotificationBadge();
+  showNotificationToast(title, message);
+};
+
+updateNotificationBadge();
+
 const renderReminderNotifications = async () => {
   const history = getReminderHistory();
   let adminMessages = [];
@@ -181,13 +236,19 @@ const addReminderNotification = (message) => {
   const history = getReminderHistory();
   history.push({ message, timestamp: Date.now() });
   saveReminderHistory(history);
+  addUnreadNotification("Roundsquare reminder", message);
   renderReminderNotifications();
 };
 
 renderReminderNotifications();
 supabase
   .channel("student-admin-messages")
-  .on("postgres_changes", { event: "*", schema: "public", table: "admin_messages" }, () => renderReminderNotifications())
+  .on("postgres_changes", { event: "*", schema: "public", table: "admin_messages" }, (payload) => {
+    renderReminderNotifications();
+    if (payload.eventType === "INSERT" && payload.new) {
+      addUnreadNotification(payload.new.title || "New update", payload.new.message || payload.new.content || "");
+    }
+  })
   .subscribe();
 
 const showBrowserNotification = (title, body) => {
@@ -361,6 +422,11 @@ const toggleNotifications = (isOpen) => {
   notificationPanel.classList.toggle("is-open", isOpen);
   notificationPanel.setAttribute("aria-hidden", String(!isOpen));
   notificationButton.setAttribute("aria-expanded", String(isOpen));
+  if (isOpen) {
+    unreadNotifications = 0;
+    window.localStorage.removeItem(unreadNotificationsKey);
+    updateNotificationBadge();
+  }
 };
 
 notificationButton?.addEventListener("click", () => {
