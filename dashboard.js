@@ -3,9 +3,23 @@ const sections = document.querySelectorAll("#home, #schedule, #speakers");
 const agendaTabs = document.querySelectorAll(".agenda-tab");
 const agendaPanels = document.querySelectorAll("[data-agenda-panel]");
 const addCalendarButton = document.querySelector(".add-calendar-button");
+const dashboardShell = document.querySelector(".dashboard-shell");
+const settingsNavLink = document.querySelector(".settings-nav-link");
+const settingsView = document.querySelector(".settings-view");
+const standardDashboardContent = document.querySelectorAll(".welcome-section, .event-strip, .resource-links, .section-block, .quick-links, .dashboard-footer");
+const reminderButton = document.querySelector(".reminder-button");
+const reminderModal = document.querySelector(".reminder-modal");
+const reminderClose = document.querySelector(".reminder-close");
+const reminderStatus = document.querySelector(".reminder-status");
+const confirmRemindersButton = document.querySelector(".confirm-reminders-button");
+const reminderOptions = document.querySelectorAll("[data-reminder-schedule]");
+const notificationCopy = document.querySelector(".notification-copy");
+const noNotifications = document.querySelector(".no-notifications");
+const notificationList = document.querySelector(".notification-list");
 const notificationButton = document.querySelector(".notification-button");
 const notificationPanel = document.querySelector(".notification-panel");
 const notificationClose = document.querySelector(".notification-close");
+const notificationClearButton = document.querySelector(".notification-clear-button");
 const campusButton = document.querySelector(".campus-button");
 const comingSoonOverlay = document.querySelector(".coming-soon-overlay");
 const signOutLink = document.querySelector(".sign-out-link");
@@ -13,6 +27,24 @@ const studentName = document.querySelector("#student-name");
 const timeGreeting = document.querySelector("#time-greeting");
 const currentStudentNameKey = "roundsquare-current-student-name";
 const registrationKey = "roundsquare-student-registered";
+const reminderScheduleKey = "roundsquare-reminder-schedule";
+const reminderHistoryKey = "roundsquare-reminder-history";
+const reminderTimers = [];
+let selectedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
+const reminderSchedules = {
+  intermediate: [
+    ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Baraza Session 1"],
+    ["12:40", "Lunch"], ["13:30", "Keynote Speaker"], ["14:00", "Creative Expression Session"],
+    ["14:30", "Photo Session"], ["15:00", "Baraza Session 2"], ["16:30", "Team Dance & Closing Ceremony"],
+    ["17:45", "Dispersal"],
+  ],
+  junior: [
+    ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Scavenger Hunt"],
+    ["11:40", "Baraza Session 1"], ["12:40", "Lunch"], ["13:30", "Keynote Speaker"],
+    ["14:00", "Creative Expression Session"], ["14:30", "Photo Sessions"], ["15:00", "Baraza Session 2"],
+    ["16:30", "Team Dance"], ["17:45", "Dispersal"],
+  ],
+};
 
 if (timeGreeting) {
   const hour = new Date().getHours();
@@ -49,7 +81,29 @@ if (sections.length && "IntersectionObserver" in window) {
 }
 
 dashboardLinks.forEach((link) => {
-  link.addEventListener("click", () => setActiveLink(link.getAttribute("href").slice(1)));
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    dashboardShell?.classList.remove("is-settings");
+    if (settingsView) settingsView.hidden = true;
+    standardDashboardContent.forEach((content) => {
+      content.hidden = false;
+    });
+    settingsNavLink?.classList.remove("is-active");
+    setActiveLink(link.getAttribute("href").slice(1));
+    const target = document.querySelector(link.getAttribute("href"));
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+
+settingsNavLink?.addEventListener("click", () => {
+  dashboardShell?.classList.add("is-settings");
+  standardDashboardContent.forEach((content) => {
+    content.hidden = true;
+  });
+  if (settingsView) settingsView.hidden = false;
+  dashboardLinks.forEach((link) => link.classList.remove("is-active"));
+  settingsNavLink.classList.add("is-active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 agendaTabs.forEach((tab) => {
@@ -70,6 +124,140 @@ agendaTabs.forEach((tab) => {
   });
 
 });
+
+const getReminderHistory = () => JSON.parse(window.localStorage.getItem(reminderHistoryKey) || "[]");
+const saveReminderHistory = (history) => window.localStorage.setItem(reminderHistoryKey, JSON.stringify(history.slice(-8)));
+
+const renderReminderNotifications = () => {
+  const history = getReminderHistory();
+  if (!history.length) {
+    if (noNotifications) noNotifications.textContent = "NO NOTIFICATIONS";
+    if (notificationList) notificationList.innerHTML = '<p class="notification-empty">You are all caught up for now.</p>';
+    return;
+  }
+
+  if (noNotifications) noNotifications.textContent = "SCHEDULE REMINDERS";
+  if (notificationList) {
+    notificationList.replaceChildren(...history.slice(-6).reverse().map((entry) => {
+      const item = typeof entry === "string" ? { message: entry, timestamp: Date.now() } : entry;
+      const card = document.createElement("article");
+      card.className = "notification-item";
+
+      const title = document.createElement("strong");
+      title.textContent = "Roundsquare reminder";
+      const message = document.createElement("span");
+      message.textContent = item.message;
+      const time = document.createElement("time");
+      time.dateTime = new Date(item.timestamp).toISOString();
+      time.textContent = new Date(item.timestamp).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+      card.append(title, message, time);
+      return card;
+    }));
+  }
+};
+
+const addReminderNotification = (message) => {
+  const history = getReminderHistory();
+  history.push({ message, timestamp: Date.now() });
+  saveReminderHistory(history);
+  renderReminderNotifications();
+};
+
+renderReminderNotifications();
+
+const showBrowserNotification = (title, body) => {
+  if ("Notification" in window && Notification.permission === "granted") {
+    new Notification(title, { body, icon: "Images/ihslogo.png" });
+  }
+};
+
+const clearScheduledReminders = () => {
+  reminderTimers.splice(0).forEach((timer) => window.clearTimeout(timer));
+};
+
+const scheduleReminders = (scheduleName) => {
+  clearScheduledReminders();
+  reminderSchedules[scheduleName].forEach(([time, title]) => {
+    const [hour, minute] = time.split(":").map(Number);
+    const eventDate = new Date(2026, 9, 17, hour, minute);
+    const delay = eventDate.getTime() - Date.now();
+    if (delay <= 0) return;
+    const timer = window.setTimeout(() => {
+      const message = `${scheduleName === "junior" ? "Junior" : "Intermediate & Senior"}: ${title}`;
+      addReminderNotification(message);
+      showBrowserNotification("Roundsquare reminder", message);
+    }, delay);
+    reminderTimers.push(timer);
+  });
+};
+
+const requestReminders = async (scheduleName) => {
+  let browserNotificationsEnabled = !("Notification" in window);
+  if ("Notification" in window && Notification.permission !== "granted") {
+    try {
+      const permission = await Notification.requestPermission();
+      browserNotificationsEnabled = permission === "granted";
+    } catch (error) {
+      browserNotificationsEnabled = false;
+      reminderStatus.textContent = "Browser notifications are unavailable. In-dashboard reminders are still enabled.";
+    }
+  } else if ("Notification" in window) {
+    browserNotificationsEnabled = Notification.permission === "granted";
+  }
+  window.localStorage.setItem(reminderScheduleKey, scheduleName);
+  scheduleReminders(scheduleName);
+  reminderStatus.textContent = browserNotificationsEnabled
+    ? `${scheduleName === "junior" ? "Junior" : "Intermediate & Senior"} reminders are ready.`
+    : "Reminders saved. In-dashboard alerts are enabled; browser notifications are not allowed.";
+  window.setTimeout(() => reminderModal.classList.remove("is-open"), 700);
+};
+
+const clearReminders = () => {
+  clearScheduledReminders();
+  window.localStorage.removeItem(reminderScheduleKey);
+  window.localStorage.removeItem(reminderHistoryKey);
+  selectedReminderSchedule = null;
+  reminderOptions.forEach((button) => {
+    button.classList.remove("is-selected");
+    button.setAttribute("aria-pressed", "false");
+  });
+  renderReminderNotifications();
+  reminderStatus.textContent = "All reminders have been cleared.";
+};
+
+const selectReminderSchedule = (scheduleName) => {
+  if (!reminderSchedules[scheduleName]) return;
+  selectedReminderSchedule = scheduleName;
+  reminderOptions.forEach((button) => {
+    const isSelected = button.dataset.reminderSchedule === scheduleName;
+    button.classList.toggle("is-selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
+  });
+};
+
+reminderButton?.addEventListener("click", () => {
+  selectReminderSchedule(selectedReminderSchedule);
+  reminderModal.classList.add("is-open");
+});
+reminderClose?.addEventListener("click", () => reminderModal.classList.remove("is-open"));
+reminderOptions.forEach((button) => {
+  button.setAttribute("aria-pressed", "false");
+  button.addEventListener("click", () => selectReminderSchedule(button.dataset.reminderSchedule));
+});
+confirmRemindersButton?.addEventListener("click", () => {
+  if (!selectedReminderSchedule) {
+    reminderStatus.textContent = "Choose one schedule before confirming.";
+    return;
+  }
+  requestReminders(selectedReminderSchedule);
+});
+notificationClearButton?.addEventListener("click", clearReminders);
+
+const savedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
+if (savedReminderSchedule && reminderSchedules[savedReminderSchedule]) {
+  selectReminderSchedule(savedReminderSchedule);
+  scheduleReminders(savedReminderSchedule);
+}
 
 const pad = (value) => String(value).padStart(2, "0");
 const escapeCalendarText = (value) => String(value)
@@ -144,6 +332,7 @@ const createCalendarFile = () => {
 addCalendarButton?.addEventListener("click", createCalendarFile);
 
 const toggleNotifications = (isOpen) => {
+  renderReminderNotifications();
   notificationPanel.classList.toggle("is-open", isOpen);
   notificationPanel.setAttribute("aria-hidden", String(!isOpen));
   notificationButton.setAttribute("aria-expanded", String(isOpen));
