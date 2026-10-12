@@ -24,7 +24,7 @@ if (timeGreeting) {
 }
 
 if (studentName) {
-  const name = window.sessionStorage.getItem(currentStudentNameKey);
+  const name = window.localStorage.getItem(currentStudentNameKey);
   if (name) studentName.textContent = `${name}.`;
 }
 

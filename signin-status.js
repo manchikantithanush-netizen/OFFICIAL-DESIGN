@@ -3,6 +3,7 @@ const statusCard = document.querySelector(".status-card");
 const statusTitle = document.querySelector(".status-title");
 const statusCopy = document.querySelector(".status-copy");
 const currentStudentNameKey = "roundsquare-current-student-name";
+const registrationKey = "roundsquare-student-registered";
 
 if (verificationStatus && statusCard) {
   document.querySelector("#signin-form")?.addEventListener("signInDetailsReady", () => {
@@ -17,7 +18,8 @@ if (verificationStatus && statusCard) {
       return;
     }
 
-    window.sessionStorage.setItem(currentStudentNameKey, name);
+    window.localStorage.setItem(currentStudentNameKey, name);
+    window.localStorage.setItem(registrationKey, "true");
 
     verificationStatus.classList.add("is-visible");
     verificationStatus.setAttribute("aria-hidden", "false");

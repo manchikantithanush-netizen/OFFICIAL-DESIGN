@@ -1,8 +1,22 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const primaryNavigation = document.querySelector("#primary-navigation");
 const currentYear = document.querySelector("#current-year");
+const registrationKey = "roundsquare-student-registered";
+const isRegistered = window.localStorage.getItem(registrationKey) === "true";
 
 if (currentYear) currentYear.textContent = new Date().getFullYear();
+
+const accessPanelHeading = document.querySelector(".panel-kicker");
+const accessPanelCopy = document.querySelector(".panel-copy");
+const accessPanelButton = document.querySelector(".panel-button");
+
+if (isRegistered && accessPanelHeading && accessPanelCopy && accessPanelButton) {
+  accessPanelHeading.textContent = "WELCOME BACK";
+  accessPanelHeading.nextElementSibling.textContent = "Your event access is ready.";
+  accessPanelCopy.textContent = "Return to your Roundsquare dashboard and continue exploring the event.";
+  accessPanelButton.href = "dashboard.html";
+  accessPanelButton.innerHTML = 'Open dashboard <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
+}
 
 const marqueeMessage = document.querySelector(".marquee-message span");
 const marqueePhrases = [
