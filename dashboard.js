@@ -130,13 +130,13 @@ agendaTabs.forEach((tab) => {
 const getReminderHistory = () => JSON.parse(window.localStorage.getItem(reminderHistoryKey) || "[]");
 const saveReminderHistory = (history) => window.localStorage.setItem(reminderHistoryKey, JSON.stringify(history.slice(-8)));
 
-const renderReminderNotifications = () => {
+const renderReminderNotifications = async () => {
   const history = getReminderHistory();
   let adminMessages = [];
   try {
     const { data, error } = await supabase
       .from("admin_messages")
-      .select("id, title, message, created_at")
+    .select("id, title, message, content, created_at")
       .order("created_at", { ascending: false })
       .limit(20);
     if (error) throw error;
@@ -158,7 +158,7 @@ const renderReminderNotifications = () => {
     });
     const messageItems = adminMessages.slice(0, 6).map((item) => ({
       title: item.title,
-      message: item.message,
+      message: item.message || item.content,
       timestamp: item.created_at,
     }));
     notificationList.replaceChildren(...[...messageItems, ...reminderItems].map((item) => {
@@ -379,4 +379,5 @@ signOutLink?.addEventListener("click", () => {
   window.localStorage.removeItem(currentStudentNameKey);
   window.localStorage.removeItem(registrationKey);
   window.sessionStorage.removeItem("roundsquare-admin-authorized");
+  window.location.href = "signin.html";
 });

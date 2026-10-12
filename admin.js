@@ -15,7 +15,7 @@ const clearMessagesButton = document.querySelector(".clear-messages");
 const getMessages = async () => {
   const { data, error } = await supabase
     .from("admin_messages")
-    .select("id, title, message, created_at")
+    .select("id, title, message, content, created_at")
     .order("created_at", { ascending: false });
   if (error) throw error;
   return data;
@@ -42,7 +42,7 @@ const renderMessages = async () => {
     const title = document.createElement("strong");
     title.textContent = item.title;
     const message = document.createElement("p");
-    message.textContent = item.message;
+    message.textContent = item.message || item.content;
     const time = document.createElement("time");
     time.textContent = new Date(item.created_at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
     content.append(title, message, time);
@@ -71,7 +71,7 @@ messageForm?.addEventListener("submit", async (event) => {
   const message = String(formData.get("message") || "").trim();
   if (!title || !message) return;
 
-  const { error } = await supabase.from("admin_messages").insert({ title, message });
+  const { error } = await supabase.from("admin_messages").insert({ title, message, content: message });
   if (error) {
     formStatus.textContent = "The message could not be sent. Run the Supabase setup SQL first.";
     console.error("Unable to send admin message.", error);
