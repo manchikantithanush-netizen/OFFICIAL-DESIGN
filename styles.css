@@ -66,7 +66,7 @@ a { color: inherit; text-decoration: none; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3 { line-height: 1.08; }
 .hero-heading-image { display: block; width: min(100%, 500px); height: auto; margin-bottom: 1.5rem; }
-.hero-copy { max-width: 500px; margin-bottom: 2rem; color: var(--muted-blue-grey); font-size: 1.05rem; }
+.hero-copy { max-width: 540px; margin-bottom: 2rem; color: var(--muted-blue-grey); font-size: 1.06rem; line-height: 1.75; }
 .highlight { color: var(--warm-gold); font-weight: 800; }
 .event-details { display: flex; align-items: center; gap: 1.25rem; width: fit-content; margin-bottom: 2rem; padding: 1rem 1.25rem; background: rgba(20, 41, 68, .5); border: 1px solid rgba(242, 190, 85, .45); border-radius: 14px; box-shadow: 0 12px 30px rgba(0, 0, 0, .12); }
 .event-details > div { display: flex; flex-direction: column; gap: .15rem; }
