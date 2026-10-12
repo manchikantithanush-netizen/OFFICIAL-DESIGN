@@ -1,3 +1,5 @@
+import { supabase } from "./supabase-client.js";
+
 const dashboardLinks = document.querySelectorAll(".dashboard-nav a");
 const sections = document.querySelectorAll("#home, #schedule, #speakers");
 const agendaTabs = document.querySelectorAll(".agenda-tab");
@@ -30,7 +32,6 @@ const currentStudentNameKey = "roundsquare-current-student-name";
 const registrationKey = "roundsquare-student-registered";
 const reminderScheduleKey = "roundsquare-reminder-schedule";
 const reminderHistoryKey = "roundsquare-reminder-history";
-const adminMessagesKey = "roundsquare-admin-messages";
 const reminderTimers = [];
 let selectedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
 const reminderSchedules = {
@@ -169,7 +170,18 @@ const saveReminderHistory = (history) => window.localStorage.setItem(reminderHis
 
 const renderReminderNotifications = () => {
   const history = getReminderHistory();
-  const adminMessages = JSON.parse(window.localStorage.getItem(adminMessagesKey) || "[]");
+  let adminMessages = [];
+  try {
+    const { data, error } = await supabase
+      .from("admin_messages")
+      .select("id, title, message, created_at")
+      .order("created_at", { ascending: false })
+      .limit(20);
+    if (error) throw error;
+    adminMessages = data || [];
+  } catch (error) {
+    console.error("Unable to load admin messages.", error);
+  }
   if (!history.length && !adminMessages.length) {
     if (noNotifications) noNotifications.textContent = "NO NOTIFICATIONS";
     if (notificationList) notificationList.innerHTML = '<p class="notification-empty">You are all caught up for now.</p>';
@@ -182,7 +194,11 @@ const renderReminderNotifications = () => {
       const item = typeof entry === "string" ? { message: entry, timestamp: Date.now() } : entry;
       return { title: "Roundsquare reminder", message: item.message, timestamp: item.timestamp };
     });
-    const messageItems = adminMessages.slice(-6).reverse();
+    const messageItems = adminMessages.slice(0, 6).map((item) => ({
+      title: item.title,
+      message: item.message,
+      timestamp: item.created_at,
+    }));
     notificationList.replaceChildren(...[...messageItems, ...reminderItems].map((item) => {
       const card = document.createElement("article");
       card.className = "notification-item";
@@ -207,9 +223,10 @@ const addReminderNotification = (message) => {
 };
 
 renderReminderNotifications();
-window.addEventListener("storage", (event) => {
-  if (event.key === adminMessagesKey) renderReminderNotifications();
-});
+supabase
+  .channel("student-admin-messages")
+  .on("postgres_changes", { event: "*", schema: "public", table: "admin_messages" }, () => renderReminderNotifications())
+  .subscribe();
 
 const showBrowserNotification = (title, body) => {
   if ("Notification" in window && Notification.permission === "granted") {
