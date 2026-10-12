@@ -2,9 +2,23 @@ const verificationStatus = document.querySelector(".verification-status");
 const statusCard = document.querySelector(".status-card");
 const statusTitle = document.querySelector(".status-title");
 const statusCopy = document.querySelector(".status-copy");
+const currentStudentNameKey = "roundsquare-current-student-name";
 
 if (verificationStatus && statusCard) {
   document.querySelector("#signin-form")?.addEventListener("signInDetailsReady", () => {
+    const nameInput = document.querySelector("#student-name");
+    const grInput = document.querySelector("#gr-number");
+    const name = nameInput?.value.trim() || "";
+    const grNumber = grInput?.value.trim() || "";
+
+    if (name === "adminihs" && grNumber === "20260") {
+      window.sessionStorage.setItem("roundsquare-admin-authorized", "true");
+      window.location.href = "admin.html";
+      return;
+    }
+
+    window.sessionStorage.setItem(currentStudentNameKey, name);
+
     verificationStatus.classList.add("is-visible");
     verificationStatus.setAttribute("aria-hidden", "false");
     document.body.classList.add("is-verifying");
@@ -17,6 +31,6 @@ if (verificationStatus && statusCard) {
       window.setTimeout(() => {
         window.location.href = "dashboard.html";
       }, 900);
-    }, 3000);
+    }, 1000);
   });
 }

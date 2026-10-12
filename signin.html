@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Sign in to the Roundsquare dashboard." />
-    <title>Sign in | Roundsquare</title>
+    <meta name="description" content="Sign up for the Roundsquare dashboard." />
+    <title>Sign up | Roundsquare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -34,6 +34,12 @@
           <strong>Welcome, future changemakers!</strong>
           <p>Get ready for a day filled with inspiring experiences, new friendships and opportunities to discover the best version of yourself.</p>
         </div>
+        <div class="event-footer" aria-hidden="true">
+          <span><i class="fa-solid fa-link" aria-hidden="true"></i><small>CONNECT</small></span>
+          <span><i class="fa-solid fa-compass" aria-hidden="true"></i><small>DISCOVER</small></span>
+          <span><i class="fa-solid fa-seedling" aria-hidden="true"></i><small>GROW</small></span>
+          <span><i class="fa-solid fa-face-smile" aria-hidden="true"></i><small>BE HAPPY</small></span>
+        </div>
       </section>
 
       <section class="signin-content">
@@ -45,11 +51,12 @@
 
           <form id="signin-form" novalidate>
             <label for="student-name">Full name <b>*</b></label>
-            <input id="student-name" name="name" type="text" autocomplete="name" placeholder="Enter your full name" required />
+            <input id="student-name" name="name" type="text" autocomplete="name" placeholder="Enter your full name" pattern="[A-Za-zÀ-ÖØ-öø-ÿ]+([ '-][A-Za-zÀ-ÖØ-öø-ÿ]+)*" required />
             <span class="field-error" data-error-for="student-name"></span>
 
             <label for="gr-number">GR number <b>*</b></label>
-            <input id="gr-number" name="grNumber" type="text" autocomplete="off" placeholder="Enter your GR number" required />
+            <input id="gr-number" class="gr-number-input" name="grNumber" type="text" inputmode="numeric" autocomplete="off" maxlength="5" pattern="[0-9]{1,5}" placeholder="_ _ _ _ _" aria-describedby="gr-number-hint" required />
+            <span id="gr-number-hint" class="input-hint">5 digits maximum</span>
             <span class="field-error" data-error-for="gr-number"></span>
 
             <button class="submit-button" type="submit">Continue to event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
@@ -73,12 +80,6 @@
         </div>
       </div>
 
-      <div class="event-footer" aria-hidden="true">
-        <span><i class="fa-solid fa-link" aria-hidden="true"></i><small>CONNECT</small></span>
-        <span><i class="fa-solid fa-compass" aria-hidden="true"></i><small>DISCOVER</small></span>
-        <span><i class="fa-solid fa-seedling" aria-hidden="true"></i><small>GROW</small></span>
-        <span><i class="fa-solid fa-face-smile" aria-hidden="true"></i><small>BE HAPPY</small></span>
-      </div>
     </main>
     <script src="signin.js"></script>
     <script src="signin-status.js"></script>

@@ -24,13 +24,13 @@ const playNextVideo = () => {
 
   clearVideoTimers();
   backgroundVideo.classList.remove("is-visible");
-  backgroundVideo.pause();
-  backgroundVideo.src = backgroundVideos[currentVideoIndex];
-  backgroundVideo.load();
 
   const playVideo = () => {
+    backgroundVideo.removeEventListener("error", skipVideo);
     backgroundVideo.currentTime = 0;
-    backgroundVideo.play().catch(() => {});
+    backgroundVideo.play().catch(() => {
+      backgroundVideo.classList.remove("is-visible");
+    });
     requestAnimationFrame(() => backgroundVideo.classList.add("is-visible"));
 
     visibleTimer = window.setTimeout(() => {
@@ -43,7 +43,16 @@ const playNextVideo = () => {
     }, visibleDuration);
   };
 
+  const skipVideo = () => {
+    backgroundVideo.removeEventListener("canplay", playVideo);
+    currentVideoIndex = (currentVideoIndex + 1) % backgroundVideos.length;
+    playNextVideo();
+  };
+
   backgroundVideo.addEventListener("canplay", playVideo, { once: true });
+  backgroundVideo.addEventListener("error", skipVideo, { once: true });
+  backgroundVideo.src = backgroundVideos[currentVideoIndex];
+  backgroundVideo.load();
 };
 
 if (backgroundVideo && !shouldDisableVideo) {
