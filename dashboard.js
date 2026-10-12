@@ -6,7 +6,8 @@ const addCalendarButton = document.querySelector(".add-calendar-button");
 const dashboardShell = document.querySelector(".dashboard-shell");
 const settingsNavLink = document.querySelector(".settings-nav-link");
 const settingsView = document.querySelector(".settings-view");
-const standardDashboardContent = document.querySelectorAll(".welcome-section, .event-strip, .resource-links, .section-block, .quick-links, .dashboard-footer");
+const standardDashboardContent = document.querySelectorAll(".welcome-section, .event-strip, .resource-links, .event-countdown, .section-block, .quick-links, .dashboard-footer");
+const countdownUnits = document.querySelectorAll("[data-countdown-unit]");
 const reminderButton = document.querySelector(".reminder-button");
 const reminderModal = document.querySelector(".reminder-modal");
 const reminderClose = document.querySelector(".reminder-close");
@@ -29,6 +30,7 @@ const currentStudentNameKey = "roundsquare-current-student-name";
 const registrationKey = "roundsquare-student-registered";
 const reminderScheduleKey = "roundsquare-reminder-schedule";
 const reminderHistoryKey = "roundsquare-reminder-history";
+const adminMessagesKey = "roundsquare-admin-messages";
 const reminderTimers = [];
 let selectedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
 const reminderSchedules = {
@@ -45,6 +47,43 @@ const reminderSchedules = {
     ["16:30", "Team Dance"], ["17:45", "Dispersal"],
   ],
 };
+
+const eventStart = new Date(2026, 9, 17, 9, 0, 0);
+const eventEnd = new Date(2026, 9, 17, 17, 30, 0);
+const updateCountdown = () => {
+  const remaining = eventStart.getTime() - Date.now();
+  if (remaining <= 0) {
+    countdownUnits.forEach((unit) => {
+      unit.textContent = "00";
+    });
+    const countdownTitle = document.querySelector("#countdown-title");
+    const countdownNote = document.querySelector(".countdown-note");
+    if (countdownTitle) countdownTitle.textContent = Date.now() < eventEnd.getTime() ? "We are live." : "What a day.";
+    if (countdownNote) countdownNote.textContent = Date.now() < eventEnd.getTime()
+      ? "The event is happening now at The Indian High School."
+      : "Thank you for being part of Round Square IHS.";
+    return false;
+  }
+
+  const totalSeconds = Math.floor(remaining / 1000);
+  const values = {
+    days: Math.floor(totalSeconds / 86400),
+    hours: Math.floor((totalSeconds % 86400) / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
+  };
+  countdownUnits.forEach((unit) => {
+    unit.textContent = String(values[unit.dataset.countdownUnit]).padStart(2, "0");
+  });
+  return true;
+};
+
+if (countdownUnits.length) {
+  updateCountdown();
+  const countdownTimer = window.setInterval(() => {
+    if (!updateCountdown()) window.clearInterval(countdownTimer);
+  }, 1000);
+}
 
 if (timeGreeting) {
   const hour = new Date().getHours();
@@ -130,21 +169,25 @@ const saveReminderHistory = (history) => window.localStorage.setItem(reminderHis
 
 const renderReminderNotifications = () => {
   const history = getReminderHistory();
-  if (!history.length) {
+  const adminMessages = JSON.parse(window.localStorage.getItem(adminMessagesKey) || "[]");
+  if (!history.length && !adminMessages.length) {
     if (noNotifications) noNotifications.textContent = "NO NOTIFICATIONS";
     if (notificationList) notificationList.innerHTML = '<p class="notification-empty">You are all caught up for now.</p>';
     return;
   }
 
-  if (noNotifications) noNotifications.textContent = "SCHEDULE REMINDERS";
+  if (noNotifications) noNotifications.textContent = adminMessages.length ? "UPDATES & REMINDERS" : "SCHEDULE REMINDERS";
   if (notificationList) {
-    notificationList.replaceChildren(...history.slice(-6).reverse().map((entry) => {
+    const reminderItems = history.slice(-6).reverse().map((entry) => {
       const item = typeof entry === "string" ? { message: entry, timestamp: Date.now() } : entry;
+      return { title: "Roundsquare reminder", message: item.message, timestamp: item.timestamp };
+    });
+    const messageItems = adminMessages.slice(-6).reverse();
+    notificationList.replaceChildren(...[...messageItems, ...reminderItems].map((item) => {
       const card = document.createElement("article");
       card.className = "notification-item";
-
       const title = document.createElement("strong");
-      title.textContent = "Roundsquare reminder";
+      title.textContent = item.title;
       const message = document.createElement("span");
       message.textContent = item.message;
       const time = document.createElement("time");
@@ -164,6 +207,9 @@ const addReminderNotification = (message) => {
 };
 
 renderReminderNotifications();
+window.addEventListener("storage", (event) => {
+  if (event.key === adminMessagesKey) renderReminderNotifications();
+});
 
 const showBrowserNotification = (title, body) => {
   if ("Notification" in window && Notification.permission === "granted") {

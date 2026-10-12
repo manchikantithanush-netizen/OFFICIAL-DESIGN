@@ -29,10 +29,26 @@
         </div>
 
         <section class="admin-panel" aria-live="polite">
-          <div class="success-icon"><i class="fa-solid fa-check" aria-hidden="true"></i></div>
+          <div class="success-icon"><i class="fa-solid fa-bullhorn" aria-hidden="true"></i></div>
           <p class="eyebrow">Access granted</p>
-          <h2>COMING SOON</h2>
-          <p>The admin panel is currently being prepared.</p>
+          <h2>Send an update</h2>
+          <p>Publish a message for students who have signed in to the dashboard.</p>
+          <form class="admin-message-form">
+            <label for="message-title">Message title</label>
+            <input id="message-title" name="title" type="text" maxlength="80" placeholder="Important event update" required />
+            <label for="message-body">Message</label>
+            <textarea id="message-body" name="message" maxlength="500" placeholder="Write your message here..." required></textarea>
+            <button class="admin-submit" type="submit"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> SEND TO STUDENTS</button>
+            <p class="form-status" role="status" aria-live="polite"></p>
+          </form>
+          <div class="admin-messages-heading">
+            <h3>Sent messages</h3>
+            <button class="clear-messages" type="button">REMOVE ALL</button>
+          </div>
+          <div class="admin-message-list" aria-live="polite">
+            <p class="admin-message-empty">No messages sent yet.</p>
+          </div>
+          <button class="sign-out" type="button"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> SIGN OUT</button>
         </section>
       </section>
     </main>
