@@ -218,5 +218,56 @@ button { font: inherit; }
 .countdown-note { margin: 0; color: var(--muted-blue-grey); font-size: .72rem; }
 .dashboard-footer { display: flex; justify-content: space-between; padding-top: 1.5rem; color: var(--muted-blue-grey); border-top: 1px solid var(--line); font-size: .58rem; letter-spacing: .1em; }.dashboard-footer i { color: var(--warm-gold); margin-left: .25rem; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 .5rem rgba(100, 212, 154, 0); } }@keyframes float { 50% { transform: translateY(-7px) rotate(8deg); } }
-@media (max-width: 720px) { .dashboard-page { overflow-x: hidden; }.dashboard-shell { width: min(calc(100% - 2rem), var(--content-width)); padding: 0 .25rem 6.5rem; }.dashboard-header { min-height: 3.7rem; }.dashboard-nav { position: fixed; right: 1rem; bottom: 1rem; left: 1rem; top: auto; justify-content: space-around; width: auto; margin: 0; padding: .35rem; background: rgba(20, 41, 68, .94); box-shadow: 0 12px 35px rgba(0, 0, 0, .35); }.dashboard-nav a, .dashboard-nav button { flex: 1; justify-content: center; flex-direction: column; gap: .15rem; padding: .55rem .3rem; font-size: .58rem; }.dashboard-nav a i, .dashboard-nav button i { font-size: .9rem; }.welcome-section { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; min-height: 0; padding: 1.25rem .75rem 0; }.welcome-copy h1 { font-size: clamp(3rem, 15vw, 4.2rem); }.welcome-text { max-width: 100%; padding-right: .25rem; }.welcome-art { width: 100%; min-height: 220px; border-radius: 22px; }.find-baraza-button { margin-top: .15rem; }.baraza-banner { margin: 2rem 0 1rem; padding: 1rem; }.baraza-banner-tag { display: none; }.delegate-alert { align-items: flex-start; flex-wrap: wrap; padding: 1rem; }.delegate-alert-copy { flex-basis: calc(100% - 3.65rem); }.delegate-alert-button { width: 100%; justify-content: center; margin-left: 3.65rem; }.event-strip { align-items: stretch; flex-direction: column; gap: .9rem; margin: 1.5rem 0 1rem; padding: 1rem; }.event-strip > div + div { padding: .9rem 0 0; border-top: 1px solid var(--line); border-left: 0; }.resource-links { grid-template-columns: minmax(0, 1fr); margin: 0 0 4.5rem; }.handbook-banner, .reminder-button { margin: 0; }.reminder-button { min-height: 3.5rem; }.event-countdown { margin: -2rem 0 4.5rem; }.countdown-timer { gap: .4rem; }.countdown-timer > div { padding: .8rem .25rem; }.countdown-timer strong { font-size: clamp(1.6rem, 9vw, 2.5rem); }.countdown-timer span { font-size: .5rem; letter-spacing: .08em; }.feature-grid, .people-row, .quick-links { grid-template-columns: minmax(0, 1fr); }.feature-card { min-height: 210px; }.section-block { margin-bottom: 4.5rem; }.section-heading { align-items: start; flex-direction: column; }.section-link { margin-top: -.5rem; }.schedule-date { align-self: start; }.agenda-header { align-items: start; flex-direction: column; padding-bottom: 1rem; }.add-calendar-button { align-self: stretch; justify-content: center; }.agenda-row { grid-template-columns: minmax(6.6rem, 34%) 1fr; font-size: .73rem; }.agenda-row time, .agenda-row > span { padding: .6rem .65rem; }.agenda-tabs { flex-direction: column; }.agenda-tab { flex: none; }.speakers-note { align-self: start; }.person-card { min-height: 0; padding: .8rem; }.person-photo-wrap { flex-basis: 5.75rem; min-height: 8.5rem; }.person-details { padding-right: 1.3rem; }.person-card strong { font-size: 1.15rem; }.person-details p { margin-top: .55rem; font-size: .67rem; }.person-card-icon { top: .75rem; right: .75rem; }.dashboard-footer { align-items: start; flex-direction: column; gap: .5rem; line-height: 1.4; }.baraza-directory-view, .baraza-profile-view { padding: .75rem 0 6rem; }.baraza-directory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.profile-meta-grid, .leader-grid { grid-template-columns: 1fr; }.profile-ribbon { align-items: flex-start; flex-direction: column; } }
+@media (max-width: 720px) { .dashboard-page { overflow-x: hidden; }.dashboard-shell { width: min(calc(100% - 2rem), var(--content-width)); padding: 0 .25rem 6.5rem; }.dashboard-header { min-height: 3.7rem; }.dashboard-nav { position: fixed; right: 1rem; bottom: 1rem; left: 1rem; top: auto; justify-content: space-around; width: auto; margin: 0; padding: .35rem; background: rgba(20, 41, 68, .94); box-shadow: 0 12px 35px rgba(0, 0, 0, .35); }.dashboard-nav a, .dashboard-nav button { flex: 1; justify-content: center; flex-direction: column; gap: .15rem; padding: .55rem .3rem; font-size: .58rem; }.dashboard-nav a i, .dashboard-nav button i { font-size: .9rem; }.welcome-section { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; min-height: 0; padding: 1.25rem .75rem 0; }.welcome-copy h1 { font-size: clamp(3rem, 15vw, 4.2rem); }.welcome-text { max-width: 100%; padding-right: .25rem; }.welcome-art { width: 100%; min-height: 220px; border-radius: 22px; }.find-baraza-button { margin-top: .15rem; }.baraza-banner { margin: 2rem 0 1rem; padding: 1rem; }.baraza-banner-tag { display: none; }.delegate-alert { align-items: flex-start; flex-wrap: wrap; padding: 1rem; }.delegate-alert-copy { flex-basis: calc(100% - 3.65rem); }.delegate-alert-button { width: 100%; justify-content: center; margin-left: 0; max-width: 100%; box-sizing: border-box; padding-left: .9rem; padding-right: .9rem; }.event-strip { align-items: stretch; flex-direction: column; gap: .9rem; margin: 1.5rem 0 1rem; padding: 1rem; }.event-strip > div + div { padding: .9rem 0 0; border-top: 1px solid var(--line); border-left: 0; }.resource-links { grid-template-columns: minmax(0, 1fr); margin: 0 0 4.5rem; }.handbook-banner, .reminder-button { margin: 0; }.reminder-button { min-height: 3.5rem; }.event-countdown { margin: -2rem 0 4.5rem; }.countdown-timer { gap: .4rem; }.countdown-timer > div { padding: .8rem .25rem; }.countdown-timer strong { font-size: clamp(1.6rem, 9vw, 2.5rem); }.countdown-timer span { font-size: .5rem; letter-spacing: .08em; }.feature-grid, .people-row, .quick-links { grid-template-columns: minmax(0, 1fr); }.feature-card { min-height: 210px; }.section-block { margin-bottom: 4.5rem; }.section-heading { align-items: start; flex-direction: column; }.section-link { margin-top: -.5rem; }.schedule-date { align-self: start; }.agenda-header { align-items: start; flex-direction: column; padding-bottom: 1rem; }.add-calendar-button { align-self: stretch; justify-content: center; }.agenda-row { grid-template-columns: minmax(6.6rem, 34%) 1fr; font-size: .73rem; }.agenda-row time, .agenda-row > span { padding: .6rem .65rem; }.agenda-tabs { flex-direction: column; }.agenda-tab { flex: none; }.speakers-note { align-self: start; }.person-card { min-height: 0; padding: .8rem; }.person-photo-wrap { flex-basis: 5.75rem; min-height: 8.5rem; }.person-details { padding-right: 1.3rem; }.person-card strong { font-size: 1.15rem; }.person-details p { margin-top: .55rem; font-size: .67rem; }.person-card-icon { top: .75rem; right: .75rem; }.dashboard-footer { align-items: start; flex-direction: column; gap: .5rem; line-height: 1.4; }.baraza-directory-view, .baraza-profile-view { padding: .75rem 0 6rem; }.baraza-directory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.profile-meta-grid, .leader-grid { grid-template-columns: 1fr; }.profile-ribbon { align-items: flex-start; flex-direction: column; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* Keep every dashboard view inside the viewport on narrow screens. */
+@media (max-width: 720px) {
+  html, body { overflow-x: hidden; }
+  .dashboard-page, .dashboard-shell, .dashboard-shell > * { max-width: 100%; }
+  .dashboard-shell { padding-right: 0; padding-left: 0; }
+  .dashboard-header { gap: .75rem; }
+  .brand { min-width: 0; max-width: calc(100% - 3.5rem); }
+  .brand > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .baraza-banner > div:nth-child(2) { min-width: 0; }
+  .baraza-banner h2, .delegate-alert h2 { overflow-wrap: anywhere; }
+  .delegate-alert-button { width: 100%; margin-left: 0; max-width: 100%; box-sizing: border-box; padding-left: .9rem; padding-right: .9rem; }
+  .settings-view { min-height: 0; padding: 2.5rem 0 7rem; }
+  .settings-view h1, .view-heading h1 { overflow-wrap: anywhere; }
+  .view-heading > p:last-child { max-width: 100%; }
+  .baraza-directory-card { min-width: 0; }
+  .profile-ribbon, .profile-meta-grid article, .leadership-panel { min-width: 0; }
+  .profile-ribbon strong, .profile-meta-grid strong, .leader-grid strong { overflow-wrap: anywhere; }
+  .agenda-panel { min-width: 0; }
+  .agenda-header > div { min-width: 0; }
+  .agenda-header h3 { overflow-wrap: anywhere; }
+  .agenda-row { grid-template-columns: minmax(5.8rem, 36%) minmax(0, 1fr); }
+  .agenda-row time, .agenda-row > span { min-width: 0; overflow-wrap: anywhere; }
+  .person-card, .person-details { min-width: 0; }
+  .person-details { overflow-wrap: anywhere; }
+  .handbook-banner span, .quick-links span { min-width: 0; }
+  .handbook-banner strong, .handbook-banner small, .quick-links strong, .quick-links small { overflow-wrap: anywhere; }
+  .reminder-card { max-height: calc(100dvh - 2rem); overflow-y: auto; padding: 1.5rem; }
+  .notification-card { min-width: 0; }
+}
+
+@media (max-width: 420px) {
+  .dashboard-shell { width: calc(100% - 1.25rem); }
+  .dashboard-nav { right: .4rem; bottom: max(.4rem, env(safe-area-inset-bottom)); left: .4rem; }
+  .dashboard-nav a, .dashboard-nav button { padding-right: .15rem; padding-left: .15rem; font-size: .52rem; }
+  .dashboard-nav a i, .dashboard-nav button i { font-size: .82rem; }
+  .welcome-section { padding-right: 0; padding-left: 0; }
+  .welcome-copy h1 { font-size: clamp(2.6rem, 14vw, 3.6rem); }
+  .primary-action, .find-baraza-button { max-width: 100%; }
+  .find-baraza-button { min-width: 0; width: 100%; }
+  .baraza-directory-grid { grid-template-columns: minmax(0, 1fr); }
+  .agenda-panel { padding: .85rem; border-radius: 18px; }
+  .agenda-row { grid-template-columns: minmax(5.25rem, 39%) minmax(0, 1fr); font-size: .7rem; }
+  .agenda-row time, .agenda-row > span { padding: .6rem .5rem; }
+  .countdown-timer { gap: .25rem; }
+  .countdown-timer > div { padding-right: .15rem; padding-left: .15rem; }
+  .countdown-timer span { font-size: .44rem; letter-spacing: .04em; }
+  .person-card { gap: .65rem; }
+  .person-photo-wrap { flex-basis: 5rem; }
+  .person-details { padding-right: .5rem; }
+}
