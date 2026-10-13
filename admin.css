@@ -58,14 +58,6 @@ textarea:focus { border-color: var(--warm-gold); box-shadow: 0 0 0 3px rgba(242,
 .admin-message-item p { margin: .3rem 0; color: var(--muted-blue-grey); font-size: .7rem; line-height: 1.4; }
 .admin-message-item time, .admin-message-empty { color: var(--muted-blue-grey); font-size: .62rem; }
 .admin-message-empty { margin: 0; text-align: center; }
-.admin-baraza-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(244, 235, 221, .12); }
-.admin-baraza-heading h3 { margin: 0; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
-.admin-baraza-heading span { color: var(--muted-blue-grey); font-size: .6rem; text-transform: uppercase; }
-.admin-baraza-list { display: grid; gap: .45rem; max-height: 18rem; margin: 1rem 0 1.5rem; overflow-y: auto; }
-.admin-baraza-item { display: grid; grid-template-columns: 1fr auto; gap: .2rem .75rem; padding: .7rem .8rem; background: rgba(20, 41, 68, .58); border: 1px solid rgba(155, 170, 192, .2); border-radius: 10px; text-align: left; }
-.admin-baraza-item strong { font-family: Georgia, serif; font-size: .82rem; font-weight: 400; }
-.admin-baraza-item span, .admin-baraza-item small { color: var(--muted-blue-grey); font-size: .62rem; }
-.admin-baraza-item small { color: var(--warm-gold); text-align: right; }
 .remove-message { flex: 0 0 auto; padding: .45rem .6rem; }
 .admin-panel { text-align: center; }
 .admin-panel h2 { font-size: 2rem; }
