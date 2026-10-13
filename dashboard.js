@@ -48,7 +48,7 @@ const gradeGroup = window.localStorage.getItem(gradeGroupKey);
 const gradeConfig = {
   "5-7": { baraza: "King Constantine", schedule: "junior", scheduleLabel: "Junior", label: "Grades 5–7 · Junior" },
   "8-9": { baraza: "Roy McComish", schedule: "intermediate", scheduleLabel: "Intermediate", label: "Grades 8–9 · Intermediate" },
-  "10-12": { baraza: "Krut Han", schedule: "intermediate", scheduleLabel: "Senior", label: "Grades 10–12 · Senior" },
+  "10-12": { baraza: "Kurt Hahn", schedule: "intermediate", scheduleLabel: "Senior", label: "Grades 10–12 · Senior" },
 };
 const studentConfig = gradeConfig[gradeGroup] || gradeConfig["5-7"];
 const delegateAlert = document.querySelector("[data-delegate-deadline]");
