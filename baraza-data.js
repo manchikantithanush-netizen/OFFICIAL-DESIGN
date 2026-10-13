@@ -14,5 +14,5 @@ export const barazaRecords = [
   { id: 13, happiness: "Xìngfú (幸福)", language: "Mandarin Chinese", level: "Senior (10-12)", ribbon: "Purple", head: "Arnav Payyaram", coLeaders: ["Rudra Jasnani", "Yug Mehta"] },
   { id: 14, happiness: "Saya", language: "Tagalog", level: "Senior (10-12)", ribbon: "Maroon", head: "Vamika Handa", coLeaders: ["Jovino Joji", ""] },
   { id: 15, happiness: "Koa", language: "Maori", level: "Senior (10-12)", ribbon: "Silver", head: "Ram Prasad", coLeaders: ["Mishti Shetty", "Kashish Wadhwani"] },
-  { id: 16, happiness: "schast’ye (счастье)", language: "Russian", level: "Senior (10-12)", ribbon: "Turquoise", head: "Tiana Paul", coLeaders: ["Manit Jatwani", "Sarah Hussain"] },
+  { id: 16, happiness: "Felicidade", language: "Portuguese", level: "Senior (10-12)", ribbon: "Turquoise", head: "Tiana Paul", coLeaders: ["Manit Jatwani", "Sarah Hussain"] },
 ];
