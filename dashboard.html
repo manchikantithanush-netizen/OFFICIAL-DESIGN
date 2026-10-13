@@ -251,17 +251,16 @@
             frame.classList.remove("is-open");
             frame.style.width = "66px";
             frame.style.height = "66px";
+            frame.style.bottom = "";
             return;
           }
 
           frame.classList.add("is-open");
-          if (window.matchMedia("(max-width: 600px)").matches) {
-            frame.style.width = `${Math.min(430, window.innerWidth - 16)}px`;
-            frame.style.height = `${Math.min(650, window.innerHeight - 16)}px`;
-          } else {
-            frame.style.width = "430px";
-            frame.style.height = "680px";
-          }
+          const viewportInset = 16;
+          const isSmallScreen = window.matchMedia("(max-width: 600px)").matches;
+          frame.style.width = `${Math.min(430, window.innerWidth - viewportInset * 2)}px`;
+          frame.style.height = `${Math.min(isSmallScreen ? 650 : 680, window.innerHeight - viewportInset * 2)}px`;
+          frame.style.bottom = `${viewportInset}px`;
         };
 
         window.addEventListener("message", (event) => {
