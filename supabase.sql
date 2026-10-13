@@ -65,3 +65,32 @@ create policy "Anyone can remove admin messages"
 
 alter table public.admin_messages replica identity full;
 alter publication supabase_realtime add table public.admin_messages;
+
+create table if not exists public.schedule_progress (
+  schedule_name text not null,
+  item_key text not null,
+  completed boolean not null default false,
+  updated_at timestamptz not null default now(),
+  primary key (schedule_name, item_key)
+);
+
+alter table public.schedule_progress enable row level security;
+
+drop policy if exists "Anyone can read schedule progress" on public.schedule_progress;
+create policy "Anyone can read schedule progress"
+  on public.schedule_progress for select
+  using (true);
+
+drop policy if exists "Anyone can update schedule progress" on public.schedule_progress;
+create policy "Anyone can update schedule progress"
+  on public.schedule_progress for insert
+  with check (true);
+
+drop policy if exists "Anyone can change schedule progress" on public.schedule_progress;
+create policy "Anyone can change schedule progress"
+  on public.schedule_progress for update
+  using (true)
+  with check (true);
+
+alter table public.schedule_progress replica identity full;
+alter publication supabase_realtime add table public.schedule_progress;
