@@ -238,7 +238,41 @@
         </div>
       </div>
     </main>
+    <iframe class="happiness-compass-frame" src="Round_Square_FAQ.html?embed=dashboard" title="Happiness Compass FAQ" loading="eager"></iframe>
     <script src="countdown.js"></script>
     <script type="module" src="dashboard.js"></script>
+    <script>
+      (() => {
+        const frame = document.querySelector(".happiness-compass-frame");
+        if (!frame) return;
+
+        const resizeFrame = (open) => {
+          if (!open) {
+            frame.classList.remove("is-open");
+            frame.style.width = "66px";
+            frame.style.height = "66px";
+            return;
+          }
+
+          frame.classList.add("is-open");
+          if (window.matchMedia("(max-width: 600px)").matches) {
+            frame.style.width = `${Math.min(430, window.innerWidth - 16)}px`;
+            frame.style.height = `${Math.min(650, window.innerHeight - 16)}px`;
+          } else {
+            frame.style.width = "430px";
+            frame.style.height = "680px";
+          }
+        };
+
+        window.addEventListener("message", (event) => {
+          if (event.source !== frame.contentWindow || event.data?.type !== "roundsquare-compass") return;
+          resizeFrame(event.data.open === true);
+        });
+
+        window.addEventListener("resize", () => {
+          if (frame.classList.contains("is-open")) resizeFrame(true);
+        });
+      })();
+    </script>
   </body>
 </html>
