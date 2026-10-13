@@ -51,6 +51,7 @@ const gradeConfig = {
   "10-12": { baraza: "Krut Han", schedule: "intermediate", scheduleLabel: "Senior", label: "Grades 10–12 · Senior" },
 };
 const studentConfig = gradeConfig[gradeGroup] || gradeConfig["5-7"];
+const delegateAlert = document.querySelector("[data-delegate-deadline]");
 const directoryView = document.querySelector(".baraza-directory-view");
 const profileView = document.querySelector(".baraza-profile-view");
 const directoryGrid = document.querySelector("[data-baraza-directory]");
@@ -91,6 +92,11 @@ document.querySelector("#baraza-title")?.replaceChildren(document.createTextNode
 document.querySelector("#baraza-subtitle")?.replaceChildren(document.createTextNode(studentConfig.label));
 document.querySelector("#intermediate-tab")?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
 document.querySelector(`[data-reminder-schedule="${studentConfig.schedule}"] strong`)?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
+
+if (delegateAlert) {
+  const deadline = new Date(delegateAlert.dataset.delegateDeadline);
+  if (Date.now() > deadline.getTime()) delegateAlert.hidden = true;
+}
 
 const setActiveLink = (id) => {
   dashboardLinks.forEach((link) => {
@@ -140,7 +146,25 @@ if (directoryGrid) {
     const card = document.createElement("button");
     card.type = "button";
     card.className = "baraza-directory-card";
-    card.innerHTML = `<span class="directory-number">0${record.id}</span><strong>${record.happiness}</strong><small>${record.language} · ${record.level}</small><em>${record.ribbon} ribbon</em>`;
+    const number = document.createElement("span");
+    number.className = "directory-number";
+    number.textContent = String(record.id).padStart(2, "0");
+    const happiness = document.createElement("strong");
+    happiness.textContent = record.happiness;
+    const details = document.createElement("small");
+    details.textContent = `${record.language} · ${record.level}`;
+    const ribbon = document.createElement("span");
+    ribbon.className = "directory-ribbon";
+    ribbon.dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
+    const ribbonSwatch = document.createElement("i");
+    ribbonSwatch.setAttribute("aria-hidden", "true");
+    const ribbonName = document.createElement("span");
+    ribbonName.textContent = `${record.ribbon} Ribbon`;
+    ribbon.append(ribbonSwatch, ribbonName);
+    const head = document.createElement("small");
+    head.className = "directory-head";
+    head.textContent = `Head: ${displayLeader(record.head)}`;
+    card.append(number, happiness, details, ribbon, head);
     card.addEventListener("click", () => openProfile(record));
     return card;
   }));
