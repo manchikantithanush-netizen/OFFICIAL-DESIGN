@@ -13,12 +13,6 @@ const signOutButton = document.querySelector(".sign-out");
 const messageList = document.querySelector(".admin-message-list");
 const clearMessagesButton = document.querySelector(".clear-messages");
 const adminBarazaList = document.querySelector(".admin-baraza-list");
-const scheduleProgressList = document.querySelector(".schedule-progress-list");
-const scheduleProgressStatus = document.querySelector(".schedule-progress-status");
-const scheduleItems = {
-  junior: ["Registration", "Opening Ceremony", "Scavenger Hunt", "Baraza Session 1", "Lunch", "Keynote Speaker", "Creative Expression Session", "Photo Sessions", "Baraza Session 2", "Team Dance", "Dispersal"],
-  intermediate: ["Registration", "Opening Ceremony", "Baraza Session 1", "Lunch", "Keynote Speaker", "Creative Expression Session", "Photo Session", "Baraza Session 2", "Team Dance & Closing Ceremony", "Dispersal"],
-};
 
 const getMessages = async () => {
   const { data, error } = await supabase
@@ -37,56 +31,6 @@ if (adminBarazaList) {
     return item;
   }));
 }
-
-const getScheduleProgress = async () => {
-  const { data, error } = await supabase.from("schedule_progress").select("schedule_name, item_key, completed");
-  if (error) throw error;
-  return data || [];
-};
-
-const renderScheduleProgress = async () => {
-  if (!scheduleProgressList) return;
-  try {
-    const progress = await getScheduleProgress();
-    const completed = new Set(progress.filter((item) => item.completed).map((item) => `${item.schedule_name}:${item.item_key}`));
-    scheduleProgressList.replaceChildren(...Object.entries(scheduleItems).flatMap(([schedule, items]) => {
-      const heading = document.createElement("h4");
-      heading.textContent = schedule === "junior" ? "Junior" : "Intermediate & Senior";
-      return [heading, ...items.map((title) => {
-        const itemKey = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-        const label = document.createElement("label");
-        label.className = "schedule-progress-item";
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = completed.has(`${schedule}:${itemKey}`);
-        checkbox.addEventListener("change", async () => {
-          checkbox.disabled = true;
-          const { error } = await supabase.from("schedule_progress").upsert({
-            schedule_name: schedule,
-            item_key: itemKey,
-            completed: checkbox.checked,
-            updated_at: new Date().toISOString(),
-          });
-          checkbox.disabled = false;
-          if (error) {
-            checkbox.checked = !checkbox.checked;
-            scheduleProgressStatus.textContent = "Schedule progress could not be saved. Run the Supabase setup SQL first.";
-            console.error("Unable to update schedule progress.", error);
-            return;
-          }
-          scheduleProgressStatus.textContent = `${title} marked ${checkbox.checked ? "finished" : "unfinished"}.`;
-        });
-        const text = document.createElement("span");
-        text.textContent = title;
-        label.append(checkbox, text);
-        return label;
-      })];
-    }));
-  } catch (error) {
-    scheduleProgressList.innerHTML = '<p class="admin-message-empty">Schedule progress could not be loaded. Run the Supabase setup SQL first.</p>';
-    console.error("Unable to load schedule progress.", error);
-  }
-};
 
 const renderMessages = async () => {
   if (!messageList) return;
@@ -147,7 +91,6 @@ messageForm?.addEventListener("submit", async (event) => {
   messageForm.reset();
   formStatus.textContent = "Message sent to student dashboards.";
   renderMessages();
-  renderScheduleProgress();
 });
 
 clearMessagesButton?.addEventListener("click", async () => {
@@ -166,7 +109,6 @@ renderMessages();
 supabase
   .channel("admin-message-changes")
   .on("postgres_changes", { event: "*", schema: "public", table: "admin_messages" }, () => renderMessages())
-  .on("postgres_changes", { event: "*", schema: "public", table: "schedule_progress" }, () => renderScheduleProgress())
   .subscribe();
 
 signOutButton?.addEventListener("click", () => {

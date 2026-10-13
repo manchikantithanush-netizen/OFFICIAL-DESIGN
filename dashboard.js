@@ -52,7 +52,6 @@ const gradeConfig = {
 };
 const studentConfig = gradeConfig[gradeGroup] || gradeConfig["5-7"];
 const delegateAlert = document.querySelector("[data-delegate-deadline]");
-const scheduleProgressRows = document.querySelectorAll("[data-schedule-item]");
 const directoryView = document.querySelector(".baraza-directory-view");
 const profileView = document.querySelector(".baraza-profile-view");
 const directoryGrid = document.querySelector("[data-baraza-directory]");
@@ -98,21 +97,6 @@ if (delegateAlert) {
   const deadline = new Date(delegateAlert.dataset.delegateDeadline);
   if (Date.now() > deadline.getTime()) delegateAlert.hidden = true;
 }
-
-const renderScheduleProgress = async () => {
-  if (!scheduleProgressRows.length) return;
-  const { data, error } = await supabase.from("schedule_progress").select("schedule_name, item_key, completed");
-  if (error) {
-    console.error("Unable to load schedule progress.", error);
-    return;
-  }
-  const completed = new Set((data || []).filter((item) => item.completed).map((item) => `${item.schedule_name}:${item.item_key}`));
-  scheduleProgressRows.forEach((row) => {
-    const schedule = row.closest("[data-agenda-panel]")?.dataset.agendaPanel;
-    row.classList.toggle("is-finished", completed.has(`${schedule}:${row.dataset.scheduleItem}`));
-  });
-};
-renderScheduleProgress();
 
 const setActiveLink = (id) => {
   dashboardLinks.forEach((link) => {
@@ -387,10 +371,6 @@ supabase
   })
   .subscribe();
 
-supabase
-  .channel("student-schedule-progress")
-  .on("postgres_changes", { event: "*", schema: "public", table: "schedule_progress" }, () => renderScheduleProgress())
-  .subscribe();
 
 const showBrowserNotification = (title, body) => {
   if ("Notification" in window && Notification.permission === "granted") {
