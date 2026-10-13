@@ -1,0 +1,18 @@
+export const barazaRecords = [
+  { id: 1, happiness: "Furaha", language: "Swahili", level: "Junior (5-7)", ribbon: "Gold", head: "Bhavya Sharma", coLeaders: ["Krithika Krishna", "Mayukha Preman"] },
+  { id: 2, happiness: "Felicità", language: "Italian", level: "Junior (5-7)", ribbon: "White", head: "Khwaish Panjabi", coLeaders: ["Niranjana Anusree", "Aanchal Nikesh"] },
+  { id: 3, happiness: "Sa'ada (سعادة)", language: "Arabic", level: "Junior (5-7)", ribbon: "Grey", head: "Vadani Bhingarkhar", coLeaders: ["Neerad Krishna", "Shaanvi himanshu"] },
+  { id: 4, happiness: "Sukham (सुखम्)", language: "Sanskrit", level: "Junior (5-7)", ribbon: "Green", head: "Priyal Tyagi", coLeaders: ["Kasinath", "Kashinath"] },
+  { id: 5, happiness: "Gaudium", language: "Latin", level: "Junior (5-7)", ribbon: "Yellow", head: "Ishanshi Vegad", coLeaders: ["Anya Anoop", "Aarav Pratap"] },
+  { id: 6, happiness: "Khushi (खुशी)", language: "Hindi", level: "Junior (5-7)", ribbon: "Blue", head: "Ayaan Mustafa Ali", coLeaders: ["Emilia Susan", "Zaid Khan"] },
+  { id: 7, happiness: "Glück", language: "German", level: "Intermediate (8-9)", ribbon: "Orange", head: "Mahadevan Surya", coLeaders: ["Aarav Garg", "Ananya Rane"] },
+  { id: 8, happiness: "Bonheur", language: "French", level: "Intermediate (8-9)", ribbon: "Black", head: "Khadeeja Sheza", coLeaders: ["Abhiniti Abhilash", ""] },
+  { id: 9, happiness: "Schastye (Счастье)", language: "Russian", level: "Intermediate (8-9)", ribbon: "Dark Blue", head: "Arnav Burade", coLeaders: ["Irene Andrews", ""] },
+  { id: 10, happiness: "Shiawase (幸せ)", language: "Japanese", level: "Intermediate (8-9)", ribbon: "Red", head: "Pranav Praseen", coLeaders: ["Rohan Reddy", "Harshita Kaithwas"] },
+  { id: 11, happiness: "Felicidad", language: "Spanish", level: "Intermediate (8-9)", ribbon: "Light Green", head: "Hyfa Maryam", coLeaders: ["Aditya Saini", ""] },
+  { id: 12, happiness: "Eftychia (Ευτυχία)", language: "Greek", level: "Intermediate (8-9)", ribbon: "Brown", head: "Vaishnavi Vinod", coLeaders: ["Arya Suresh", "Diya Deepak"] },
+  { id: 13, happiness: "Xìngfú (幸福)", language: "Mandarin Chinese", level: "Senior (10-12)", ribbon: "Purple", head: "Arnav Payyaram", coLeaders: ["Rudra Jasnani", "Yug Mehta"] },
+  { id: 14, happiness: "Saya", language: "Tagalog", level: "Senior (10-12)", ribbon: "Maroon", head: "Vamika Handa", coLeaders: ["Jovino Joji", ""] },
+  { id: 15, happiness: "Koa", language: "Maori", level: "Senior (10-12)", ribbon: "Silver", head: "Ram Prasad", coLeaders: ["Mishti Shetty", "Kashish Wadhwani"] },
+  { id: 16, happiness: "schast’ye (счастье)", language: "Russian", level: "Senior (10-12)", ribbon: "Turquoise", head: "Tiana Paul", coLeaders: ["Manit Jatwani", "Sarah Hussain"] },
+];

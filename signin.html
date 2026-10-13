@@ -67,6 +67,21 @@
         </div>
       </section>
 
+      <div class="grade-modal" aria-hidden="true">
+        <div class="grade-card" role="dialog" aria-modal="true" aria-labelledby="grade-title">
+          <p class="eyebrow">One last detail</p>
+          <h2 id="grade-title">Which grade group are you in?</h2>
+          <p class="grade-copy">Choose your grade group to personalise your Baraza and schedule.</p>
+          <div class="grade-options" role="radiogroup" aria-label="Grade group">
+            <button type="button" data-grade-group="5-7" aria-pressed="false"><strong>Grades 5–7</strong><small>Junior</small></button>
+            <button type="button" data-grade-group="8-9" aria-pressed="false"><strong>Grades 8–9</strong><small>Intermediate</small></button>
+            <button type="button" data-grade-group="10-12" aria-pressed="false"><strong>Grades 10–12</strong><small>Senior</small></button>
+          </div>
+          <button class="grade-continue-button" type="button" disabled>Continue to your dashboard <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+          <p class="grade-status" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+
       <div class="verification-status" aria-hidden="true">
         <div class="status-card">
           <div class="loading-spinner"></div>

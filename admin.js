@@ -1,4 +1,5 @@
 import { supabase } from "./supabase-client.js";
+import { barazaRecords } from "./baraza-data.js";
 
 const adminSessionKey = "roundsquare-admin-authorized";
 
@@ -11,6 +12,7 @@ const formStatus = document.querySelector(".form-status");
 const signOutButton = document.querySelector(".sign-out");
 const messageList = document.querySelector(".admin-message-list");
 const clearMessagesButton = document.querySelector(".clear-messages");
+const adminBarazaList = document.querySelector(".admin-baraza-list");
 
 const getMessages = async () => {
   const { data, error } = await supabase
@@ -20,6 +22,15 @@ const getMessages = async () => {
   if (error) throw error;
   return data;
 };
+
+if (adminBarazaList) {
+  adminBarazaList.replaceChildren(...barazaRecords.map((record) => {
+    const item = document.createElement("article");
+    item.className = "admin-baraza-item";
+    item.innerHTML = `<strong>${record.happiness}</strong><span>${record.language} · ${record.level}</span><small>${record.ribbon} ribbon</small>`;
+    return item;
+  }));
+}
 
 const renderMessages = async () => {
   if (!messageList) return;

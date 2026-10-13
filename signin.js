@@ -3,6 +3,11 @@ const signInForm = document.querySelector("#signin-form");
 if (signInForm) {
   const nameInput = document.querySelector("#student-name");
   const grInput = document.querySelector("#gr-number");
+  const gradeModal = document.querySelector(".grade-modal");
+  const gradeOptions = document.querySelectorAll("[data-grade-group]");
+  const gradeContinueButton = document.querySelector(".grade-continue-button");
+  const gradeStatus = document.querySelector(".grade-status");
+  let selectedGradeGroup = null;
 
   nameInput.addEventListener("input", () => {
     nameInput.value = nameInput.value.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ' -]/g, "");
@@ -48,6 +53,35 @@ if (signInForm) {
     }
 
     status.textContent = "";
+    if (nameInput.value.trim() === "adminihs" && grInput.value.trim() === "20260") {
+      signInForm.dispatchEvent(new CustomEvent("signInDetailsReady"));
+      return;
+    }
+    gradeModal?.classList.add("is-open");
+    gradeModal?.setAttribute("aria-hidden", "false");
+  });
+
+  gradeOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      selectedGradeGroup = option.dataset.gradeGroup;
+      gradeOptions.forEach((gradeOption) => {
+        const isSelected = gradeOption === option;
+        gradeOption.classList.toggle("is-selected", isSelected);
+        gradeOption.setAttribute("aria-pressed", String(isSelected));
+      });
+      if (gradeContinueButton) gradeContinueButton.disabled = false;
+      if (gradeStatus) gradeStatus.textContent = "";
+    });
+  });
+
+  gradeContinueButton?.addEventListener("click", () => {
+    if (!selectedGradeGroup) {
+      if (gradeStatus) gradeStatus.textContent = "Choose your grade group to continue.";
+      return;
+    }
+    window.localStorage.setItem("roundsquare-grade-group", selectedGradeGroup);
+    gradeModal?.classList.remove("is-open");
+    gradeModal?.setAttribute("aria-hidden", "true");
     signInForm.dispatchEvent(new CustomEvent("signInDetailsReady"));
   });
 }

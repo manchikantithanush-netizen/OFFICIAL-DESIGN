@@ -18,6 +18,8 @@ if (verificationStatus && statusCard) {
       return;
     }
 
+    const gradeGroup = window.localStorage.getItem("roundsquare-grade-group");
+    if (!gradeGroup) return;
     window.localStorage.setItem(currentStudentNameKey, name);
     window.localStorage.setItem(registrationKey, "true");
 

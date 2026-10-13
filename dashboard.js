@@ -1,4 +1,5 @@
 import { supabase } from "./supabase-client.js";
+import { barazaRecords } from "./baraza-data.js";
 
 const dashboardLinks = document.querySelectorAll(".dashboard-nav a");
 const sections = document.querySelectorAll("#home, #schedule, #speakers");
@@ -7,8 +8,9 @@ const agendaPanels = document.querySelectorAll("[data-agenda-panel]");
 const addCalendarButton = document.querySelector(".add-calendar-button");
 const dashboardShell = document.querySelector(".dashboard-shell");
 const settingsNavLink = document.querySelector(".settings-nav-link");
+const barazaNavLink = document.querySelector(".baraza-nav-link");
 const settingsView = document.querySelector(".settings-view");
-const standardDashboardContent = document.querySelectorAll(".welcome-section, .event-strip, .resource-links, .event-countdown, .section-block, .quick-links, .dashboard-footer");
+const standardDashboardContent = document.querySelectorAll(".welcome-section, .baraza-banner, .event-strip, .resource-links, .event-countdown, .section-block, .quick-links, .dashboard-footer");
 const reminderButton = document.querySelector(".reminder-button");
 const reminderModal = document.querySelector(".reminder-modal");
 const reminderClose = document.querySelector(".reminder-close");
@@ -32,6 +34,7 @@ const signOutLink = document.querySelector(".sign-out-link");
 const studentName = document.querySelector("#student-name");
 const timeGreeting = document.querySelector("#time-greeting");
 const currentStudentNameKey = "roundsquare-current-student-name";
+const gradeGroupKey = "roundsquare-grade-group";
 const registrationKey = "roundsquare-student-registered";
 const reminderScheduleKey = "roundsquare-reminder-schedule";
 const reminderHistoryKey = "roundsquare-reminder-history";
@@ -41,6 +44,17 @@ let unreadNotifications = Number(window.localStorage.getItem(unreadNotifications
 let notificationToastTimer;
 let notificationToastStartX = null;
 let selectedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
+const gradeGroup = window.localStorage.getItem(gradeGroupKey);
+const gradeConfig = {
+  "5-7": { baraza: "King Constantine", schedule: "junior", scheduleLabel: "Junior", label: "Grades 5–7 · Junior" },
+  "8-9": { baraza: "Roy McComish", schedule: "intermediate", scheduleLabel: "Intermediate", label: "Grades 8–9 · Intermediate" },
+  "10-12": { baraza: "Krut Han", schedule: "intermediate", scheduleLabel: "Senior", label: "Grades 10–12 · Senior" },
+};
+const studentConfig = gradeConfig[gradeGroup] || gradeConfig["5-7"];
+const directoryView = document.querySelector(".baraza-directory-view");
+const profileView = document.querySelector(".baraza-profile-view");
+const directoryGrid = document.querySelector("[data-baraza-directory]");
+const dashboardViews = document.querySelectorAll(".dashboard-shell > section, .dashboard-shell > .resource-links, .dashboard-shell > .quick-links, .dashboard-shell > .dashboard-footer");
 const reminderSchedules = {
   intermediate: [
     ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Baraza Session 1"],
@@ -73,11 +87,80 @@ if (studentName) {
   if (name) studentName.textContent = `${name}.`;
 }
 
+document.querySelector("#baraza-title")?.replaceChildren(document.createTextNode(studentConfig.baraza));
+document.querySelector("#baraza-subtitle")?.replaceChildren(document.createTextNode(studentConfig.label));
+document.querySelector("#intermediate-tab")?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
+document.querySelector(`[data-reminder-schedule="${studentConfig.schedule}"] strong`)?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
+
 const setActiveLink = (id) => {
   dashboardLinks.forEach((link) => {
     link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
   });
 };
+
+const showBarazaView = (view) => {
+  dashboardViews.forEach((item) => {
+    if (item === directoryView || item === profileView) return;
+    item.hidden = view !== "dashboard" && item !== settingsView;
+  });
+  directoryView.hidden = view !== "directory";
+  profileView.hidden = view !== "profile";
+  if (view === "settings") {
+    dashboardShell?.classList.add("is-settings");
+    settingsView.hidden = false;
+  } else {
+    dashboardShell?.classList.remove("is-settings");
+    settingsView.hidden = true;
+  }
+  dashboardShell?.classList.toggle("is-baraza-view", view === "directory" || view === "profile");
+  barazaNavLink?.classList.toggle("is-active", view === "directory" || view === "profile");
+  settingsNavLink?.classList.toggle("is-active", view === "settings");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const displayLeader = (name) => name || "To be confirmed";
+const renderProfile = (record) => {
+  document.querySelector("#profile-title").textContent = record.happiness;
+  document.querySelector("#profile-language").textContent = record.language;
+  document.querySelector("#profile-level").textContent = record.level;
+  document.querySelector("#profile-ribbon-name").textContent = record.ribbon;
+  document.querySelector("#profile-ribbon").dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
+  document.querySelector("#profile-head").textContent = displayLeader(record.head);
+  document.querySelector("#profile-co-one").textContent = displayLeader(record.coLeaders[0]);
+  document.querySelector("#profile-co-two").textContent = displayLeader(record.coLeaders[1]);
+};
+
+const openProfile = (record) => {
+  renderProfile(record);
+  showBarazaView("profile");
+};
+
+if (directoryGrid) {
+  directoryGrid.replaceChildren(...barazaRecords.map((record) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "baraza-directory-card";
+    card.innerHTML = `<span class="directory-number">0${record.id}</span><strong>${record.happiness}</strong><small>${record.language} · ${record.level}</small><em>${record.ribbon} ribbon</em>`;
+    card.addEventListener("click", () => openProfile(record));
+    return card;
+  }));
+}
+
+document.querySelector("[data-open-your-baraza]")?.addEventListener("click", () => {
+  showBarazaView("directory");
+  setActiveLink("");
+});
+document.querySelectorAll("[data-open-baraza-directory]").forEach((button) => {
+  button.addEventListener("click", () => {
+    showBarazaView("directory");
+    setActiveLink("");
+  });
+});
+document.querySelector("[data-return-dashboard]")?.addEventListener("click", () => showBarazaView("dashboard"));
+barazaNavLink?.addEventListener("click", () => {
+  showBarazaView("directory");
+  setActiveLink("");
+});
 
 if (sections.length && "IntersectionObserver" in window) {
   const sectionObserver = new IntersectionObserver((entries) => {
@@ -93,12 +176,14 @@ if (sections.length && "IntersectionObserver" in window) {
 dashboardLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
+    showBarazaView("dashboard");
     dashboardShell?.classList.remove("is-settings");
     if (settingsView) settingsView.hidden = true;
     standardDashboardContent.forEach((content) => {
       content.hidden = false;
     });
     settingsNavLink?.classList.remove("is-active");
+    barazaNavLink?.classList.remove("is-active");
     setActiveLink(link.getAttribute("href").slice(1));
     const target = document.querySelector(link.getAttribute("href"));
     target?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -106,12 +191,14 @@ dashboardLinks.forEach((link) => {
 });
 
 settingsNavLink?.addEventListener("click", () => {
+  showBarazaView("settings");
   dashboardShell?.classList.add("is-settings");
   standardDashboardContent.forEach((content) => {
     content.hidden = true;
   });
   if (settingsView) settingsView.hidden = false;
   dashboardLinks.forEach((link) => link.classList.remove("is-active"));
+  barazaNavLink?.classList.remove("is-active");
   settingsNavLink.classList.add("is-active");
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
@@ -134,6 +221,15 @@ agendaTabs.forEach((tab) => {
   });
 
 });
+
+const setStudentAgenda = (scheduleName) => {
+  agendaTabs.forEach((tab) => {
+    tab.hidden = tab.dataset.agenda !== scheduleName;
+  });
+  const selectedTab = document.querySelector(`.agenda-tab[data-agenda="${scheduleName}"]`);
+  selectedTab?.click();
+};
+setStudentAgenda(studentConfig.schedule);
 
 const getReminderHistory = () => JSON.parse(window.localStorage.getItem(reminderHistoryKey) || "[]");
 const saveReminderHistory = (history) => window.localStorage.setItem(reminderHistoryKey, JSON.stringify(history.slice(-8)));
@@ -269,7 +365,7 @@ const scheduleReminders = (scheduleName) => {
     const delay = eventDate.getTime() - Date.now();
     if (delay <= 0) return;
     const timer = window.setTimeout(() => {
-      const message = `${scheduleName === "junior" ? "Junior" : "Intermediate & Senior"}: ${title}`;
+      const message = `${studentConfig.scheduleLabel}: ${title}`;
       addReminderNotification(message);
       showBrowserNotification("Roundsquare reminder", message);
     }, delay);
@@ -293,7 +389,7 @@ const requestReminders = async (scheduleName) => {
   window.localStorage.setItem(reminderScheduleKey, scheduleName);
   scheduleReminders(scheduleName);
   reminderStatus.textContent = browserNotificationsEnabled
-    ? `${scheduleName === "junior" ? "Junior" : "Intermediate & Senior"} reminders are ready.`
+    ? `${studentConfig.scheduleLabel} reminders are ready.`
     : "Reminders saved. In-dashboard alerts are enabled; browser notifications are not allowed.";
   window.setTimeout(() => reminderModal.classList.remove("is-open"), 700);
 };
@@ -340,7 +436,11 @@ confirmRemindersButton?.addEventListener("click", () => {
 notificationClearButton?.addEventListener("click", clearReminders);
 
 const savedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
-if (savedReminderSchedule && reminderSchedules[savedReminderSchedule]) {
+const studentSchedule = studentConfig.schedule;
+reminderOptions.forEach((button) => {
+  button.hidden = button.dataset.reminderSchedule !== studentSchedule;
+});
+if (savedReminderSchedule && savedReminderSchedule === studentSchedule && reminderSchedules[savedReminderSchedule]) {
   selectReminderSchedule(savedReminderSchedule);
   scheduleReminders(savedReminderSchedule);
 }
@@ -448,6 +548,7 @@ campusButton?.addEventListener("click", () => {
 
 signOutLink?.addEventListener("click", () => {
   window.localStorage.removeItem(currentStudentNameKey);
+  window.localStorage.removeItem(gradeGroupKey);
   window.localStorage.removeItem(registrationKey);
   window.sessionStorage.removeItem("roundsquare-admin-authorized");
   window.location.href = "signin.html";

@@ -32,6 +32,7 @@
           <a class="is-active" href="#home"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Home</span></a>
           <a href="#speakers"><i class="fa-solid fa-users" aria-hidden="true"></i><span>People</span></a>
           <a href="#schedule"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>Schedule</span></a>
+          <button class="baraza-nav-link" type="button"><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Baraza</span></button>
           <button class="settings-nav-link" type="button"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></button>
         </nav>
 
@@ -42,6 +43,39 @@
             <span>Website version</span>
             <strong>1.3.2</strong>
           </div>
+          <button class="directory-open-button" type="button" data-open-baraza-directory><i class="fa-solid fa-compass" aria-hidden="true"></i> Browse Baraza directory</button>
+        </section>
+
+        <section class="baraza-directory-view" aria-labelledby="directory-title" hidden>
+          <div class="view-heading">
+            <p class="eyebrow">Find your people</p>
+            <h1 id="directory-title">Baraza <em>directory.</em></h1>
+            <p>Explore every Baraza profile, its language, ribbon colour and student leadership.</p>
+          </div>
+          <div class="baraza-directory-grid" data-baraza-directory></div>
+        </section>
+
+        <section class="baraza-profile-view" aria-labelledby="profile-title" hidden>
+          <div class="view-heading">
+            <button class="view-back-button" type="button" data-open-baraza-directory><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Baraza directory</button>
+            <p class="eyebrow">Baraza profile</p>
+            <h1 id="profile-title"></h1>
+            <p id="profile-language"></p>
+          </div>
+          <div class="profile-ribbon" id="profile-ribbon"><span>Ribbon colour</span><strong id="profile-ribbon-name"></strong></div>
+          <div class="profile-meta-grid">
+            <article><span>Baraza level</span><strong id="profile-level"></strong></article>
+            <article><span>Room location</span><strong>To be confirmed</strong><small>Room details will be added when available.</small></article>
+          </div>
+          <section class="leadership-panel">
+            <p class="eyebrow">Student leadership</p>
+            <h2>Leading the Baraza</h2>
+            <div class="leader-grid">
+              <div><span>Head Baraza Leader</span><strong id="profile-head"></strong></div>
+              <div><span>Co-Baraza Leader</span><strong id="profile-co-one"></strong></div>
+              <div><span>Co-Baraza Leader</span><strong id="profile-co-two"></strong></div>
+            </div>
+          </section>
         </section>
 
         <section class="welcome-section" id="home">
@@ -59,8 +93,14 @@
             <img src="Images/roundsquarelogo.jpeg" alt="" />
             <span class="art-label">Pursuit<br />of happiness</span>
           </div>
+          <button class="find-baraza-button" type="button" data-open-your-baraza><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Find your Baraza</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
         </section>
 
+        <section class="baraza-banner" id="baraza" aria-labelledby="baraza-title">
+          <div class="baraza-banner-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></div>
+          <div><p class="eyebrow">Your Baraza</p><h2 id="baraza-title">King Constantine</h2><p id="baraza-subtitle">Grades 5–7 · Junior</p></div>
+          <span class="baraza-banner-tag">Your group</span>
+        </section>
         <section class="event-strip" aria-label="Event details">
           <div><i class="fa-regular fa-calendar" aria-hidden="true"></i><span><small>DATE</small><strong>17 October 2026</strong></span></div>
           <div><i class="fa-regular fa-clock" aria-hidden="true"></i><span><small>TIME</small><strong>9:00 AM — 5:30 PM</strong></span></div>
@@ -88,12 +128,12 @@
           <div class="people-row">
             <a class="person-card person-card-featured" href="https://www.linkedin.com/in/punit-mk-vasu-180264172/" target="_blank" rel="noopener noreferrer">
               <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/punitceo.jpeg" alt="Punit MK Vasu" /></div>
-              <div class="person-details"><strong>Punit MK Vasu</strong><span>Chief Executive Officer</span><p>Leading The Indian High Group of Schools with a focus on inclusive, innovative and meaningful education.</p></div>
+              <div class="person-details"><strong>Punit MK Vasu</strong><span>Head of School</span><p>Leading The Indian High Group of Schools with a focus on inclusive, innovative and meaningful education.</p></div>
               <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
             </a>
             <a class="person-card person-card-featured" href="https://www.linkedin.com/in/dr-abhilasha-chaube-352a10a2/" target="_blank" rel="noopener noreferrer">
               <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/abhilasha.jpg" alt="Dr. Abhilasha Chaube" /></div>
-              <div class="person-details"><strong>Dr. Abhilasha Chaube</strong><span>Activity Coordinator</span><p>Creating engaging student experiences through Round Square initiatives, MUN and multicultural programmes.</p></div>
+              <div class="person-details"><strong>Dr. Abhilasha Chaube</strong><span>Round Square Representative</span><p>Creating engaging student experiences through Round Square initiatives, MUN and multicultural programmes.</p></div>
               <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
             </a>
           </div>
