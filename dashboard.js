@@ -1,15 +1,21 @@
 import { supabase } from "./supabase-client.js";
 import { barazaRecords } from "./baraza-data.js";
 
-const dashboardLinks = document.querySelectorAll(".dashboard-nav a");
+const dashboardLinks = document.querySelectorAll('.dashboard-nav a[href^="#"]:not([data-dashboard-page])');
+const dashboardPageLinks = document.querySelectorAll("[data-dashboard-page]");
 const sections = document.querySelectorAll("#home, #schedule, #speakers");
 const agendaTabs = document.querySelectorAll(".agenda-tab");
 const agendaPanels = document.querySelectorAll("[data-agenda-panel]");
 const addCalendarButton = document.querySelector(".add-calendar-button");
 const dashboardShell = document.querySelector(".dashboard-shell");
 const settingsNavLink = document.querySelector(".settings-nav-link");
+const moreNavItem = document.querySelector(".more-nav-item");
+const moreNavButton = document.querySelector(".more-nav-button");
+const moreMenu = document.querySelector(".more-menu");
 const barazaNavLink = document.querySelector(".baraza-nav-link");
 const settingsView = document.querySelector(".settings-view");
+const dashboardSiteView = document.querySelector(".dashboard-site-view");
+const dashboardSiteFrame = document.querySelector(".dashboard-site-frame");
 const standardDashboardContent = document.querySelectorAll(".welcome-section, .baraza-banner, .event-strip, .resource-links, .event-countdown, .section-block, .quick-links, .dashboard-footer");
 const reminderButton = document.querySelector(".reminder-button");
 const reminderModal = document.querySelector(".reminder-modal");
@@ -28,8 +34,6 @@ const notificationClearButton = document.querySelector(".notification-clear-butt
 const notificationToast = document.querySelector(".notification-toast");
 const notificationToastTitle = document.querySelector(".notification-toast-title");
 const notificationToastMessage = document.querySelector(".notification-toast-message");
-const campusButton = document.querySelector(".campus-button");
-const comingSoonOverlay = document.querySelector(".coming-soon-overlay");
 const signOutLink = document.querySelector(".sign-out-link");
 const studentName = document.querySelector("#student-name");
 const timeGreeting = document.querySelector("#time-greeting");
@@ -40,10 +44,13 @@ const reminderScheduleKey = "roundsquare-reminder-schedule";
 const reminderHistoryKey = "roundsquare-reminder-history";
 const unreadNotificationsKey = "roundsquare-unread-notifications";
 const reminderTimers = [];
+const welcomeCarouselSlides = document.querySelectorAll(".welcome-slide");
 let unreadNotifications = Number(window.localStorage.getItem(unreadNotificationsKey) || 0);
 let notificationToastTimer;
 let notificationToastStartX = null;
 let selectedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
+let welcomeCarouselIndex = 0;
+let welcomeCarouselPendingIndex = null;
 const gradeGroup = window.localStorage.getItem(gradeGroupKey);
 const gradeConfig = {
   "5-7": { baraza: "King Constantine", schedule: "junior", scheduleLabel: "Junior", label: "Grades 5–7 · Junior" },
@@ -60,7 +67,7 @@ const reminderSchedules = {
   intermediate: [
     ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Baraza Session 1"],
     ["12:40", "Lunch"], ["13:30", "Keynote Speaker"], ["14:00", "Creative Expression Session"],
-    ["14:30", "Photo Session"], ["15:00", "Baraza Session 2"], ["16:30", "Team Dance & Closing Ceremony"],
+    ["14:30", "Photo Sessions"], ["15:00", "Baraza Session 2"], ["16:30", "Team Dance"],
     ["17:45", "Dispersal"],
   ],
   junior: [
@@ -88,14 +95,248 @@ if (studentName) {
   if (name) studentName.textContent = `${name}.`;
 }
 
+const eventCountdown = document.querySelector(".event-countdown");
+const countdownUnits = document.querySelectorAll("[data-countdown-unit]");
+const countdownTitle = document.querySelector("#countdown-title");
+const countdownEyebrow = document.querySelector("[data-countdown-eyebrow]");
+const countdownNote = document.querySelector(".countdown-note");
+const celebrationDismissCountdown = document.querySelector("[data-celebration-dismiss-countdown]");
+const celebrationDismissTimer = document.querySelector("[data-celebration-dismiss-timer]");
+const countdownConfetti = document.querySelector(".countdown-confetti");
+const eventStartTimestamp = Date.parse("2026-10-17T09:00:00+04:00");
+const celebrationDuration = 15 * 60 * 1000;
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let celebrationInterval;
+let celebrationDismissTimeout;
+let eventCountdownUpdateInterval;
+let confettiFrame;
+let currentCelebrationKey;
+
+const drawCountdownConfetti = () => {
+  if (!countdownConfetti || reducedMotion) return;
+
+  const context = countdownConfetti.getContext("2d");
+  if (!context) {
+    console.error("Unable to initialize countdown celebration confetti.");
+    return;
+  }
+
+  const startedAt = performance.now();
+  const duration = 7000;
+  const colors = ["#4ade80", "#a3e635", "#f2be55", "#f4ebdd", "#34d399"];
+  const particles = [];
+  let burstCount = 0;
+  const resizeCanvas = () => {
+    const bounds = countdownConfetti.getBoundingClientRect();
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    countdownConfetti.width = Math.round(bounds.width * pixelRatio);
+    countdownConfetti.height = Math.round(bounds.height * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  };
+  const burst = () => {
+    const width = countdownConfetti.clientWidth;
+    for (let index = 0; index < 60; index += 1) {
+      particles.push({
+        x: Math.random() * width,
+        y: -10 - Math.random() * 80,
+        velocityX: (Math.random() - 0.5) * 2.8,
+        velocityY: 1.5 + Math.random() * 3.5,
+        rotation: Math.random() * Math.PI,
+        rotationSpeed: (Math.random() - 0.5) * 0.16,
+        size: 4 + Math.random() * 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+  };
+  const animate = (now) => {
+    const elapsed = now - startedAt;
+    const width = countdownConfetti.clientWidth;
+    const height = countdownConfetti.clientHeight;
+    context.clearRect(0, 0, width, height);
+    if (elapsed < duration && Math.floor(elapsed / 1700) > burstCount) {
+      burstCount += 1;
+      burst();
+    }
+    particles.forEach((particle) => {
+      particle.x += particle.velocityX;
+      particle.y += particle.velocityY;
+      particle.velocityY += 0.035;
+      particle.rotation += particle.rotationSpeed;
+      context.save();
+      context.translate(particle.x, particle.y);
+      context.rotate(particle.rotation);
+      context.fillStyle = particle.color;
+      context.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size * 0.62);
+      context.restore();
+    });
+    for (let index = particles.length - 1; index >= 0; index -= 1) {
+      if (particles[index].y > height + 12) particles.splice(index, 1);
+    }
+    if (elapsed < duration || particles.length) {
+      confettiFrame = window.requestAnimationFrame(animate);
+    } else {
+      context.clearRect(0, 0, width, height);
+      confettiFrame = undefined;
+    }
+  };
+
+  resizeCanvas();
+  burst();
+  window.addEventListener("resize", resizeCanvas, { once: true });
+  confettiFrame = window.requestAnimationFrame(animate);
+};
+
+const dismissEventCountdown = () => {
+  if (!eventCountdown || eventCountdown.hidden || eventCountdown.classList.contains("is-dismissing")) return;
+  currentCelebrationKey = undefined;
+  eventCountdown.classList.add("is-dismissing");
+  eventCountdown.setAttribute("aria-hidden", "true");
+  celebrationDismissCountdown.hidden = true;
+  window.setTimeout(() => {
+    eventCountdown.hidden = true;
+  }, 850);
+};
+
+const beginCountdownCelebration = (dismissAt) => {
+  if (!eventCountdown) return;
+  const celebrationKey = `event:${dismissAt}`;
+  if (currentCelebrationKey === celebrationKey && eventCountdown.classList.contains("is-celebrating")) return;
+  currentCelebrationKey = celebrationKey;
+  if (celebrationInterval) window.clearInterval(celebrationInterval);
+  if (celebrationDismissTimeout) window.clearTimeout(celebrationDismissTimeout);
+  if (confettiFrame) window.cancelAnimationFrame(confettiFrame);
+
+  eventCountdown.hidden = false;
+  eventCountdown.removeAttribute("aria-hidden");
+  eventCountdown.classList.remove("is-dismissing");
+  eventCountdown.classList.add("is-celebrating");
+  countdownEyebrow.textContent = "ROUND SQUARE 2026 · EVENT DAY";
+  countdownTitle.textContent = "Round Square is now underway.";
+  countdownNote.textContent = "Welcome to the Pursuit of Happiness at The Indian High School.";
+  countdownUnits.forEach((unit) => { unit.textContent = "00"; });
+  celebrationDismissCountdown.hidden = false;
+  drawCountdownConfetti();
+
+  const updateDismissTimer = () => {
+    const remaining = Math.max(0, dismissAt - Date.now());
+    const totalSeconds = Math.ceil(remaining / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    celebrationDismissTimer.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    if (remaining <= 0) {
+      window.clearInterval(celebrationInterval);
+      celebrationInterval = undefined;
+      dismissEventCountdown();
+    }
+  };
+
+  updateDismissTimer();
+  celebrationInterval = window.setInterval(updateDismissTimer, 1000);
+  celebrationDismissTimeout = window.setTimeout(() => dismissEventCountdown(), Math.max(0, dismissAt - Date.now()));
+};
+
+const updateEventCountdown = () => {
+  if (!eventCountdown || !countdownUnits.length) return;
+  const now = Date.now();
+  if (now >= eventStartTimestamp) {
+    window.clearInterval(eventCountdownUpdateInterval);
+    eventCountdownUpdateInterval = undefined;
+    countdownUnits.forEach((unit) => { unit.textContent = "00"; });
+    if (now < eventStartTimestamp + celebrationDuration) {
+      beginCountdownCelebration(eventStartTimestamp + celebrationDuration);
+    }
+    dismissEventCountdown();
+    return;
+  }
+
+  const totalSeconds = Math.floor((eventStartTimestamp - now) / 1000);
+  const values = {
+    days: Math.floor(totalSeconds / 86400),
+    hours: Math.floor((totalSeconds % 86400) / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
+  };
+  countdownUnits.forEach((unit) => {
+    unit.textContent = String(values[unit.dataset.countdownUnit]).padStart(2, "0");
+  });
+};
+
+if (eventCountdown) {
+  updateEventCountdown();
+  if (!eventCountdown.classList.contains("is-celebrating")
+    && !eventCountdown.classList.contains("is-dismissing")
+    && !eventCountdown.hidden) {
+    eventCountdownUpdateInterval = window.setInterval(updateEventCountdown, 1000);
+  }
+}
+
 document.querySelector("#baraza-title")?.replaceChildren(document.createTextNode(studentConfig.baraza));
 document.querySelector("#baraza-subtitle")?.replaceChildren(document.createTextNode(studentConfig.label));
 document.querySelector("#intermediate-tab")?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
 document.querySelector(`[data-reminder-schedule="${studentConfig.schedule}"] strong`)?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
 
+if (welcomeCarouselSlides.length > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  window.setInterval(() => {
+    if (welcomeCarouselPendingIndex !== null) return;
+    const nextIndex = (welcomeCarouselIndex + 1) % welcomeCarouselSlides.length;
+    const nextSlide = welcomeCarouselSlides[nextIndex];
+    const activateNextSlide = () => {
+      welcomeCarouselSlides[welcomeCarouselIndex].classList.remove("is-active");
+      welcomeCarouselIndex = nextIndex;
+      nextSlide.classList.add("is-active");
+      welcomeCarouselPendingIndex = null;
+    };
+
+    if (!nextSlide.hasAttribute("src") && nextSlide.dataset.src) {
+      welcomeCarouselPendingIndex = nextIndex;
+      nextSlide.addEventListener("load", activateNextSlide, { once: true });
+      nextSlide.addEventListener("error", () => {
+        console.error(`Unable to load dashboard carousel image: ${nextSlide.dataset.src}`);
+        welcomeCarouselPendingIndex = null;
+      }, { once: true });
+      nextSlide.src = nextSlide.dataset.src;
+      return;
+    }
+
+    activateNextSlide();
+  }, 5000);
+}
+
 if (delegateAlert) {
-  const deadline = new Date(delegateAlert.dataset.delegateDeadline);
-  if (Date.now() > deadline.getTime()) delegateAlert.hidden = true;
+  const deadlineTimestamp = Date.parse(delegateAlert.dataset.delegateDeadline || "");
+  const countdown = delegateAlert.querySelector("[data-delegate-countdown]");
+
+  if (!Number.isFinite(deadlineTimestamp) || !countdown) {
+    console.error("The delegate application alert is missing a valid deadline or countdown element.");
+    delegateAlert.hidden = true;
+  } else {
+    let deadlineTimer;
+    const updateDelegateDeadline = () => {
+      const remainingSeconds = Math.ceil((deadlineTimestamp - Date.now()) / 1000);
+
+      if (remainingSeconds <= 0) {
+        delegateAlert.hidden = true;
+        window.clearInterval(deadlineTimer);
+        return;
+      }
+
+      const days = Math.floor(remainingSeconds / 86400);
+      const hours = Math.floor((remainingSeconds % 86400) / 3600);
+      const minutes = Math.floor((remainingSeconds % 3600) / 60);
+      const seconds = remainingSeconds % 60;
+      const pad = (value) => String(value).padStart(2, "0");
+      countdown.textContent = days > 0
+        ? `${days}d ${pad(hours)}h ${pad(minutes)}m`
+        : `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+      countdown.setAttribute(
+        "aria-label",
+        `${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds remaining`,
+      );
+    };
+
+    updateDelegateDeadline();
+    if (!delegateAlert.hidden) deadlineTimer = window.setInterval(updateDelegateDeadline, 1000);
+  }
 }
 
 const setActiveLink = (id) => {
@@ -104,10 +345,17 @@ const setActiveLink = (id) => {
   });
 };
 
+const closeMoreMenu = ({ restoreFocus = false } = {}) => {
+  moreNavButton?.setAttribute("aria-expanded", "false");
+  moreMenu?.setAttribute("aria-hidden", "true");
+  moreMenu?.classList.remove("is-open");
+  if (restoreFocus) moreNavButton?.focus();
+};
+
 const showBarazaView = (view) => {
   dashboardViews.forEach((item) => {
     if (item === directoryView || item === profileView) return;
-    item.hidden = view !== "dashboard" && item !== settingsView;
+    item.hidden = view !== "dashboard" && !(view === "settings" && item === settingsView);
   });
   directoryView.hidden = view !== "directory";
   profileView.hidden = view !== "profile";
@@ -119,8 +367,14 @@ const showBarazaView = (view) => {
     settingsView.hidden = true;
   }
   dashboardShell?.classList.toggle("is-baraza-view", view === "directory" || view === "profile");
+  dashboardShell?.classList.toggle("is-site-view", view === "about" || view === "contact");
+  if (dashboardSiteView) dashboardSiteView.hidden = view !== "about" && view !== "contact";
   barazaNavLink?.classList.toggle("is-active", view === "directory" || view === "profile");
   settingsNavLink?.classList.toggle("is-active", view === "settings");
+  moreNavButton?.classList.toggle("is-active", view === "settings" || view === "contact");
+  dashboardPageLinks.forEach((link) => {
+    link.classList.toggle("is-active", link.dataset.dashboardPage === view);
+  });
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
@@ -214,7 +468,30 @@ dashboardLinks.forEach((link) => {
   });
 });
 
+moreNavButton?.addEventListener("click", () => {
+  const isOpen = moreNavButton.getAttribute("aria-expanded") === "true";
+  if (isOpen) {
+    closeMoreMenu();
+    return;
+  }
+
+  moreMenu?.setAttribute("aria-hidden", "false");
+  moreNavButton.setAttribute("aria-expanded", "true");
+  requestAnimationFrame(() => moreMenu?.classList.add("is-open"));
+});
+
+document.addEventListener("click", (event) => {
+  if (!moreNavItem?.contains(event.target)) closeMoreMenu();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && moreNavButton?.getAttribute("aria-expanded") === "true") {
+    closeMoreMenu({ restoreFocus: true });
+  }
+});
+
 settingsNavLink?.addEventListener("click", () => {
+  closeMoreMenu();
   showBarazaView("settings");
   dashboardShell?.classList.add("is-settings");
   standardDashboardContent.forEach((content) => {
@@ -225,6 +502,50 @@ settingsNavLink?.addEventListener("click", () => {
   barazaNavLink?.classList.remove("is-active");
   settingsNavLink.classList.add("is-active");
   window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+dashboardPageLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    const page = link.dataset.dashboardPage;
+    if (page !== "about" && page !== "contact") return;
+
+    closeMoreMenu();
+    showBarazaView(page);
+    dashboardSiteView?.setAttribute("aria-label", page === "about" ? "About Roundsquare" : "Contact Roundsquare");
+    if (dashboardSiteFrame) {
+      dashboardSiteFrame.title = page === "about" ? "About Roundsquare" : "Contact Roundsquare";
+      dashboardSiteFrame.style.height = "";
+      dashboardSiteFrame.src = `${page === "about" ? "About/index.html" : "Contact/index.html"}?embed=dashboard&page=${page}`;
+    }
+  });
+});
+
+window.addEventListener("message", (event) => {
+  const isExpectedOrigin = event.origin === window.location.origin
+    || (window.location.protocol === "file:" && event.origin === "null");
+  if (!isExpectedOrigin || event.source !== dashboardSiteFrame?.contentWindow) return;
+  if (event.data?.type !== "roundsquare-dashboard-page-height") return;
+
+  let currentPage;
+  try {
+    currentPage = new URL(dashboardSiteFrame.contentWindow.location.href).searchParams.get("page");
+  } catch (error) {
+    console.error("Unable to identify the embedded dashboard page.", error);
+    return;
+  }
+  if (event.data.page !== currentPage || !["about", "contact"].includes(currentPage) || !Number.isFinite(event.data.height)) return;
+
+  dashboardPageLinks.forEach((link) => {
+    link.classList.toggle("is-active", link.dataset.dashboardPage === currentPage);
+  });
+  dashboardSiteView?.setAttribute("aria-label", currentPage === "about" ? "About Roundsquare" : "Contact Roundsquare");
+  dashboardSiteFrame.style.height = `${Math.max(500, Math.ceil(event.data.height))}px`;
+});
+
+dashboardSiteFrame?.addEventListener("load", () => {
+  const targetOrigin = window.location.origin === "null" ? "*" : window.location.origin;
+  dashboardSiteFrame.contentWindow?.postMessage({ type: "roundsquare-dashboard-page-height-request" }, targetOrigin);
 });
 
 agendaTabs.forEach((tab) => {
@@ -563,14 +884,6 @@ notificationButton?.addEventListener("click", () => {
   toggleNotifications(!notificationPanel.classList.contains("is-open"));
 });
 notificationClose?.addEventListener("click", () => toggleNotifications(false));
-campusButton?.addEventListener("click", () => {
-  comingSoonOverlay.classList.remove("is-visible");
-  void comingSoonOverlay.offsetWidth;
-  comingSoonOverlay.classList.add("is-visible");
-  comingSoonOverlay.setAttribute("aria-hidden", "false");
-  window.setTimeout(() => comingSoonOverlay.setAttribute("aria-hidden", "true"), 1000);
-});
-
 signOutLink?.addEventListener("click", () => {
   window.localStorage.removeItem(currentStudentNameKey);
   window.localStorage.removeItem(gradeGroupKey);

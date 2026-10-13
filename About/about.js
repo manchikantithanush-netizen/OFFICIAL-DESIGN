@@ -1,7 +1,15 @@
 const currentYear = document.querySelector("#current-year");
+const embeddedInDashboard = new URLSearchParams(window.location.search).get("embed") === "dashboard";
 
 if (currentYear) {
   currentYear.textContent = new Date().getFullYear();
+}
+
+if (embeddedInDashboard) {
+  document.documentElement.classList.add("dashboard-embedded");
+  document.body.classList.add("dashboard-embedded");
+  const contactLink = document.querySelector(".about-closing a[href$='../Contact/index.html']");
+  if (contactLink) contactLink.href = "../Contact/index.html?embed=dashboard&page=contact";
 }
 
 const numberValues = document.querySelectorAll("[data-count]");
@@ -33,4 +41,25 @@ if (numberValues.length) {
   } else {
     numberValues.forEach(animateNumbers);
   }
+}
+
+if (embeddedInDashboard) {
+  const reportHeight = () => {
+    const content = document.querySelector(".about-page");
+    window.parent.postMessage({
+      type: "roundsquare-dashboard-page-height",
+      page: new URLSearchParams(window.location.search).get("page"),
+      height: Math.ceil(content?.getBoundingClientRect().height || 0) + 2,
+    }, window.location.origin === "null" ? "*" : window.location.origin);
+  };
+
+  const aboutPage = document.querySelector(".about-page");
+  if (aboutPage) new ResizeObserver(reportHeight).observe(aboutPage);
+  document.addEventListener("load", reportHeight, true);
+  window.addEventListener("message", (event) => {
+    if (event.source === window.parent && event.data?.type === "roundsquare-dashboard-page-height-request") reportHeight();
+  });
+  document.fonts?.ready.then(reportHeight);
+  window.addEventListener("load", reportHeight, { once: true });
+  reportHeight();
 }

@@ -24,8 +24,9 @@ if (signInForm) {
     const fields = [
       {
         input: nameInput,
-        message: "Please enter your full name using letters only.",
-        isValid: /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ '-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/.test(nameInput.value.trim()),
+        message: "Please enter one first name using up to 12 letters.",
+        isValid: nameInput.value.trim().length <= 12
+          && /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:['-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/.test(nameInput.value.trim()),
       },
       {
         input: grInput,

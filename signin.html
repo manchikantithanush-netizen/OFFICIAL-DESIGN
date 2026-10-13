@@ -51,8 +51,9 @@
           <p class="form-intro">Enter your school details to access the event.</p>
 
           <form id="signin-form" novalidate>
-            <label for="student-name">Full name <b>*</b></label>
-            <input id="student-name" name="name" type="text" autocomplete="name" placeholder="Enter your full name" pattern="[A-Za-zÀ-ÖØ-öø-ÿ]+([ '-][A-Za-zÀ-ÖØ-öø-ÿ]+)*" required />
+            <label for="student-name">First name <b>*</b></label>
+            <input id="student-name" name="name" type="text" autocomplete="given-name" maxlength="12" placeholder="Enter your first name" pattern="[A-Za-zÀ-ÖØ-öø-ÿ]+(['-][A-Za-zÀ-ÖØ-öø-ÿ]+)*" aria-describedby="student-name-hint" required />
+            <span id="student-name-hint" class="input-hint">First name only · 12 characters maximum</span>
             <span class="field-error" data-error-for="student-name"></span>
 
             <label for="gr-number">GR number <b>*</b></label>

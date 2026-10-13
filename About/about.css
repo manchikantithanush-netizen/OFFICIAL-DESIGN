@@ -142,3 +142,17 @@ blockquote cite { display: block; margin-top: .8rem; color: var(--warm-gold); fo
   .about-page main { animation: none; }
   .ideals-grid article, .media-break img, .archive-grid img, .conference-grid > div, .inspiration-note { transition: none; transform: none; }
 }
+
+html.dashboard-embedded,
+body.dashboard-embedded { width: 100%; min-width: 0; min-height: 0; overflow: hidden; background: transparent; scrollbar-width: none; }
+html.dashboard-embedded::-webkit-scrollbar,
+body.dashboard-embedded::-webkit-scrollbar { display: none; }
+body.dashboard-embedded .about-page { width: 100%; max-width: 100%; overflow: visible; background: transparent; }
+body.dashboard-embedded .about-header,
+body.dashboard-embedded .about-footer { display: none; }
+body.dashboard-embedded .about-hero { padding-top: 2rem; }
+body.dashboard-embedded .about-hero,
+body.dashboard-embedded .opening-poster,
+body.dashboard-embedded .numbers-section,
+body.dashboard-embedded .media-break,
+body.dashboard-embedded .section-shell { max-width: min(calc(100% - 2rem), var(--content-width)); }

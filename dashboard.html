@@ -30,10 +30,18 @@
 
         <nav class="dashboard-nav" aria-label="Dashboard navigation">
           <a class="is-active" href="#home"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Home</span></a>
-          <a href="#speakers"><i class="fa-solid fa-users" aria-hidden="true"></i><span>People</span></a>
           <a href="#schedule"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>Schedule</span></a>
           <button class="baraza-nav-link" type="button"><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Baraza</span></button>
-          <button class="settings-nav-link" type="button"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></button>
+          <a href="#about-view" data-dashboard-page="about"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>About</span></a>
+          <div class="more-nav-item">
+            <button class="more-nav-button" type="button" aria-expanded="false" aria-controls="more-menu">
+              <i class="fa-solid fa-ellipsis" aria-hidden="true"></i><span>More</span>
+            </button>
+            <div class="more-menu" id="more-menu" aria-label="More dashboard options" aria-hidden="true">
+              <a href="#contact-view" data-dashboard-page="contact"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
+              <button class="settings-nav-link" type="button"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></button>
+            </div>
+          </div>
         </nav>
 
         <section class="settings-view" aria-labelledby="settings-title" hidden>
@@ -41,8 +49,12 @@
           <h1 id="settings-title">Settings</h1>
           <div class="settings-row">
             <span>Website version</span>
-            <strong>1.7.1</strong>
+            <strong>1.8.0</strong>
           </div>
+        </section>
+
+        <section class="dashboard-site-view" aria-label="Website information" hidden>
+          <iframe class="dashboard-site-frame" title="About Roundsquare" loading="lazy" scrolling="no" src="about:blank"></iframe>
         </section>
 
         <section class="baraza-directory-view" aria-labelledby="directory-title" hidden>
@@ -86,11 +98,16 @@
             <button class="find-baraza-button" type="button" data-open-your-baraza><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Find your Baraza</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
           </div>
           <div class="welcome-art" aria-hidden="true">
-            <div class="art-glow"></div>
+            <div class="welcome-carousel">
+              <img class="welcome-slide is-active" src="Images/carousel/1.jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/carousel/2.jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/carousel/3.jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/carousel/4.jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/carousel/5.jpeg" alt="" />
+            </div>
             <div class="art-ring art-ring-one"></div>
             <div class="art-ring art-ring-two"></div>
             <span class="art-star star-one">✦</span><span class="art-star star-two">✦</span>
-            <img src="Images/roundsquarelogo.jpeg" alt="" />
             <span class="art-label">Pursuit<br />of happiness</span>
           </div>
         </section>
@@ -100,18 +117,19 @@
           <div><p class="eyebrow">Your Baraza</p><h2 id="baraza-title">King Constantine</h2><p id="baraza-subtitle">Grades 5–7 · Junior</p></div>
           <span class="baraza-banner-tag">Your group</span>
         </section>
-        <aside class="delegate-alert" aria-labelledby="delegate-alert-title" data-delegate-deadline="2026-10-13T23:59:59">
+        <aside class="delegate-alert" aria-labelledby="delegate-alert-title" data-delegate-deadline="2026-10-13T23:59:59+04:00">
           <div class="delegate-alert-icon"><i class="fa-solid fa-bolt" aria-hidden="true"></i></div>
           <div class="delegate-alert-copy">
             <p class="eyebrow">New alert</p>
             <h2 id="delegate-alert-title">Delegate applications open</h2>
-            <p>Applications end <strong>13th October · 11:59 PM</strong></p>
+            <p class="delegate-alert-deadline">Applications close 13 October · 11:59 PM GST</p>
+            <p class="delegate-alert-countdown">Closes in <strong data-delegate-countdown role="timer" aria-live="off"></strong></p>
           </div>
           <a class="delegate-alert-button" href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=KqwhzDIhXkeAqvuIYaXkV2dcA0I6YSxBseIsfh_Fn-RUNFJPUThJMFJKWThRU1U3N0dHMDVIUU43MC4u&amp;route=shorturl" target="_blank" rel="noopener noreferrer">Apply now <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
         </aside>
         <section class="event-strip" aria-label="Event details">
           <div><i class="fa-regular fa-calendar" aria-hidden="true"></i><span><small>DATE</small><strong>17 October 2026</strong></span></div>
-          <div><i class="fa-regular fa-clock" aria-hidden="true"></i><span><small>TIME</small><strong>9:00 AM — 5:30 PM</strong></span></div>
+          <div><i class="fa-regular fa-clock" aria-hidden="true"></i><span><small>TIME</small><strong>9:00 AM — 5:45 PM</strong></span></div>
           <div><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span><small>VENUE</small><strong>The Indian High School</strong></span></div>
         </section>
         <div class="resource-links">
@@ -120,30 +138,20 @@
           <a class="handbook-link handbook-banner schedule-pdf-link" href="assets/Roundsquare%20itinerary%2C%20Oct%202026%20(2).pdf" target="_blank" rel="noopener"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i><span><strong>View the new schedule</strong><small>Open the event itinerary PDF</small></span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
         </div>
         <section class="event-countdown" aria-labelledby="countdown-title">
-          <p class="eyebrow">The countdown is on</p>
-          <h2 id="countdown-title">Until we meet.</h2>
-          <div class="countdown-timer" role="timer" aria-label="Time remaining until the event">
-            <div><strong data-countdown-unit="days">00</strong><span>Days</span></div>
-            <div><strong data-countdown-unit="hours">00</strong><span>Hours</span></div>
-            <div><strong data-countdown-unit="minutes">00</strong><span>Minutes</span></div>
-            <div><strong data-countdown-unit="seconds">00</strong><span>Seconds</span></div>
-          </div>
-          <p class="countdown-note">17 October 2026 · 9:00 AM · The Indian High School</p>
-        </section>
-
-        <section class="section-block" id="speakers">
-          <div class="section-heading"><div><p class="eyebrow">People to meet</p><h2>Meet the <em>speakers.</em></h2></div><span class="speakers-note"><i class="fa-solid fa-star" aria-hidden="true"></i> Meaningful voices</span></div>
-          <div class="people-row">
-            <a class="person-card person-card-featured" href="https://www.linkedin.com/in/punit-mk-vasu-180264172/" target="_blank" rel="noopener noreferrer">
-              <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/punitceo.jpeg" alt="Punit MK Vasu" /></div>
-              <div class="person-details"><strong>Punit MK Vasu</strong><span>Head of School</span><p>Leading The Indian High Group of Schools with a focus on inclusive, innovative and meaningful education.</p></div>
-              <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
-            </a>
-            <a class="person-card person-card-featured" href="https://www.linkedin.com/in/dr-abhilasha-chaube-352a10a2/" target="_blank" rel="noopener noreferrer">
-              <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/abhilasha.jpeg" alt="Dr. Abhilasha Chaube" /></div>
-              <div class="person-details"><strong>Dr. Abhilasha Chaube</strong><span>Round Square Representative</span><p>Creating engaging student experiences through Round Square initiatives, MUN and multicultural programmes.</p></div>
-              <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
-            </a>
+          <canvas class="countdown-confetti" aria-hidden="true"></canvas>
+          <div class="countdown-content">
+            <p class="eyebrow" data-countdown-eyebrow>The countdown is on</p>
+            <h2 id="countdown-title">Until we meet.</h2>
+            <div class="countdown-timer" role="timer" aria-label="Time remaining until the event">
+              <div><strong data-countdown-unit="days">00</strong><span>Days</span></div>
+              <div><strong data-countdown-unit="hours">00</strong><span>Hours</span></div>
+              <div><strong data-countdown-unit="minutes">00</strong><span>Minutes</span></div>
+              <div><strong data-countdown-unit="seconds">00</strong><span>Seconds</span></div>
+            </div>
+            <p class="celebration-dismiss-countdown" data-celebration-dismiss-countdown hidden>
+              Celebration closes in <time data-celebration-dismiss-timer>15:00</time>
+            </p>
+            <p class="countdown-note">17 October 2026 · 9:00 AM · The Indian High School</p>
           </div>
         </section>
 
@@ -171,9 +179,9 @@
               <div class="agenda-row agenda-row-lunch"><time>12:40 <span>–</span> 1:30</time><span>Lunch</span></div>
               <div class="agenda-row"><time>1:30 <span>–</span> 2:00</time><span>Keynote Speaker</span></div>
               <div class="agenda-row"><time>2:00 <span>–</span> 2:30</time><span>Creative Expression Session</span></div>
-              <div class="agenda-row"><time>2:30 <span>–</span> 3:00</time><span>Photo Session</span></div>
+              <div class="agenda-row"><time>2:30 <span>–</span> 3:00</time><span>Photo Sessions</span></div>
               <div class="agenda-row agenda-row-highlight"><time>3:00 <span>–</span> 4:30</time><span>Baraza Session 2</span></div>
-              <div class="agenda-row"><time>4:30 <span>–</span> 5:30</time><span>Team Dance &amp; Closing Ceremony</span></div>
+              <div class="agenda-row"><time>4:30 <span>–</span> 5:30</time><span>Team Dance</span></div>
               <div class="agenda-row agenda-row-final"><time>5:45</time><span>Dispersal</span></div>
             </div>
             <div class="agenda-list" id="junior-agenda" role="tabpanel" aria-labelledby="junior-tab" data-agenda-panel="junior" hidden>
@@ -192,12 +200,29 @@
           </div>
         </section>
 
+        <section class="section-block" id="speakers">
+          <div class="section-heading"><div><p class="eyebrow">People to meet</p><h2>Meet the <em>speakers.</em></h2></div><span class="speakers-note"><i class="fa-solid fa-star" aria-hidden="true"></i> Meaningful voices</span></div>
+          <div class="people-row">
+            <a class="person-card person-card-featured" href="https://www.linkedin.com/in/punit-mk-vasu-180264172/" target="_blank" rel="noopener noreferrer">
+              <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/punitceo.jpeg" alt="Punit MK Vasu" /></div>
+              <div class="person-details"><strong>Punit MK Vasu</strong><span>Head of School</span><p>Leading The Indian High Group of Schools with a focus on inclusive, innovative and meaningful education.</p></div>
+              <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
+            </a>
+            <a class="person-card person-card-featured" href="https://www.linkedin.com/in/dr-abhilasha-chaube-352a10a2/" target="_blank" rel="noopener noreferrer">
+              <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/abhilasha.jpeg" alt="Dr. Abhilasha Chaube" /></div>
+              <div class="person-details"><strong>Dr. Abhilasha Chaube</strong><span>Round Square Representative</span><p>Creating engaging student experiences through Round Square initiatives, MUN and multicultural programmes.</p></div>
+              <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
+            </a>
+          </div>
+        </section>
+
         <section class="quick-links">
-          <button class="quick-link-button campus-button" type="button"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i><span><strong>Explore campus</strong><small>Find your way around</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
           <a class="sign-out-link" href="signin.html"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span><strong>Sign out</strong><small>Return to the sign-in page</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
         </section>
 
-        <footer class="dashboard-footer"><span>THE INDIAN HIGH SCHOOL, DUBAI</span></footer>
+        <footer class="dashboard-footer">
+          <span>THE INDIAN HIGH SCHOOL, DUBAI</span>
+        </footer>
       </div>
       <div class="notification-panel" id="notification-panel" aria-hidden="true">
         <div class="notification-card" role="dialog" aria-modal="false" aria-labelledby="notification-title">
@@ -230,16 +255,8 @@
           <p class="reminder-status" role="status" aria-live="polite"></p>
         </div>
       </div>
-      <div class="coming-soon-overlay" aria-hidden="true">
-        <div class="coming-soon-card" role="status">
-          <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
-          <strong>COMING SOON</strong>
-          <span>Campus maps are being prepared.</span>
-        </div>
-      </div>
     </main>
     <iframe class="happiness-compass-frame" src="Round_Square_FAQ.html?embed=dashboard" title="Happiness Compass FAQ" loading="eager"></iframe>
-    <script src="countdown.js"></script>
     <script type="module" src="dashboard.js"></script>
     <script>
       (() => {

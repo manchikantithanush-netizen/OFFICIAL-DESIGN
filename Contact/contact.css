@@ -120,3 +120,13 @@ details p { max-width: 520px; margin: -.35rem 0 1.35rem; color: var(--muted-blue
   summary span, .primary-card, .faq-section { transition: none; }
   .primary-card:hover, .faq-section:hover { transform: none; }
 }
+
+html.dashboard-embedded,
+body.dashboard-embedded { width: 100%; min-width: 0; min-height: 0; overflow: hidden; background: transparent; scrollbar-width: none; }
+html.dashboard-embedded::-webkit-scrollbar,
+body.dashboard-embedded::-webkit-scrollbar { display: none; }
+body.dashboard-embedded .contact-page { width: 100%; min-height: 0; overflow: visible; background: transparent; }
+body.dashboard-embedded .contact-header,
+body.dashboard-embedded .contact-footer { display: none; }
+body.dashboard-embedded .contact-main { padding-top: 2rem; }
+body.dashboard-embedded .contact-main { width: min(calc(100% - 2rem), var(--content-width)); max-width: 100%; }

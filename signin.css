@@ -63,7 +63,7 @@ h1, .eyebrow, .school-name, .submit-button { font-family: "Plus Jakarta Sans", "
 .roundsquare-logo { border: 1px solid var(--warm-gold); border-radius: 2px; }
 .logo-divider { width: 1px; height: 4rem; background: rgba(244, 235, 221, .7); }
 .school-name { margin: 0 0 1.25rem; font-size: .78rem; letter-spacing: .27em; }
-.event-heading { display: block; width: min(100%, 500px); height: auto; max-height: 300px; object-fit: contain; margin: 0 auto; }
+.event-heading { display: block; width: min(100%, 300px); height: auto; max-height: 300px; object-fit: contain; margin: 0 auto; }
 .event-tagline { margin: .4rem 0 1.4rem; color: var(--warm-ivory); font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.15rem, 2vw, 1.55rem); }
 .welcome-message { width: min(100%, 450px); color: var(--warm-ivory); font-size: .85rem; line-height: 1.55; }
 .welcome-message strong { display: block; margin-bottom: .35rem; font-size: .95rem; }
