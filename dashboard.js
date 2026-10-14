@@ -381,16 +381,26 @@ const showBarazaView = (view) => {
 
 const displayLeader = (name) => name || "To be confirmed";
 const renderProfile = (record) => {
-  const ribbonColor = record.ribbon.toLowerCase().replaceAll(" ", "-");
+  const ribbonColor = record.ribbon?.toLowerCase().replaceAll(" ", "-") || "none";
   profileView.dataset.ribbon = ribbonColor;
   document.querySelector("#profile-title").textContent = record.happiness;
   document.querySelector("#profile-language").textContent = record.language;
   document.querySelector("#profile-level").textContent = record.level;
-  document.querySelector("#profile-ribbon-name").textContent = record.ribbon;
-  document.querySelector("#profile-ribbon").dataset.ribbon = ribbonColor;
+  const profileRibbon = document.querySelector("#profile-ribbon");
+  profileRibbon.hidden = !record.ribbon;
+  if (record.ribbon) {
+    document.querySelector("#profile-ribbon-name").textContent = record.ribbon;
+    profileRibbon.dataset.ribbon = ribbonColor;
+  } else {
+    delete profileRibbon.dataset.ribbon;
+    document.querySelector("#profile-ribbon-name").textContent = "";
+  }
   document.querySelector("#profile-head").textContent = displayLeader(record.head);
-  document.querySelector("#profile-co-one").textContent = displayLeader(record.coLeaders[0]);
-  document.querySelector("#profile-co-two").textContent = displayLeader(record.coLeaders[1]);
+  [record.coLeaders[0], record.coLeaders[1]].forEach((name, index) => {
+    const leader = document.querySelector(`#profile-co-${index === 0 ? "one" : "two"}`);
+    leader.textContent = displayLeader(name);
+    leader.parentElement.hidden = !name;
+  });
 };
 
 const openProfile = (record) => {
@@ -403,7 +413,7 @@ if (directoryGrid) {
     const card = document.createElement("button");
     card.type = "button";
     card.className = "baraza-directory-card";
-    card.dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
+    card.dataset.ribbon = record.ribbon?.toLowerCase().replaceAll(" ", "-") || "none";
     const number = document.createElement("span");
     number.className = "directory-number";
     number.textContent = String(record.id).padStart(2, "0");
@@ -411,18 +421,22 @@ if (directoryGrid) {
     happiness.textContent = record.happiness;
     const details = document.createElement("small");
     details.textContent = `${record.language} · ${record.level}`;
-    const ribbon = document.createElement("span");
-    ribbon.className = "directory-ribbon";
-    ribbon.dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
-    const ribbonSwatch = document.createElement("i");
-    ribbonSwatch.setAttribute("aria-hidden", "true");
-    const ribbonName = document.createElement("span");
-    ribbonName.textContent = `${record.ribbon} Ribbon`;
-    ribbon.append(ribbonSwatch, ribbonName);
     const head = document.createElement("small");
     head.className = "directory-head";
     head.textContent = `Head: ${displayLeader(record.head)}`;
-    card.append(number, happiness, details, ribbon, head);
+    const cardContent = [number, happiness, details];
+    if (record.ribbon) {
+      const ribbon = document.createElement("span");
+      ribbon.className = "directory-ribbon";
+      ribbon.dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
+      const ribbonSwatch = document.createElement("i");
+      ribbonSwatch.setAttribute("aria-hidden", "true");
+      const ribbonName = document.createElement("span");
+      ribbonName.textContent = `${record.ribbon} Ribbon`;
+      ribbon.append(ribbonSwatch, ribbonName);
+      cardContent.push(ribbon);
+    }
+    card.append(...cardContent, head);
     card.addEventListener("click", () => openProfile(record));
     return card;
   }));

@@ -1354,23 +1354,38 @@
       !dialAnswerText || !dialAnswerDetails || !dialAnswerActions || !peopleGrid) return;
 
   const BARAZAS = [
-    { word: "Furaha", language: "Swahili", level: "Junior (5–7)", ribbon: "Gold", head: "Bhavya Sharma", co: ["Krithika Krishna", "Priyal Tyagi"] },
-    { word: "Felicità", language: "Italian", level: "Junior (5–7)", ribbon: "White", head: "Khwaish Panjabi", co: ["Niranjana Anusree", "Aanchal Nikesh"] },
-    { word: "Sa'ada (سعادة)", language: "Arabic", level: "Junior (5–7)", ribbon: "Grey", head: "Mayukha Preman", co: ["Neerad Krishna", "Shaanvi Himanshu"] },
-    { word: "Sukham (सुखम्)", language: "Sanskrit", level: "Junior (5–7)", ribbon: "Green", head: "Yogit Myneni", co: ["Anya Anoop", "Pravan Praseen"] },
-    { word: "Gaudium", language: "Latin", level: "Junior (5–7)", ribbon: "Yellow", head: "Vadani Bhingarkhar", co: ["Kasinath", "Aarav Pratap"] },
-    { word: "Khushi (खुशी)", language: "Hindi", level: "Junior (5–7)", ribbon: "Blue", head: "Ayaan Mustafa Ali", co: ["Emilia Susan", "Zaid Khan"] },
-    { word: "Glück", language: "German", level: "Intermediate (8–9)", ribbon: "Orange", head: "Mahadevan Surya", co: ["Aarav Garg", "Ananya Rane"] },
-    { word: "Bonheur", language: "French", level: "Intermediate (8–9)", ribbon: "Black", head: "Khadeeja Sheza", co: ["Abhinit Abhilash", "Stefania Susan Mathew"] },
-    { word: "Schastye (Счастье)", language: "Russian", level: "Intermediate (8–9)", ribbon: "Dark Blue", head: "Tiana Paul", co: ["Manit Jatwani", "Sarah Hussain"] },
-    { word: "Shiawase (幸せ)", language: "Japanese", level: "Intermediate (8–9)", ribbon: "Red", head: "Ishanshi Vegad", co: ["Rohan Reddy", "Harshita Kaithwas"] },
-    { word: "Felicidad", language: "Spanish", level: "Intermediate (8–9)", ribbon: "Light Green", head: "Hyfa Maryam", co: ["Aditya Saini", "Kashish Wadhwani"] },
-    { word: "Eftychia (Ευτυχία)", language: "Greek", level: "Intermediate (8–9)", ribbon: "Brown", head: "Vaishnavi Vinod", co: ["Abi Tameem Suratwala", "Diya Deepak"] },
-    { word: "Xingfu (幸福)", language: "Mandarin Chinese", level: "Senior (10–12)", ribbon: "Purple", head: "Arnav Payyaram", co: ["Rudra Jasnani"] },
-    { word: "Saya", language: "Tagalog", level: "Senior (10–12)", ribbon: "Maroon", head: "Vamika Handa", co: ["Jovino Joji", "Hammad Raza"] },
-    { word: "Koa", language: "Maori", level: "Senior (10–12)", ribbon: "Silver", head: "Ram Prasad", co: ["Mishti Shetty", "Kashish Wadhwani"] },
-    { word: "Felicidade", language: "Portuguese", level: "Senior (10–12)", ribbon: "Turquoise", head: "Arnav Burade", co: ["Irene Andrews", "Arya Suresh"] }
+    { word: "Furaha", language: "Swahili", level: "Junior (5–7)", ribbon: "Gold", head: "Bhavya Sharma 10G", co: ["Krithika Krishna 9E", "Aanchal Nikesh"] },
+    { word: "Felicità", language: "Italian", level: "Junior (5–7)", ribbon: "White", head: "Priyal Tyagi 11 SCI C", co: ["Stefania Susan Mathew 9C"] },
+    { word: "Sa'ada (سعادة)", language: "Arabic", level: "Junior (5–7)", ribbon: "Grey", head: "Mayukha Preman 12 SCI A", co: ["Neerad Krishna 9", "Kashinanth"] },
+    { word: "Sukham (सुखम्)", language: "Sanskrit", level: "Junior (5–7)", ribbon: "Green", head: "Yogit Myneni 10", co: ["Anya Anoop 10C"] },
+    { word: "Gaudium", language: "Latin", level: "Junior (5–7)", ribbon: "Yellow", head: "Kashish Wadhwani 12 COM C", co: ["Khwaish Panjabi 11/12 Com D", "Aarav Pratap 9"] },
+    { word: "Khushi (खुशी)", language: "Hindi", level: "Junior (5–7)", ribbon: "Blue", head: "Vedanth Oolath", co: ["Jashna Bhatia", "Sreelakshmi"] },
+    { word: "Glück", language: "German", level: "Intermediate (8–9)", ribbon: "Orange", head: "Mahadevan Surya 10M", co: ["Aarav Garg 10L", "Rudra Jasnani 12 SCI I"] },
+    { word: "Bonheur", language: "French", level: "Intermediate (8–9)", ribbon: "Black", head: "Khadeeja Sheza 12 COM A", co: ["Niranjana Anusree 9D", "Shaanvi Himanshu"] },
+    { word: "Schastye (Счастье)", language: "Russian", level: "Intermediate (8–9)", ribbon: "Dark Blue", head: "Arnav Burade 11 SCI I", co: ["Irene Andrews 12 SCI E", "Arya Suresh Nair"] },
+    { word: "Shiawase (幸せ)", language: "Japanese", level: "Intermediate (8–9)", ribbon: "Red", head: "Ishanshi Vegad 11 SCI A", co: ["Ananya Rane 11 SCI B", "Vadani"] },
+    { word: "Felicidad", language: "Spanish", level: "Intermediate (8–9)", ribbon: "Light Green", head: "Hyfa Maryam 10C", co: ["Aditya Saini 9M", "Zaid Khan 10J"] },
+    { word: "Geluk", language: "Afrikaans", level: "Intermediate (8–9)", ribbon: null, head: "Ayaan Mustafa Ali 12 SCI K", co: ["Harshita Kaithwas", "Aadiya Pramod"] },
+    { word: "Eftychia (Ευτυχία)", language: "Greek", level: "Intermediate (8–9)", ribbon: "Brown", head: "Vaishnavi Vinod 12 COM C", co: ["Abi Tameem Suratwala", "Emilia Susan 10B"] },
+    { word: "Xingfu (幸福)", language: "Mandarin Chinese", level: "Senior (10–12)", ribbon: "Purple", head: "Arnav Payyaram 12 COM B", co: ["Rohan Reddy", "Diya Deepak"] },
+    { word: "Saya", language: "Tagalog", level: "Senior (10–12)", ribbon: "Maroon", head: "Vamika Handa 10B", co: ["Jovino Joji 11 SCI I", "Abijithrajan.B"] },
+    { word: "Koa", language: "Maori", level: "Senior (10–12)", ribbon: "Silver", head: "Ram Prasad 12 COM F", co: ["Mishti Shetty 12 COM B", "Yug Mehta 12 Com E"] },
+    { word: "Felicidade", language: "Portuguese", level: "Senior (10–12)", ribbon: "Turquoise", head: "Tiana Paul 10C", co: ["Manit Jatwani 12 COM F", "Sarah Hussain 11 SCI D"] }
   ];
+
+  const ribbonLabel = item => item.ribbon ? item.ribbon + " ribbon" : "";
+  const barazaSummary = (item, includeLevel = true) => [
+    item.word,
+    item.language,
+    ...(includeLevel ? [item.level] : []),
+    ribbonLabel(item)
+  ].filter(Boolean).join(" · ");
+  const barazaDescription = item => [
+    item.word + " is listed as the " + item.language + " happiness word for " + item.level + ".",
+    item.ribbon ? "Its ribbon is " + item.ribbon + "." : "",
+    "Head leader: " + item.head + ".",
+    item.co.length ? "Co-Baraza Leader" + (item.co.length > 1 ? "s" : "") + ": " + item.co.join(", ") + "." : ""
+  ].filter(Boolean).join(" ");
 
   const BARAZA_LEADERS = [
     { name: "King Constantine", grades: "Grades 5–6" },
@@ -1453,7 +1468,7 @@
   ];
 
   const discoveries = BARAZAS.map(item => ({
-    text: item.word + " · " + item.language + " · " + item.ribbon + " ribbon",
+    text: [item.word, item.language, ribbonLabel(item)].filter(Boolean).join(" · "),
     action: item.word
   }));
   let shownDiscoveries = new Set();
@@ -1527,13 +1542,13 @@
 
   function barazaCard(item) {
     addResultCard(item.word, item.language + " · " + item.level, [
-      ["Ribbon", item.ribbon],
+      ...(item.ribbon ? [["Ribbon", item.ribbon]] : []),
       ["Head Baraza Leader", item.head],
-      ["Co-Baraza Leader" + (item.co.length > 1 ? "s" : ""), item.co.join(", ")]
+      ...(item.co.length ? [["Co-Baraza Leader" + (item.co.length > 1 ? "s" : ""), item.co.join(", ")]] : [])
     ], [{
       label: "Open Baraza",
       run: () => {
-        addMessage(item.word + " is listed as the " + item.language + " happiness word for " + item.level + ". Its ribbon is " + item.ribbon + ". Head leader: " + item.head + ". Co-leader" + (item.co.length > 1 ? "s" : "") + ": " + item.co.join(", ") + ".", "bot");
+        addMessage(barazaDescription(item), "bot");
       }
     }]);
   }
@@ -1582,16 +1597,16 @@
 
       const details = [];
       if (result.baraza) {
-        details.push(result.baraza.word + " · " + result.baraza.language + " · " + result.baraza.level + " · " + result.baraza.ribbon + " ribbon");
+        details.push(barazaSummary(result.baraza));
         details.push("Head Baraza Leader: " + result.baraza.head);
-        details.push("Co-Baraza Leader" + (result.baraza.co.length > 1 ? "s" : "") + ": " + result.baraza.co.join(", "));
+        if (result.baraza.co.length) details.push("Co-Baraza Leader" + (result.baraza.co.length > 1 ? "s" : "") + ": " + result.baraza.co.join(", "));
         addDialAction("Open Baraza", () => {
           setChatMode();
           appendResult(result);
         });
       }
       if (result.barazas) {
-        details.push(result.barazas.map(item => item.word + " · " + item.language + " · " + item.level + " · " + item.ribbon + " ribbon").join("\n"));
+        details.push(result.barazas.map(item => barazaSummary(item)).join("\n"));
         addDialAction("Explore Barazas", () => {
           setChatMode();
           appendResult(result);
@@ -1646,13 +1661,13 @@
       heading.textContent = item.word;
       const subtitle = document.createElement("p");
       subtitle.className = "hc-result-subtitle";
-      subtitle.textContent = item.language + " · " + item.level + " · " + item.ribbon + " ribbon";
+      subtitle.textContent = barazaSummary(item, false);
       const action = document.createElement("button");
       action.type = "button";
       action.className = "hc-action";
       action.textContent = "Open Baraza";
       action.addEventListener("click", () => {
-        addMessage(item.word + " is listed as the " + item.language + " happiness word for " + item.level + ". Its ribbon is " + item.ribbon + ". Head leader: " + item.head + ". Co-leader" + (item.co.length > 1 ? "s" : "") + ": " + item.co.join(", ") + ".", "bot");
+        addMessage(barazaDescription(item), "bot");
       });
       card.append(heading, subtitle, action);
       grid.appendChild(card);
@@ -1686,7 +1701,7 @@
       const asksLeaders = /\b(who|leader|leads|head|co leader|co leaders)\b/.test(q);
       if (asksLeaders) {
         return {
-          answer: item.word + " — Head Baraza Leader: " + item.head + ". Co-Baraza Leader" + (item.co.length > 1 ? "s" : "") + ": " + item.co.join(", ") + ".",
+          answer: item.word + " — Head Baraza Leader: " + item.head + (item.co.length ? ". Co-Baraza Leader" + (item.co.length > 1 ? "s" : "") + ": " + item.co.join(", ") : "") + ".",
           baraza: item
         };
       }
@@ -1696,7 +1711,7 @@
           baraza: item
         };
       }
-      return { answer: item.word + " · " + item.language + " · " + item.level + " · " + item.ribbon + " ribbon.", baraza: item };
+      return { answer: barazaSummary(item) + ".", baraza: item };
     }
 
     if (/\b(junior|intermediate|senior)\b/.test(q) && /\b(baraza|barazas|group|level)\b/.test(q)) {
@@ -1707,7 +1722,7 @@
     if (languageMatches.length && /\b(baraza|barazas|group|show|explore|list)\b/.test(q)) {
       return { answer: "Barazas listed for that language:", barazas: languageMatches };
     }
-    if (/\b(all|explore|show|list|every|15)\b/.test(q) &&
+    if (/\b(all|explore|show|list|every|17)\b/.test(q) &&
         /\b(baraza|barazas|culture|happiness words|words)\b/.test(q) &&
         !/\bgrade\s*(5|6|7|8|9|10|11|12)\b/.test(q)) {
       return { answer: "Here are all the Barazas listed in the supplied event records.", barazas: BARAZAS };

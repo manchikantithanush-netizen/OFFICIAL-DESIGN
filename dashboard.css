@@ -100,6 +100,7 @@ button { font: inherit; }
 .baraza-directory-card[data-ribbon="maroon"]::before { background: #762d42; }
 .baraza-directory-card[data-ribbon="silver"]::before { background: #b9c0c9; }
 .baraza-directory-card[data-ribbon="turquoise"]::before { background: #4db7b4; }
+.baraza-directory-card[data-ribbon="none"]::before { background: transparent; }
 .directory-number { color: var(--warm-gold); font-size: .62rem; font-weight: 800; letter-spacing: .12em; }
 .baraza-directory-card strong { margin-top: 1.3rem; font-family: Georgia, serif; font-size: 1.35rem; font-weight: 400; }
 .baraza-directory-card small { margin-top: .4rem; color: var(--muted-blue-grey); font-size: .65rem; }
@@ -114,6 +115,7 @@ button { font: inherit; }
 .profile-ribbon::before { width: 3.5rem; height: 1.15rem; content: ""; background: var(--warm-gold); border-radius: 4px; box-shadow: 0 4px 12px rgba(0, 0, 0, .2); }
 .baraza-profile-view { --profile-accent: var(--warm-gold); --profile-ink: var(--midnight-navy); padding: clamp(1.2rem, 4vw, 2.5rem); background: radial-gradient(ellipse at 0 0, color-mix(in srgb, var(--profile-accent) 28%, transparent), transparent 34rem), linear-gradient(145deg, color-mix(in srgb, var(--profile-accent) 13%, var(--midnight-navy)), var(--midnight-navy) 72%); border: 1px solid color-mix(in srgb, var(--profile-accent) 42%, transparent); border-radius: 28px; }
 .baraza-profile-view[data-ribbon="gold"] { --profile-accent: #f2be55; }
+.baraza-profile-view[data-ribbon="none"] { --profile-accent: var(--muted-blue-grey); }
 .baraza-profile-view[data-ribbon="white"] { --profile-accent: #fff; }
 .baraza-profile-view[data-ribbon="grey"] { --profile-accent: #8b929c; }
 .baraza-profile-view[data-ribbon="green"] { --profile-accent: #4d9b68; }
@@ -142,6 +144,7 @@ button { font: inherit; }
 .baraza-profile-view .profile-meta-grid article { border-top: 2px solid var(--profile-accent); }
 .baraza-profile-view .leadership-panel { border-top: 2px solid var(--profile-accent); }
 .baraza-profile-view .profile-meta-grid span, .baraza-profile-view .leader-grid span { color: color-mix(in srgb, var(--profile-accent) 68%, var(--warm-ivory)); }
+.profile-ribbon[hidden], .leader-grid div[hidden] { display: none; }
 .profile-meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem; }
 .profile-meta-grid article, .leadership-panel { padding: 1.4rem; background: rgba(20, 41, 68, .55); border: 1px solid var(--line); border-radius: 18px; }
 .profile-meta-grid strong, .profile-meta-grid small { display: block; }
