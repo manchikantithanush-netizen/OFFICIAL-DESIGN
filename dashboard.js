@@ -367,6 +367,7 @@ const showBarazaView = (view) => {
     settingsView.hidden = true;
   }
   dashboardShell?.classList.toggle("is-baraza-view", view === "directory" || view === "profile");
+  document.body.classList.toggle("is-baraza-view", view === "directory" || view === "profile");
   dashboardShell?.classList.toggle("is-site-view", view === "about" || view === "contact");
   if (dashboardSiteView) dashboardSiteView.hidden = view !== "about" && view !== "contact";
   barazaNavLink?.classList.toggle("is-active", view === "directory" || view === "profile");
@@ -380,11 +381,13 @@ const showBarazaView = (view) => {
 
 const displayLeader = (name) => name || "To be confirmed";
 const renderProfile = (record) => {
+  const ribbonColor = record.ribbon.toLowerCase().replaceAll(" ", "-");
+  profileView.dataset.ribbon = ribbonColor;
   document.querySelector("#profile-title").textContent = record.happiness;
   document.querySelector("#profile-language").textContent = record.language;
   document.querySelector("#profile-level").textContent = record.level;
   document.querySelector("#profile-ribbon-name").textContent = record.ribbon;
-  document.querySelector("#profile-ribbon").dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
+  document.querySelector("#profile-ribbon").dataset.ribbon = ribbonColor;
   document.querySelector("#profile-head").textContent = displayLeader(record.head);
   document.querySelector("#profile-co-one").textContent = displayLeader(record.coLeaders[0]);
   document.querySelector("#profile-co-two").textContent = displayLeader(record.coLeaders[1]);
@@ -400,6 +403,7 @@ if (directoryGrid) {
     const card = document.createElement("button");
     card.type = "button";
     card.className = "baraza-directory-card";
+    card.dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
     const number = document.createElement("span");
     number.className = "directory-number";
     number.textContent = String(record.id).padStart(2, "0");
