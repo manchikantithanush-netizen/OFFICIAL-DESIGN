@@ -14,10 +14,10 @@ if (verificationStatus && statusCard) {
     statusTitle.textContent = "Verifying your details";
   };
 
-  document.querySelector("#signin-form")?.addEventListener("barazaLocalPlannerOpening", () => {
+  document.querySelector("#signin-form")?.addEventListener("barazaLocalPlannerOpening", (event) => {
     statusCard.classList.remove("is-verified");
-    statusTitle.textContent = "Opening local planner";
-    statusCopy.textContent = "This planner has no secure sign-in and saves only in this browser.";
+    statusTitle.textContent = `Opening ${event.detail?.happiness || "Baraza"} dashboard`;
+    statusCopy.textContent = "Access codes are checked in this browser only and are not secure authentication. Plans stay on this device.";
     verificationStatus.classList.add("is-visible");
     verificationStatus.setAttribute("aria-hidden", "false");
     document.body.classList.add("is-verifying");
@@ -51,10 +51,10 @@ if (verificationStatus && statusCard) {
   document.querySelector("#signin-form")?.addEventListener("barazaLocalPlannerReady", () => {
     showVerification(
       "dashboard.html?view=baraza-leader",
-      "Opening the local-only Baraza planner.",
-      "Local planner ready",
-      "Anyone can access this planner on this device. Plans are not synced.",
-      "Opening local planner",
+      "Opening your Baraza's browser-local dashboard.",
+      "Baraza dashboard ready",
+      "Your plan is stored only on this device.",
+      "Opening Baraza dashboard",
     );
   });
 

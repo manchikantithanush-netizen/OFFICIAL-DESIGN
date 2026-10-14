@@ -1,3 +1,5 @@
+import { barazaRecords } from "./baraza-data.js";
+
 const signInForm = document.querySelector("#signin-form");
 
 if (signInForm) {
@@ -19,18 +21,16 @@ if (signInForm) {
 
   const updateBarazaSignInFields = () => {
     const isBarazaLeader = nameInput.value.trim().toLocaleLowerCase("en") === "rsbaraza";
-    grLabel.hidden = isBarazaLeader;
-    grInputWrap.hidden = isBarazaLeader;
-    grHint.hidden = isBarazaLeader;
-    grError.hidden = isBarazaLeader;
+    grLabel.firstChild.textContent = isBarazaLeader ? "BARAZA ACCESS CODE " : "GR NUMBER ";
+    grInputWrap.hidden = false;
+    grHint.textContent = isBarazaLeader
+      ? "Enter your assigned 5-digit Baraza access code"
+      : "Students: enter your GR number";
     localPlannerHint.hidden = !isBarazaLeader;
-    if (isBarazaLeader) {
-      grInput.value = "";
-      grInput.removeAttribute("aria-invalid");
-      grError.textContent = "";
-    }
+    grInput.setAttribute("aria-label", isBarazaLeader ? "Baraza access code" : "GR number");
+    passwordToggle?.setAttribute("aria-label", `Show ${isBarazaLeader ? "Baraza access code" : "GR number"}`);
     signInForm.querySelector(".submit-button").innerHTML = isBarazaLeader
-      ? 'Open local planner <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>'
+      ? 'Enter Baraza dashboard <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>'
       : 'Continue to event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
   };
 
@@ -51,7 +51,7 @@ if (signInForm) {
     passwordToggle.setAttribute("aria-pressed", String(showValue));
     passwordToggle.setAttribute(
       "aria-label",
-      `${showValue ? "Hide" : "Show"} GR number`,
+      `${showValue ? "Hide" : "Show"} ${grInput.getAttribute("aria-label") || "GR number"}`,
     );
     passwordToggle.innerHTML = `<i class="fa-regular fa-eye${showValue ? "-slash" : ""}" aria-hidden="true"></i>`;
   });
@@ -72,10 +72,29 @@ if (signInForm) {
     status.textContent = "";
 
     if (isBarazaLeader) {
+      const matchedRecord = barazaRecords.find(({ accessCode }) => accessCode === grNumber);
+      if (!matchedRecord) {
+        grError.textContent = "That access code is not recognized. Check it and try again.";
+        grInput.setAttribute("aria-invalid", "true");
+        status.textContent = "Enter the 5-digit access code assigned to your Baraza.";
+        return;
+      }
+
+      try {
+        window.sessionStorage.setItem("roundsquare-local-planner-baraza", String(matchedRecord.id));
+      } catch (error) {
+        console.error("Unable to store the selected Baraza for this session.", error);
+        status.textContent = "This browser couldn't open the Baraza dashboard. Check its storage settings.";
+        return;
+      }
       submitButton.disabled = true;
       submitButton.setAttribute("aria-busy", "true");
-      signInForm.dispatchEvent(new CustomEvent("barazaLocalPlannerOpening"));
-      signInForm.dispatchEvent(new CustomEvent("barazaLocalPlannerReady"));
+      signInForm.dispatchEvent(new CustomEvent("barazaLocalPlannerOpening", {
+        detail: { barazaId: matchedRecord.id, happiness: matchedRecord.happiness },
+      }));
+      signInForm.dispatchEvent(new CustomEvent("barazaLocalPlannerReady", {
+        detail: { barazaId: matchedRecord.id },
+      }));
       submitButton.disabled = false;
       submitButton.removeAttribute("aria-busy");
       return;

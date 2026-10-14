@@ -1,5 +1,3 @@
-import { barazaRecords } from "./baraza-data.js";
-
 const discussionSection = document.querySelector(".discussion-planner-view");
 const editor = document.querySelector("[data-discussion-editor]");
 const liveView = document.querySelector("[data-discussion-live]");
@@ -638,31 +636,5 @@ export const initializeDiscussionPlanner = (record) => {
   });
   form.addEventListener("input", updateTotals);
   form.addEventListener("change", updateTotals);
-  document.addEventListener("localBarazaChanged", async (event) => {
-    const nextRecord = event.detail?.record;
-    if (!barazaRecords.some(({ id }) => id === nextRecord?.id)) return;
-    try {
-      await saveTimerBeforeLeaving();
-      window.clearInterval(timerInterval);
-      timerState = null;
-      currentDiscussion = null;
-      currentRecord = nextRecord;
-      document.querySelector("[data-baraza-name]").textContent = nextRecord.happiness;
-      const savedDiscussion = readLocalDiscussion();
-      currentDiscussion = savedDiscussion;
-      timerState = savedDiscussion?.timer_state || null;
-      fillForm(savedDiscussion);
-      setPlannerView("editor");
-      setStatus(savedDiscussion?.status || "Draft");
-      setPlannerMessage(savedDiscussion
-        ? `Loaded this browser's saved plan for ${nextRecord.happiness}.`
-        : `No local plan is saved for ${nextRecord.happiness} yet.`);
-      if (savedDiscussion?.status === "In Progress" && timerState) {
-        await openTimer(savedDiscussion);
-      }
-    } catch (error) {
-      setPlannerMessage(error.message, true);
-    }
-  });
   updateTotals();
 };

@@ -66,7 +66,6 @@ const gradeConfig = {
   "10-12": { baraza: "Kurt Hahn", schedule: "intermediate", scheduleLabel: "Senior", label: "Grades 10–12 · Senior" },
 };
 const studentConfig = gradeConfig[gradeGroup] || gradeConfig["5-7"];
-const delegateAlert = document.querySelector("[data-delegate-deadline]");
 const directoryView = document.querySelector(".baraza-directory-view");
 const profileView = document.querySelector(".baraza-profile-view");
 const discussionPlannerView = document.querySelector(".discussion-planner-view");
@@ -309,43 +308,6 @@ if (welcomeCarouselSlides.length > 1 && !window.matchMedia("(prefers-reduced-mot
 
     activateNextSlide();
   }, 5000);
-}
-
-if (delegateAlert) {
-  const deadlineTimestamp = Date.parse(delegateAlert.dataset.delegateDeadline || "");
-  const countdown = delegateAlert.querySelector("[data-delegate-countdown]");
-
-  if (!Number.isFinite(deadlineTimestamp) || !countdown) {
-    console.error("The delegate application alert is missing a valid deadline or countdown element.");
-    delegateAlert.hidden = true;
-  } else {
-    let deadlineTimer;
-    const updateDelegateDeadline = () => {
-      const remainingSeconds = Math.ceil((deadlineTimestamp - Date.now()) / 1000);
-
-      if (remainingSeconds <= 0) {
-        delegateAlert.hidden = true;
-        window.clearInterval(deadlineTimer);
-        return;
-      }
-
-      const days = Math.floor(remainingSeconds / 86400);
-      const hours = Math.floor((remainingSeconds % 86400) / 3600);
-      const minutes = Math.floor((remainingSeconds % 3600) / 60);
-      const seconds = remainingSeconds % 60;
-      const pad = (value) => String(value).padStart(2, "0");
-      countdown.textContent = days > 0
-        ? `${days}d ${pad(hours)}h ${pad(minutes)}m`
-        : `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
-      countdown.setAttribute(
-        "aria-label",
-        `${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds remaining`,
-      );
-    };
-
-    updateDelegateDeadline();
-    if (!delegateAlert.hidden) deadlineTimer = window.setInterval(updateDelegateDeadline, 1000);
-  }
 }
 
 const setActiveLink = (id) => {
