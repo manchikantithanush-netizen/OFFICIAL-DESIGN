@@ -419,7 +419,6 @@ if (directoryGrid) {
     const card = document.createElement("button");
     card.type = "button";
     card.className = "baraza-directory-card";
-    card.dataset.ribbon = record.ribbon?.toLowerCase().replaceAll(" ", "-") || "none";
     const number = document.createElement("span");
     number.className = "directory-number";
     number.textContent = String(record.id).padStart(2, "0");
@@ -434,12 +433,7 @@ if (directoryGrid) {
     if (record.ribbon) {
       const ribbon = document.createElement("span");
       ribbon.className = "directory-ribbon";
-      ribbon.dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
-      const ribbonSwatch = document.createElement("i");
-      ribbonSwatch.setAttribute("aria-hidden", "true");
-      const ribbonName = document.createElement("span");
-      ribbonName.textContent = `${record.ribbon} Ribbon`;
-      ribbon.append(ribbonSwatch, ribbonName);
+      ribbon.textContent = `${record.ribbon} Ribbon`;
       cardContent.push(ribbon);
     }
     card.append(...cardContent, head);
