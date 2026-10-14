@@ -1,6 +1,6 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import { supabaseAnonKey, supabaseUrl } from "./supabase-config.js";
 
-export const supabase = createClient(
-  "https://hvhpqvoizqsslbqwdymw.supabase.co",
-  "sb_publishable_ZplhWdVDd-kKEL-tBv-fFA_9Ytfgndt",
-);
+export { supabaseAnonKey, supabaseUrl };
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);

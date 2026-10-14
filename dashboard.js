@@ -1,5 +1,11 @@
-import { supabase } from "./supabase-client.js";
-import { barazaRecords } from "./baraza-data.js";
+if (new URLSearchParams(window.location.search).get("view") === "baraza-leader") {
+  const { initializeBarazaLeaderDashboard } = await import("./baraza-leader-dashboard.js");
+  await initializeBarazaLeaderDashboard();
+} else {
+  const [{ supabase }, { barazaRecords }] = await Promise.all([
+    import("./supabase-client.js"),
+    import("./baraza-data.js"),
+  ]);
 
 const dashboardLinks = document.querySelectorAll('.dashboard-nav a[href^="#"]:not([data-dashboard-page])');
 const dashboardPageLinks = document.querySelectorAll("[data-dashboard-page]");
@@ -909,3 +915,4 @@ signOutLink?.addEventListener("click", () => {
   window.sessionStorage.removeItem("roundsquare-admin-authorized");
   window.location.href = "signin.html";
 });
+}

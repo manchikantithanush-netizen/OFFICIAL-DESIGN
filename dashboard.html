@@ -25,6 +25,7 @@
           </a>
           <div class="header-actions">
             <button class="icon-button notification-button" type="button" aria-label="View notifications" aria-expanded="false" aria-controls="notification-panel"><i class="fa-regular fa-bell" aria-hidden="true"></i><span class="notification-badge" aria-label="0 unread notifications" hidden>0</span></button>
+            <a class="leader-signout-link" href="signin.html"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Sign out</a>
           </div>
         </header>
 
@@ -68,6 +69,7 @@
 
         <section class="baraza-profile-view" aria-labelledby="profile-title" hidden>
           <div class="view-heading">
+            <p class="leader-dashboard-welcome" data-leader-welcome hidden></p>
             <button class="view-back-button" type="button" data-open-baraza-directory><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Baraza directory</button>
             <p class="eyebrow">Baraza profile</p>
             <h1 id="profile-title"></h1>
@@ -87,6 +89,13 @@
               <div><span>Co-Baraza Leader</span><strong id="profile-co-two"></strong></div>
             </div>
           </section>
+        </section>
+
+        <section class="leader-dashboard-status" data-leader-dashboard-status role="status" aria-live="polite" hidden>
+          <p class="eyebrow">Baraza access</p>
+          <h1>Unable to load your dashboard</h1>
+          <p data-leader-dashboard-status-message></p>
+          <a href="signin.html">Return to sign in</a>
         </section>
 
         <section class="welcome-section" id="home">

@@ -6,6 +6,27 @@ const currentStudentNameKey = "roundsquare-current-student-name";
 const registrationKey = "roundsquare-student-registered";
 
 if (verificationStatus && statusCard) {
+  const showVerification = (destination, copy) => {
+    statusCopy.textContent = copy;
+    verificationStatus.classList.add("is-visible");
+    verificationStatus.setAttribute("aria-hidden", "false");
+    document.body.classList.add("is-verifying");
+
+    window.setTimeout(() => {
+      statusCard.classList.add("is-verified");
+      statusTitle.textContent = "Details verified";
+      statusCopy.textContent = "Your event access is ready.";
+
+      window.setTimeout(() => {
+        window.location.href = destination;
+      }, 900);
+    }, 1000);
+  };
+
+  document.querySelector("#signin-form")?.addEventListener("barazaLeaderSignInReady", () => {
+    showVerification("dashboard.html?view=baraza-leader", "Preparing your Baraza dashboard.");
+  });
+
   document.querySelector("#signin-form")?.addEventListener("signInDetailsReady", () => {
     const nameInput = document.querySelector("#student-name");
     const grInput = document.querySelector("#gr-number");
@@ -23,18 +44,6 @@ if (verificationStatus && statusCard) {
     window.localStorage.setItem(currentStudentNameKey, name);
     window.localStorage.setItem(registrationKey, "true");
 
-    verificationStatus.classList.add("is-visible");
-    verificationStatus.setAttribute("aria-hidden", "false");
-    document.body.classList.add("is-verifying");
-
-    window.setTimeout(() => {
-      statusCard.classList.add("is-verified");
-      statusTitle.textContent = "Details verified";
-      statusCopy.textContent = "Your event access is ready.";
-
-      window.setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 900);
-    }, 1000);
+    showVerification("dashboard.html", "Please wait while we prepare your event access.");
   });
 }

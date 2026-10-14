@@ -46,19 +46,22 @@
       <section class="signin-content">
         <div class="signin-card">
           <div class="card-accent" aria-hidden="true"></div>
-          <p class="eyebrow">Student access</p>
+          <p class="eyebrow">Event access</p>
           <h1>Welcome to the <span>experience</span></h1>
-          <p class="form-intro">Enter your school details to access the event.</p>
+          <p class="form-intro">Enter your details to access the event.</p>
 
           <form id="signin-form" novalidate>
-            <label for="student-name">First name <b>*</b></label>
-            <input id="student-name" name="name" type="text" autocomplete="given-name" maxlength="12" placeholder="Enter your first name" pattern="[A-Za-zÀ-ÖØ-öø-ÿ]+(['-][A-Za-zÀ-ÖØ-öø-ÿ]+)*" aria-describedby="student-name-hint" required />
-            <span id="student-name-hint" class="input-hint">First name only · 12 characters maximum</span>
+            <label for="student-name">Full Name <b>*</b></label>
+            <input id="student-name" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Enter your full name" aria-describedby="student-name-hint" required />
+            <span id="student-name-hint" class="input-hint">Baraza leaders: enter rsbaraza · Students: enter your name</span>
             <span class="field-error" data-error-for="student-name"></span>
 
-            <label for="gr-number">GR number <b>*</b></label>
-            <input id="gr-number" class="gr-number-input" name="grNumber" type="text" inputmode="numeric" autocomplete="off" maxlength="5" pattern="[0-9]{1,5}" placeholder="_ _ _ _ _" aria-describedby="gr-number-hint" required />
-            <span id="gr-number-hint" class="input-hint">5 digits maximum</span>
+            <label for="gr-number">GR NUMBER <b>*</b></label>
+            <div class="input-with-action">
+              <input id="gr-number" class="gr-number-input" name="grNumber" type="password" inputmode="numeric" autocomplete="off" maxlength="5" pattern="[0-9]{1,5}" placeholder="_ _ _ _ _" aria-describedby="gr-number-hint" required />
+              <button class="password-toggle" type="button" aria-label="Show GR number or Baraza access code" aria-controls="gr-number" aria-pressed="false"><i class="fa-regular fa-eye" aria-hidden="true"></i></button>
+            </div>
+            <span id="gr-number-hint" class="input-hint">Students: GR number · Baraza leaders: assigned 5-digit access code</span>
             <span class="field-error" data-error-for="gr-number"></span>
 
             <button class="submit-button" type="submit">Continue to event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
@@ -98,7 +101,7 @@
       </div>
 
     </main>
-    <script src="signin.js"></script>
+    <script type="module" src="signin.js"></script>
     <script src="signin-status.js"></script>
   </body>
 </html>
