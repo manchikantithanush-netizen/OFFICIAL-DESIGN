@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="discussion-planner.css" />
     <link rel="icon" type="image/png" href="Images/ihslogo.png" />
   </head>
   <body>
@@ -31,6 +32,8 @@
 
         <nav class="dashboard-nav" aria-label="Dashboard navigation">
           <a class="is-active" href="#home"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Home</span></a>
+          <a class="leader-profile-link" href="#leader-profile"><i class="fa-solid fa-id-card" aria-hidden="true"></i><span>Baraza Profile</span></a>
+          <a class="leader-planner-link" href="#discussion-planner"><i class="fa-solid fa-comments" aria-hidden="true"></i><span>Discussion Planner</span></a>
           <a href="#schedule"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>Schedule</span></a>
           <button class="baraza-nav-link" type="button"><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Baraza</span></button>
           <a href="#about-view" data-dashboard-page="about"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>About</span></a>
@@ -67,7 +70,7 @@
           <div class="baraza-directory-grid" data-baraza-directory></div>
         </section>
 
-        <section class="baraza-profile-view" aria-labelledby="profile-title" hidden>
+        <section class="baraza-profile-view" id="leader-profile" aria-labelledby="profile-title" hidden>
           <div class="view-heading">
             <p class="leader-dashboard-welcome" data-leader-welcome hidden></p>
             <button class="view-back-button" type="button" data-open-baraza-directory><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Baraza directory</button>
@@ -89,6 +92,85 @@
               <div><span>Co-Baraza Leader</span><strong id="profile-co-two"></strong></div>
             </div>
           </section>
+        </section>
+
+        <section class="discussion-planner-view" id="discussion-planner" aria-labelledby="discussion-planner-title" hidden>
+          <div class="planner-heading">
+            <div>
+              <p class="eyebrow">Baraza leader tools</p>
+              <h1 id="discussion-planner-title">Discussion <em>Planner.</em></h1>
+              <p class="planner-intro">Prepare your Baraza conversation and keep each speaker on time.</p>
+            </div>
+            <span class="discussion-status-badge" data-discussion-status>Draft</span>
+          </div>
+          <div class="planner-toolbar">
+            <button class="planner-button planner-button-secondary" type="button" data-create-discussion><i class="fa-solid fa-plus" aria-hidden="true"></i> Create Discussion</button>
+            <button class="planner-button planner-button-secondary" type="button" data-view-discussions><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> View Previous Discussions</button>
+          </div>
+          <p class="planner-status-message" data-planner-status role="status" aria-live="polite"></p>
+
+          <div class="planner-list-panel" data-discussion-list-panel hidden>
+            <div class="planner-section-heading"><div><p class="eyebrow">Your Baraza archive</p><h2>Previous discussions</h2></div><button class="planner-text-button" type="button" data-back-to-editor><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to planner</button></div>
+            <div class="discussion-list" data-discussion-list></div>
+          </div>
+
+          <div class="discussion-editor" data-discussion-editor>
+            <form class="planner-form" data-discussion-form novalidate>
+              <input type="hidden" name="discussionId" />
+              <div class="planner-overview-card">
+                <div class="planner-overview-heading"><div><p class="eyebrow">Discussion overview</p><h2 data-baraza-name></h2></div><span class="planner-overview-icon"><i class="fa-solid fa-people-group" aria-hidden="true"></i></span></div>
+                <div class="planner-field-grid">
+                  <label>Discussion title<input name="title" maxlength="120" placeholder="e.g. Building a kinder community" /></label>
+                  <label class="planner-field-wide">Topic or discussion question<textarea name="topic" rows="3" maxlength="2000" placeholder="What question will guide your Baraza discussion?"></textarea></label>
+                </div>
+              </div>
+
+              <div class="planner-config-card">
+                <div class="planner-section-heading"><div><p class="eyebrow">Speaking order</p><h2>Speakers</h2><p class="planner-muted" data-speaker-count>1 speaker · Set each speaker's individual time allowance.</p></div><button class="planner-button planner-button-secondary" type="button" data-add-speaker><i class="fa-solid fa-plus" aria-hidden="true"></i> Add speaker</button></div>
+                <div class="speaker-editor-list" data-speaker-editor-list></div>
+                <p class="planner-warning" data-speaker-duration-warning hidden><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Every speaker needs a speaking duration before you can start.</p>
+              </div>
+
+              <div class="planner-total-card">
+                <span><i class="fa-regular fa-hourglass-half" aria-hidden="true"></i> Planned total duration</span>
+                <strong data-planned-duration>00:00</strong>
+              </div>
+              <div class="planner-actions">
+                <button class="planner-button planner-button-secondary" type="button" data-save-draft><i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save Draft</button>
+                <button class="planner-button planner-button-primary" type="button" data-start-discussion><i class="fa-solid fa-play" aria-hidden="true"></i> Start Discussion</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="discussion-live-view" data-discussion-live hidden>
+            <div class="live-heading">
+              <div><p class="eyebrow">Live discussion</p><h2 data-live-title></h2><p data-live-topic></p><p class="live-discussion-meta" data-live-meta></p></div>
+              <span class="discussion-status-badge is-in-progress"><i class="fa-solid fa-circle" aria-hidden="true"></i> In Progress</span>
+            </div>
+            <div class="live-timer-card" data-live-timer-card>
+              <p class="live-stage-label" data-live-stage></p>
+              <p class="live-speaker-label">CURRENT SPEAKER</p>
+              <h3 data-live-speaker></h3>
+              <p class="live-clock" data-live-clock role="timer" aria-live="off">00:00</p>
+              <p class="live-timer-state" data-live-state aria-live="polite">Paused</p>
+              <p class="live-expired-alert" data-live-alert hidden><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Time expired — move to the next stage when ready.</p>
+              <div class="live-progress-track" role="progressbar" aria-label="Discussion stage progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-live-progress></span></div>
+              <div class="live-meta-grid">
+                <div><span><i class="fa-solid fa-forward-step" aria-hidden="true"></i> NEXT</span><strong data-live-next>—</strong></div>
+                <div><span><i class="fa-regular fa-clock" aria-hidden="true"></i> ELAPSED</span><strong data-live-elapsed>00:00</strong></div>
+                <div><span><i class="fa-solid fa-list-ol" aria-hidden="true"></i> STAGE</span><strong data-live-stage-count>1 of 1</strong></div>
+              </div>
+            </div>
+            <div class="live-controls">
+              <button class="planner-button planner-button-primary" type="button" data-timer-start><i class="fa-solid fa-play" aria-hidden="true"></i> Start</button>
+              <button class="planner-button planner-button-secondary" type="button" data-timer-pause><i class="fa-solid fa-pause" aria-hidden="true"></i> Pause</button>
+              <button class="planner-button planner-button-secondary" type="button" data-timer-resume><i class="fa-solid fa-play" aria-hidden="true"></i> Resume</button>
+              <button class="planner-button planner-button-secondary" type="button" data-timer-reset><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Reset Current Timer</button>
+              <button class="planner-button planner-button-secondary" type="button" data-timer-add><i class="fa-solid fa-plus" aria-hidden="true"></i> Add 30 Seconds</button>
+              <button class="planner-button planner-button-warning" type="button" data-timer-skip><i class="fa-solid fa-forward" aria-hidden="true"></i> Skip Speaker</button>
+              <button class="planner-button planner-button-secondary" type="button" data-timer-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Planner</button>
+            </div>
+          </div>
         </section>
 
         <section class="leader-dashboard-status" data-leader-dashboard-status role="status" aria-live="polite" hidden>

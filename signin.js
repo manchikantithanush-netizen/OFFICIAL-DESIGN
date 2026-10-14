@@ -58,6 +58,8 @@ if (signInForm) {
 
       submitButton.disabled = true;
       submitButton.setAttribute("aria-busy", "true");
+      let signInSucceeded = false;
+      signInForm.dispatchEvent(new CustomEvent("barazaLeaderSignInStarted"));
       try {
         const response = await fetch(`${supabaseUrl}/functions/v1/baraza-leader-auth`, {
           method: "POST",
@@ -91,10 +93,14 @@ if (signInForm) {
 
         window.sessionStorage.setItem(gradeAccessTokenKey, result.token);
         signInForm.dispatchEvent(new CustomEvent("barazaLeaderSignInReady"));
+        signInSucceeded = true;
       } catch (error) {
         console.error("Unable to reach the Baraza sign-in service.", error);
         status.textContent = "Baraza sign-in is temporarily unavailable. Please try again.";
       } finally {
+        if (!signInSucceeded) {
+          signInForm.dispatchEvent(new CustomEvent("barazaLeaderSignInFailed"));
+        }
         submitButton.disabled = false;
         submitButton.removeAttribute("aria-busy");
       }

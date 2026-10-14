@@ -1,4 +1,5 @@
 import { barazaRecords } from "./baraza-data.js";
+import { initializeDiscussionPlanner } from "./discussion-planner.js";
 import { supabaseAnonKey, supabaseUrl } from "./supabase-config.js";
 
 const leaderSessionKey = "roundsquare-baraza-leader-session";
@@ -102,6 +103,7 @@ export const initializeBarazaLeaderDashboard = async () => {
     }
 
     renderLeaderDashboard(record);
+    initializeDiscussionPlanner(record);
     document.querySelector(".leader-signout-link")?.addEventListener("click", () => {
       window.sessionStorage.removeItem(leaderSessionKey);
     });

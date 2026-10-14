@@ -6,7 +6,28 @@ const currentStudentNameKey = "roundsquare-current-student-name";
 const registrationKey = "roundsquare-student-registered";
 
 if (verificationStatus && statusCard) {
+  const resetVerification = () => {
+    verificationStatus.classList.remove("is-visible");
+    verificationStatus.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("is-verifying");
+    statusCard.classList.remove("is-verified");
+    statusTitle.textContent = "Verifying your details";
+  };
+
+  document.querySelector("#signin-form")?.addEventListener("barazaLeaderSignInStarted", () => {
+    statusCard.classList.remove("is-verified");
+    statusTitle.textContent = "Checking Baraza access";
+    statusCopy.textContent = "Verifying your access code. Please wait...";
+    verificationStatus.classList.add("is-visible");
+    verificationStatus.setAttribute("aria-hidden", "false");
+    document.body.classList.add("is-verifying");
+  });
+
+  document.querySelector("#signin-form")?.addEventListener("barazaLeaderSignInFailed", resetVerification);
+
   const showVerification = (destination, copy) => {
+    statusCard.classList.remove("is-verified");
+    statusTitle.textContent = "Verifying your details";
     statusCopy.textContent = copy;
     verificationStatus.classList.add("is-visible");
     verificationStatus.setAttribute("aria-hidden", "false");
