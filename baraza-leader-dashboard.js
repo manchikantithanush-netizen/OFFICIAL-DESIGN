@@ -48,7 +48,6 @@ const renderLeaderDashboard = (record) => {
 
   document.body.classList.add("is-baraza-leader");
   profileView.hidden = false;
-  profileView.dataset.ribbon = record.ribbon?.toLowerCase().replaceAll(" ", "-") || "none";
   profileView.querySelector(".view-back-button").hidden = true;
   profileView.querySelector(".view-heading .eyebrow").textContent = "Your Baraza dashboard";
   const welcome = profileView.querySelector("[data-leader-welcome]");
@@ -58,15 +57,6 @@ const renderLeaderDashboard = (record) => {
   profileView.querySelector("#profile-language").textContent = record.language;
   profileView.querySelector("#profile-level").textContent = record.level;
   profileView.querySelector("#profile-head").textContent = record.head;
-
-  const ribbon = profileView.querySelector("#profile-ribbon");
-  ribbon.hidden = !record.ribbon;
-  if (record.ribbon) {
-    ribbon.dataset.ribbon = record.ribbon.toLowerCase().replaceAll(" ", "-");
-    profileView.querySelector("#profile-ribbon-name").textContent = record.ribbon;
-  } else {
-    delete ribbon.dataset.ribbon;
-  }
 
   [record.coLeaders[0], record.coLeaders[1]].forEach((name, index) => {
     const leader = profileView.querySelector(`#profile-co-${index === 0 ? "one" : "two"}`);
