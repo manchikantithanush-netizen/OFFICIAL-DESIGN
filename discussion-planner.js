@@ -1,10 +1,8 @@
-import { supabaseAnonKey, supabaseUrl } from "./supabase-config.js";
+import { barazaRecords } from "./baraza-data.js";
 
-const leaderSessionKey = "roundsquare-baraza-leader-session";
 const discussionSection = document.querySelector(".discussion-planner-view");
 const editor = document.querySelector("[data-discussion-editor]");
 const liveView = document.querySelector("[data-discussion-live]");
-const listPanel = document.querySelector("[data-discussion-list-panel]");
 const form = document.querySelector("[data-discussion-form]");
 const speakerList = document.querySelector("[data-speaker-editor-list]");
 const plannerStatus = document.querySelector("[data-planner-status]");
@@ -15,8 +13,8 @@ let currentDiscussion = null;
 let timerStages = [];
 let timerState = null;
 let timerInterval;
-let timerSaveQueue = Promise.resolve();
 let discussionSaving = false;
+const localDiscussionKey = () => `roundsquare-local-discussion-${currentRecord.id}`;
 
 const formatDuration = (seconds) => {
   const safeSeconds = Math.max(0, Math.floor(seconds));
@@ -46,33 +44,63 @@ const setStatus = (status) => {
   statusBadge.className = `discussion-status-badge${status === "In Progress" ? " is-in-progress" : ""}${status === "Completed" ? " is-completed" : ""}`;
 };
 
-const request = async (action, payload = {}) => {
-  const response = await fetch(`${supabaseUrl}/functions/v1/baraza-leader-auth`, {
-    method: "POST",
-    headers: { apikey: supabaseAnonKey, "content-type": "application/json" },
-    body: JSON.stringify({
-      action: `discussions.${action}`,
-      token: window.sessionStorage.getItem(leaderSessionKey),
-      ...payload,
-    }),
-  });
-  let result;
+const readLocalDiscussion = () => {
+  let saved;
   try {
-    result = await response.json();
+    saved = window.localStorage.getItem(localDiscussionKey());
   } catch (error) {
-    console.error("The discussion service returned an unreadable response.", error);
-    throw new Error("The discussion service is temporarily unavailable. Please try again.");
+    console.error("Unable to read the local Baraza discussion.", error);
+    throw new Error("This browser couldn't access the saved discussion. Check browser storage settings.");
   }
-  if (!response.ok) {
-    if (response.status === 401) {
-      window.sessionStorage.removeItem(leaderSessionKey);
-      window.location.replace("signin.html");
-    }
-    throw new Error(typeof result.error === "string"
-      ? result.error
-      : "The discussion service is temporarily unavailable. Please try again.");
+  if (!saved) return null;
+
+  let discussion;
+  try {
+    discussion = JSON.parse(saved);
+  } catch (error) {
+    console.error("The saved local Baraza discussion is not valid JSON.", error);
+    throw new Error("The saved discussion on this browser is damaged. Create a new plan to replace it.");
   }
-  return result;
+  if (!discussion || typeof discussion !== "object" || Array.isArray(discussion)) {
+    console.error(`The saved discussion for Baraza ${currentRecord.id} is not an object.`);
+    throw new Error("The saved discussion on this browser is damaged. Create a new plan to replace it.");
+  }
+  const validTimerState = discussion.timer_state === null || (
+    discussion.timer_state
+    && Number.isInteger(discussion.timer_state.stageIndex)
+    && Number.isInteger(discussion.timer_state.remainingSeconds)
+    && Number.isInteger(discussion.timer_state.elapsedSeconds)
+    && ["running", "paused", "expired"].includes(discussion.timer_state.status)
+    && (discussion.timer_state.runningSince === null
+      || typeof discussion.timer_state.runningSince === "string")
+  );
+  const validDiscussion = discussion
+    && typeof discussion.id === "string"
+    && typeof discussion.title === "string"
+    && typeof discussion.topic === "string"
+    && discussion.baraza_id === currentRecord.id
+    && ["Draft", "Ready", "In Progress", "Completed"].includes(discussion.status)
+    && Array.isArray(discussion.configuration?.speakers)
+    && discussion.configuration.speakers.length > 0
+    && discussion.configuration.speakers.every((speaker) => typeof speaker.name === "string"
+      && Number.isInteger(speaker.durationSeconds)
+      && speaker.durationSeconds >= 0
+      && speaker.durationSeconds <= MAX_DURATION_SECONDS)
+    && validTimerState;
+  if (!validDiscussion) {
+    console.error(`The saved discussion for Baraza ${currentRecord.id} has an invalid shape.`);
+    throw new Error("The saved discussion on this browser is damaged. Create a new plan to replace it.");
+  }
+  return discussion;
+};
+
+const writeLocalDiscussion = (discussion) => {
+  try {
+    window.localStorage.setItem(localDiscussionKey(), JSON.stringify(discussion));
+  } catch (error) {
+    console.error("Unable to save the local Baraza discussion.", error);
+    throw new Error("This browser couldn't save the discussion. Check available browser storage.");
+  }
 };
 
 const makeDurationInput = (label, value, max, className) => {
@@ -242,17 +270,23 @@ const fillForm = (discussion) => {
 const setPlannerView = (view) => {
   editor.hidden = view !== "editor";
   liveView.hidden = view !== "live";
-  listPanel.hidden = view !== "list";
 };
 
 const saveDiscussion = async () => {
   const payload = getDiscussionPayload();
   if (!payload.valid) throw new Error("Use non-negative whole numbers for each duration; seconds must be between 0 and 59.");
-  const result = await request("save", {
-    id: form.elements.namedItem("discussionId").value || undefined,
-    discussion: payload.discussion,
-  });
-  currentDiscussion = result.discussion;
+  const timestamp = new Date().toISOString();
+  const discussion = {
+    id: currentDiscussion?.id || `local-${currentRecord.id}-${Date.now()}`,
+    baraza_id: currentRecord.id,
+    ...payload.discussion,
+    status: isReady(payload.discussion) ? "Ready" : "Draft",
+    timer_state: currentDiscussion?.timer_state || null,
+    created_at: currentDiscussion?.created_at || timestamp,
+    updated_at: timestamp,
+  };
+  writeLocalDiscussion(discussion);
+  currentDiscussion = discussion;
   form.elements.namedItem("discussionId").value = currentDiscussion.id;
   updateTotals();
   return currentDiscussion;
@@ -276,20 +310,17 @@ const buildTimerStages = (discussion) => {
   }));
 };
 
-const persistTimer = async () => {
-  if (!currentDiscussion || !timerState) return;
-  const discussionId = currentDiscussion.id;
-  const savedState = { ...timerState };
-  const stageCount = timerStages.length;
-  timerSaveQueue = timerSaveQueue.then(async () => {
-    try {
-      await request("timer", { id: discussionId, stageCount, timerState: savedState });
-    } catch (error) {
-      console.error("Unable to save Baraza timer progress.", error);
-      setPlannerMessage(error.message, true);
-    }
-  });
-  await timerSaveQueue;
+const persistTimer = () => {
+  if (!currentDiscussion || !timerState) return true;
+  currentDiscussion.timer_state = { ...timerState };
+  currentDiscussion.updated_at = new Date().toISOString();
+  try {
+    writeLocalDiscussion(currentDiscussion);
+    return true;
+  } catch (error) {
+    setPlannerMessage(error.message, true);
+    return false;
+  }
 };
 
 const remainingSeconds = () => {
@@ -366,7 +397,7 @@ const openTimer = async (discussion) => {
       runningSince: null,
       status: "paused",
     };
-    await persistTimer();
+    if (!persistTimer()) throw new Error("Timer progress couldn't be saved in this browser.");
   }
   document.querySelector("[data-live-title]").textContent = discussion.title;
   document.querySelector("[data-live-topic]").textContent = discussion.topic;
@@ -382,89 +413,7 @@ const openTimer = async (discussion) => {
 const updateTimer = async (nextState) => {
   timerState = nextState;
   renderTimer();
-  await persistTimer();
-};
-
-const renderDiscussionList = (discussions) => {
-  const list = document.querySelector("[data-discussion-list]");
-  list.replaceChildren();
-  if (!discussions.length) {
-    const empty = document.createElement("p");
-    empty.className = "planner-empty";
-    empty.textContent = "No previous discussions yet. Create a discussion plan to get started.";
-    list.append(empty);
-    return;
-  }
-
-  discussions.forEach((discussion) => {
-    const item = document.createElement("article");
-    item.className = "discussion-list-card";
-    const info = document.createElement("div");
-    info.className = "discussion-list-info";
-    const title = document.createElement("h3");
-    title.textContent = discussion.title;
-    const topic = document.createElement("p");
-    topic.textContent = discussion.topic || "Topic not set";
-    const details = document.createElement("small");
-    details.textContent = `${discussion.configuration.speakers.length} ${discussion.configuration.speakers.length === 1 ? "speaker" : "speakers"}`;
-    info.append(title, topic, details);
-    const actions = document.createElement("div");
-    actions.className = "discussion-list-actions";
-    const badge = document.createElement("span");
-    badge.className = `discussion-status-badge${discussion.status === "In Progress" ? " is-in-progress" : ""}${discussion.status === "Completed" ? " is-completed" : ""}`;
-    badge.textContent = discussion.status;
-    const openButton = document.createElement("button");
-    openButton.type = "button";
-    openButton.className = "planner-button planner-button-secondary";
-    openButton.textContent = discussion.status === "In Progress" ? "Resume timer" : "Open plan";
-    openButton.addEventListener("click", async () => {
-      setPlannerMessage("");
-      try {
-        if (discussion.status === "In Progress") {
-          await openTimer(discussion);
-        } else {
-          currentDiscussion = discussion;
-          fillForm(discussion);
-          setStatus(discussion.status);
-          setPlannerView("editor");
-        }
-      } catch (error) {
-        setPlannerMessage(error.message, true);
-      }
-    });
-    actions.append(badge, openButton);
-    if (discussion.status !== "In Progress") {
-      const deleteButton = document.createElement("button");
-      deleteButton.type = "button";
-      deleteButton.className = "planner-button planner-button-delete";
-      deleteButton.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i> Delete';
-      deleteButton.setAttribute("aria-label", `Delete discussion: ${discussion.title}`);
-      deleteButton.addEventListener("click", async () => {
-        if (!window.confirm(`Delete "${discussion.title}"? This cannot be undone.`)) return;
-        deleteButton.disabled = true;
-        deleteButton.setAttribute("aria-busy", "true");
-        setPlannerMessage(`Deleting "${discussion.title}"...`);
-        try {
-          await request("delete", { id: discussion.id });
-          const discussions = await loadDiscussions();
-          renderDiscussionList(discussions);
-          setPlannerMessage("Discussion deleted.");
-        } catch (error) {
-          deleteButton.disabled = false;
-          deleteButton.removeAttribute("aria-busy");
-          setPlannerMessage(error.message, true);
-        }
-      });
-      actions.append(deleteButton);
-    }
-    item.append(info, actions);
-    list.append(item);
-  });
-};
-
-const loadDiscussions = async () => {
-  const result = await request("list");
-  return result.discussions;
+  persistTimer();
 };
 
 const saveTimerBeforeLeaving = async () => {
@@ -478,8 +427,9 @@ const saveTimerBeforeLeaving = async () => {
       runningSince: null,
       status: "paused",
     };
-    await persistTimer();
+    if (!persistTimer()) throw new Error("Timer progress couldn't be saved in this browser.");
   }
+  return true;
 };
 
 export const initializeDiscussionPlanner = (record) => {
@@ -489,12 +439,36 @@ export const initializeDiscussionPlanner = (record) => {
   }
   currentRecord = record;
   document.querySelector("[data-baraza-name]").textContent = record.happiness;
-  fillForm(null);
+  try {
+    currentDiscussion = readLocalDiscussion();
+    timerState = currentDiscussion?.timer_state || null;
+    fillForm(currentDiscussion);
+    setStatus(currentDiscussion?.status || "Draft");
+    setPlannerMessage(currentDiscussion
+      ? `Loaded this browser's saved plan for ${record.happiness}.`
+      : `No local plan is saved for ${record.happiness} yet.`);
+    if (currentDiscussion?.status === "In Progress" && timerState) {
+      void openTimer(currentDiscussion).catch((error) => {
+        console.error("Unable to restore the local discussion timer.", error);
+        setPlannerMessage(error.message, true);
+      });
+    }
+  } catch (error) {
+    currentDiscussion = null;
+    timerState = null;
+    fillForm(null);
+    setPlannerMessage(error.message, true);
+  }
 
   const profileLink = document.querySelector(".leader-profile-link");
   const plannerLink = document.querySelector(".leader-planner-link");
   const showProfile = async () => {
-    await saveTimerBeforeLeaving();
+    try {
+      await saveTimerBeforeLeaving();
+    } catch (error) {
+      setPlannerMessage(error.message, true);
+      return;
+    }
     window.clearInterval(timerInterval);
     document.querySelector(".baraza-profile-view").hidden = false;
     discussionSection.hidden = true;
@@ -521,7 +495,15 @@ export const initializeDiscussionPlanner = (record) => {
     showPlanner();
   });
   document.querySelector("[data-create-discussion]").addEventListener("click", async () => {
-    await saveTimerBeforeLeaving();
+    if (currentDiscussion && !window.confirm(
+      "Create a new discussion? Saving it will replace this Baraza's current plan in this browser.",
+    )) return;
+    try {
+      await saveTimerBeforeLeaving();
+    } catch (error) {
+      setPlannerMessage(error.message, true);
+      return;
+    }
     window.clearInterval(timerInterval);
     timerState = null;
     createDiscussion();
@@ -564,31 +546,16 @@ export const initializeDiscussionPlanner = (record) => {
     try {
       setPlannerMessage("Saving plan and preparing the live timer...");
       await saveDiscussion();
-      const result = await request("start", { id: currentDiscussion.id });
-      currentDiscussion = result.discussion;
-      await openTimer(result.discussion);
+      const startedDiscussion = { ...currentDiscussion, status: "In Progress" };
+      writeLocalDiscussion(startedDiscussion);
+      currentDiscussion = startedDiscussion;
+      await openTimer(currentDiscussion);
       setPlannerMessage("");
     } catch (error) {
       setPlannerMessage(error.message, true);
     } finally {
       setDiscussionSaving(false);
     }
-  });
-  document.querySelector("[data-view-discussions]").addEventListener("click", async () => {
-    try {
-      await saveTimerBeforeLeaving();
-      window.clearInterval(timerInterval);
-      setPlannerMessage("Loading previous discussions...");
-      const discussions = await loadDiscussions();
-      renderDiscussionList(discussions);
-      setPlannerView("list");
-      setPlannerMessage("");
-    } catch (error) {
-      setPlannerMessage(error.message, true);
-    }
-  });
-  document.querySelector("[data-back-to-editor]").addEventListener("click", () => {
-    setPlannerView("editor");
   });
   document.querySelector("[data-timer-start]").addEventListener("click", () => {
     updateTimer({ ...timerState, status: "running", runningSince: new Date().toISOString() });
@@ -634,8 +601,9 @@ export const initializeDiscussionPlanner = (record) => {
     const nextIndex = timerState.stageIndex + 1;
     if (nextIndex >= timerStages.length) {
       try {
-        await request("complete", { id: currentDiscussion.id });
-        currentDiscussion.status = "Completed";
+      const completedDiscussion = { ...currentDiscussion, status: "Completed" };
+      writeLocalDiscussion(completedDiscussion);
+      currentDiscussion = completedDiscussion;
         setStatus("Completed");
         window.clearInterval(timerInterval);
         document.querySelector("[data-live-stage]").textContent = "Discussion completed";
@@ -670,5 +638,31 @@ export const initializeDiscussionPlanner = (record) => {
   });
   form.addEventListener("input", updateTotals);
   form.addEventListener("change", updateTotals);
+  document.addEventListener("localBarazaChanged", async (event) => {
+    const nextRecord = event.detail?.record;
+    if (!barazaRecords.some(({ id }) => id === nextRecord?.id)) return;
+    try {
+      await saveTimerBeforeLeaving();
+      window.clearInterval(timerInterval);
+      timerState = null;
+      currentDiscussion = null;
+      currentRecord = nextRecord;
+      document.querySelector("[data-baraza-name]").textContent = nextRecord.happiness;
+      const savedDiscussion = readLocalDiscussion();
+      currentDiscussion = savedDiscussion;
+      timerState = savedDiscussion?.timer_state || null;
+      fillForm(savedDiscussion);
+      setPlannerView("editor");
+      setStatus(savedDiscussion?.status || "Draft");
+      setPlannerMessage(savedDiscussion
+        ? `Loaded this browser's saved plan for ${nextRecord.happiness}.`
+        : `No local plan is saved for ${nextRecord.happiness} yet.`);
+      if (savedDiscussion?.status === "In Progress" && timerState) {
+        await openTimer(savedDiscussion);
+      }
+    } catch (error) {
+      setPlannerMessage(error.message, true);
+    }
+  });
   updateTotals();
 };

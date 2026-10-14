@@ -1,10 +1,13 @@
-import { supabaseAnonKey, supabaseUrl } from "./supabase-config.js";
-
 const signInForm = document.querySelector("#signin-form");
 
 if (signInForm) {
   const nameInput = document.querySelector("#student-name");
   const grInput = document.querySelector("#gr-number");
+  const grLabel = document.querySelector('label[for="gr-number"]');
+  const grInputWrap = grInput.closest(".input-with-action");
+  const grHint = document.querySelector("#gr-number-hint");
+  const grError = document.querySelector('[data-error-for="gr-number"]');
+  const localPlannerHint = document.querySelector("#baraza-local-hint");
   const gradeModal = document.querySelector(".grade-modal");
   const gradeOptions = document.querySelectorAll("[data-grade-group]");
   const gradeContinueButton = document.querySelector(".grade-continue-button");
@@ -12,11 +15,30 @@ if (signInForm) {
   const status = document.querySelector(".form-status");
   const submitButton = signInForm.querySelector(".submit-button");
   const passwordToggle = document.querySelector(".password-toggle");
-  const gradeAccessTokenKey = "roundsquare-baraza-leader-session";
   let selectedGradeGroup = null;
+
+  const updateBarazaSignInFields = () => {
+    const isBarazaLeader = nameInput.value.trim().toLocaleLowerCase("en") === "rsbaraza";
+    grLabel.hidden = isBarazaLeader;
+    grInputWrap.hidden = isBarazaLeader;
+    grHint.hidden = isBarazaLeader;
+    grError.hidden = isBarazaLeader;
+    localPlannerHint.hidden = !isBarazaLeader;
+    if (isBarazaLeader) {
+      grInput.value = "";
+      grInput.removeAttribute("aria-invalid");
+      grError.textContent = "";
+    }
+    signInForm.querySelector(".submit-button").innerHTML = isBarazaLeader
+      ? 'Open local planner <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>'
+      : 'Continue to event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>';
+  };
+
+  updateBarazaSignInFields();
 
   nameInput.addEventListener("input", () => {
     nameInput.value = nameInput.value.replace(/[^\p{L}\p{M}' -]/gu, "").replace(/ {2,}/g, " ");
+    updateBarazaSignInFields();
   });
 
   grInput.addEventListener("input", () => {
@@ -29,12 +51,12 @@ if (signInForm) {
     passwordToggle.setAttribute("aria-pressed", String(showValue));
     passwordToggle.setAttribute(
       "aria-label",
-      `${showValue ? "Hide" : "Show"} GR number or Baraza access code`,
+      `${showValue ? "Hide" : "Show"} GR number`,
     );
     passwordToggle.innerHTML = `<i class="fa-regular fa-eye${showValue ? "-slash" : ""}" aria-hidden="true"></i>`;
   });
 
-  signInForm.addEventListener("submit", async (event) => {
+  signInForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const fullName = nameInput.value.normalize("NFKC").trim().replace(/\s+/g, " ");
     const grNumber = grInput.value.trim();
@@ -50,60 +72,12 @@ if (signInForm) {
     status.textContent = "";
 
     if (isBarazaLeader) {
-      if (!/^[0-9]{5}$/.test(grNumber)) {
-        grInput.setAttribute("aria-invalid", "true");
-        status.textContent = "Invalid name or access code. Please try again.";
-        return;
-      }
-
       submitButton.disabled = true;
       submitButton.setAttribute("aria-busy", "true");
-      let signInSucceeded = false;
-      signInForm.dispatchEvent(new CustomEvent("barazaLeaderSignInStarted"));
-      try {
-        const response = await fetch(`${supabaseUrl}/functions/v1/baraza-leader-auth`, {
-          method: "POST",
-          headers: {
-            apikey: supabaseAnonKey,
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({ action: "login", fullName, accessCode: grNumber }),
-        });
-
-        if (response.status === 401) {
-          status.textContent = "Invalid name or access code. Please try again.";
-          grInput.setAttribute("aria-invalid", "true");
-          return;
-        }
-        if (!response.ok) {
-          console.error(`Baraza sign-in endpoint returned HTTP ${response.status}.`);
-          status.textContent = "Baraza sign-in is temporarily unavailable. Please try again.";
-          return;
-        }
-
-        const result = await response.json();
-        if (typeof result.token !== "string"
-          || !Number.isInteger(result.barazaId)
-          || result.barazaId < 1
-          || result.barazaId > 17) {
-          console.error("Baraza sign-in endpoint returned an invalid session response.");
-          status.textContent = "Baraza sign-in is temporarily unavailable. Please try again.";
-          return;
-        }
-
-        window.sessionStorage.setItem(gradeAccessTokenKey, result.token);
-        signInForm.dispatchEvent(new CustomEvent("barazaLeaderSignInReady"));
-        signInSucceeded = true;
-      } catch (error) {
-        console.error("Unable to reach the Baraza sign-in service.", error);
-        status.textContent = "Baraza sign-in is temporarily unavailable. Please try again.";
-      } finally {
-        if (!signInSucceeded) {
-          signInForm.dispatchEvent(new CustomEvent("barazaLeaderSignInFailed"));
-        }
-        submitButton.disabled = false;
-        submitButton.removeAttribute("aria-busy");
-      }
+      signInForm.dispatchEvent(new CustomEvent("barazaLocalPlannerOpening"));
+      signInForm.dispatchEvent(new CustomEvent("barazaLocalPlannerReady"));
+      submitButton.disabled = false;
+      submitButton.removeAttribute("aria-busy");
       return;
     }
 

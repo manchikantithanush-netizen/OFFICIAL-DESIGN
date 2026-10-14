@@ -19,9 +19,11 @@ const moreNavItem = document.querySelector(".more-nav-item");
 const moreNavButton = document.querySelector(".more-nav-button");
 const moreMenu = document.querySelector(".more-menu");
 const barazaNavLink = document.querySelector(".baraza-nav-link");
+const secretariatNavLink = document.querySelector("[data-open-secretariat]");
 const settingsView = document.querySelector(".settings-view");
 const dashboardSiteView = document.querySelector(".dashboard-site-view");
 const dashboardSiteFrame = document.querySelector(".dashboard-site-frame");
+const secretariatView = document.querySelector(".secretariat-view");
 const standardDashboardContent = document.querySelectorAll(".welcome-section, .baraza-banner, .event-strip, .resource-links, .event-countdown, .section-block, .quick-links, .dashboard-footer");
 const reminderButton = document.querySelector(".reminder-button");
 const reminderModal = document.querySelector(".reminder-modal");
@@ -67,6 +69,7 @@ const studentConfig = gradeConfig[gradeGroup] || gradeConfig["5-7"];
 const delegateAlert = document.querySelector("[data-delegate-deadline]");
 const directoryView = document.querySelector(".baraza-directory-view");
 const profileView = document.querySelector(".baraza-profile-view");
+const discussionPlannerView = document.querySelector(".discussion-planner-view");
 const directoryGrid = document.querySelector("[data-baraza-directory]");
 const dashboardViews = document.querySelectorAll(".dashboard-shell > section, .dashboard-shell > .resource-links, .dashboard-shell > .quick-links, .dashboard-shell > .dashboard-footer");
 const reminderSchedules = {
@@ -360,9 +363,10 @@ const closeMoreMenu = ({ restoreFocus = false } = {}) => {
 
 const showBarazaView = (view) => {
   dashboardViews.forEach((item) => {
-    if (item === directoryView || item === profileView) return;
+    if (item === directoryView || item === profileView || item === discussionPlannerView) return;
     item.hidden = view !== "dashboard" && !(view === "settings" && item === settingsView);
   });
+  if (discussionPlannerView) discussionPlannerView.hidden = true;
   directoryView.hidden = view !== "directory";
   profileView.hidden = view !== "profile";
   if (view === "settings") {
@@ -376,17 +380,22 @@ const showBarazaView = (view) => {
   document.body.classList.toggle("is-baraza-view", view === "directory" || view === "profile");
   dashboardShell?.classList.toggle("is-site-view", view === "about" || view === "contact");
   if (dashboardSiteView) dashboardSiteView.hidden = view !== "about" && view !== "contact";
+  if (secretariatView) secretariatView.hidden = view !== "secretariat";
   barazaNavLink?.classList.toggle("is-active", view === "directory" || view === "profile");
+  secretariatNavLink?.classList.toggle("is-active", view === "secretariat");
   settingsNavLink?.classList.toggle("is-active", view === "settings");
-  moreNavButton?.classList.toggle("is-active", view === "settings" || view === "contact");
+  moreNavButton?.classList.toggle("is-active", view === "settings" || view === "contact" || view === "secretariat");
   dashboardPageLinks.forEach((link) => {
     link.classList.toggle("is-active", link.dataset.dashboardPage === view);
   });
+  dashboardShell?.classList.toggle("is-secretariat-view", view === "secretariat");
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 const displayLeader = (name) => name || "To be confirmed";
+const getBarazaTheme = (record) => record.ribbon?.toLowerCase().replaceAll(" ", "-") || "default";
 const renderProfile = (record) => {
+  profileView.dataset.theme = getBarazaTheme(record);
   document.querySelector("#profile-title").textContent = record.happiness;
   document.querySelector("#profile-language").textContent = record.language;
   document.querySelector("#profile-level").textContent = record.level;
@@ -408,6 +417,7 @@ if (directoryGrid) {
     const card = document.createElement("button");
     card.type = "button";
     card.className = "baraza-directory-card";
+    card.dataset.theme = getBarazaTheme(record);
     const number = document.createElement("span");
     number.className = "directory-number";
     number.textContent = String(record.id).padStart(2, "0");
@@ -439,6 +449,10 @@ document.querySelector("[data-return-dashboard]")?.addEventListener("click", () 
 barazaNavLink?.addEventListener("click", () => {
   showBarazaView("directory");
   setActiveLink("");
+});
+secretariatNavLink?.addEventListener("click", () => {
+  closeMoreMenu();
+  showBarazaView("secretariat");
 });
 
 if (sections.length && "IntersectionObserver" in window) {

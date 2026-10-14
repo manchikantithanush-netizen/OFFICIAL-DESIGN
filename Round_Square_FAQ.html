@@ -1354,23 +1354,23 @@
       !dialAnswerText || !dialAnswerDetails || !dialAnswerActions || !peopleGrid) return;
 
   const BARAZAS = [
-    { word: "Furaha", language: "Swahili", level: "Junior (5–7)", ribbon: "Gold", head: "Bhavya Sharma 10G", co: ["Krithika Krishna 9E", "Aanchal Nikesh"] },
-    { word: "Felicità", language: "Italian", level: "Junior (5–7)", ribbon: "White", head: "Priyal Tyagi 11 SCI C", co: ["Stefania Susan Mathew 9C"] },
-    { word: "Sa'ada (سعادة)", language: "Arabic", level: "Junior (5–7)", ribbon: "Grey", head: "Mayukha Preman 12 SCI A", co: ["Neerad Krishna 9", "Kashinanth"] },
-    { word: "Sukham (सुखम्)", language: "Sanskrit", level: "Junior (5–7)", ribbon: "Green", head: "Yogit Myneni 10", co: ["Anya Anoop 10C"] },
-    { word: "Gaudium", language: "Latin", level: "Junior (5–7)", ribbon: "Yellow", head: "Kashish Wadhwani 12 COM C", co: ["Khwaish Panjabi 11/12 Com D", "Aarav Pratap 9"] },
+    { word: "Furaha", language: "Swahili", level: "Junior (5–7)", ribbon: "Gold", head: "Bhavya Sharma", co: ["Krithika Krishna", "Aanchal Nikesh"] },
+    { word: "Felicità", language: "Italian", level: "Junior (5–7)", ribbon: "White", head: "Priyal Tyagi", co: ["Stefania Susan Mathew", "Advik Shukla"] },
+    { word: "Sa'ada (سعادة)", language: "Arabic", level: "Junior (5–7)", ribbon: "Grey", head: "Mayukha Preman", co: ["Neerad Krishna", "Kashinanth"] },
+    { word: "Sukham (सुखम्)", language: "Sanskrit", level: "Junior (5–7)", ribbon: "Green", head: "Yogit Myneni", co: ["Anya Anoop"] },
+    { word: "Gaudium", language: "Latin", level: "Junior (5–7)", ribbon: "Yellow", head: "Kashish Wadhwani", co: ["Khwaish Panjabi", "Aarav Pratap"] },
     { word: "Khushi (खुशी)", language: "Hindi", level: "Junior (5–7)", ribbon: "Blue", head: "Vedanth Oolath", co: ["Jashna Bhatia", "Sreelakshmi"] },
-    { word: "Glück", language: "German", level: "Intermediate (8–9)", ribbon: "Orange", head: "Mahadevan Surya 10M", co: ["Aarav Garg 10L", "Rudra Jasnani 12 SCI I"] },
-    { word: "Bonheur", language: "French", level: "Intermediate (8–9)", ribbon: "Black", head: "Khadeeja Sheza 12 COM A", co: ["Niranjana Anusree 9D", "Shaanvi Himanshu"] },
-    { word: "Schastye (Счастье)", language: "Russian", level: "Intermediate (8–9)", ribbon: "Dark Blue", head: "Arnav Burade 11 SCI I", co: ["Irene Andrews 12 SCI E", "Arya Suresh Nair"] },
-    { word: "Shiawase (幸せ)", language: "Japanese", level: "Intermediate (8–9)", ribbon: "Red", head: "Ishanshi Vegad 11 SCI A", co: ["Ananya Rane 11 SCI B", "Vadani"] },
-    { word: "Felicidad", language: "Spanish", level: "Intermediate (8–9)", ribbon: "Light Green", head: "Hyfa Maryam 10C", co: ["Aditya Saini 9M", "Zaid Khan 10J"] },
-    { word: "Geluk", language: "Afrikaans", level: "Intermediate (8–9)", ribbon: null, head: "Ayaan Mustafa Ali 12 SCI K", co: ["Harshita Kaithwas", "Aadiya Pramod"] },
-    { word: "Eftychia (Ευτυχία)", language: "Greek", level: "Intermediate (8–9)", ribbon: "Brown", head: "Vaishnavi Vinod 12 COM C", co: ["Abi Tameem Suratwala", "Emilia Susan 10B"] },
-    { word: "Xingfu (幸福)", language: "Mandarin Chinese", level: "Senior (10–12)", ribbon: "Purple", head: "Arnav Payyaram 12 COM B", co: ["Rohan Reddy", "Diya Deepak"] },
-    { word: "Saya", language: "Tagalog", level: "Senior (10–12)", ribbon: "Maroon", head: "Vamika Handa 10B", co: ["Jovino Joji 11 SCI I", "Abijithrajan.B"] },
-    { word: "Koa", language: "Maori", level: "Senior (10–12)", ribbon: "Silver", head: "Ram Prasad 12 COM F", co: ["Mishti Shetty 12 COM B", "Yug Mehta 12 Com E"] },
-    { word: "Felicidade", language: "Portuguese", level: "Senior (10–12)", ribbon: "Turquoise", head: "Tiana Paul 10C", co: ["Manit Jatwani 12 COM F", "Sarah Hussain 11 SCI D"] }
+    { word: "Glück", language: "German", level: "Intermediate (8–9)", ribbon: "Orange", head: "Mahadevan Surya", co: ["Aarav Garg", "Rudra Jasnani"] },
+    { word: "Bonheur", language: "French", level: "Intermediate (8–9)", ribbon: "Black", head: "Khadeeja Sheza", co: ["Niranjana Anusree", "Shaanvi Himanshu"] },
+    { word: "Schastye (Счастье)", language: "Russian", level: "Intermediate (8–9)", ribbon: "Dark Blue", head: "Arnav Burade", co: ["Irene Andrews", "Arya Suresh Nair"] },
+    { word: "Shiawase (幸せ)", language: "Japanese", level: "Intermediate (8–9)", ribbon: "Red", head: "Ishanshi Vegad", co: ["Ananya Rane", "Vadani"] },
+    { word: "Felicidad", language: "Spanish", level: "Intermediate (8–9)", ribbon: "Light Green", head: "Hyfa Maryam", co: ["Aditya Saini", "Zaid Khan"] },
+    { word: "Geluk", language: "Afrikaans", level: "Intermediate (8–9)", ribbon: null, head: "Ayaan Mustafa Ali", co: ["Harshita Kaithwas", "Aadiya Pramod"] },
+    { word: "Eftychia (Ευτυχία)", language: "Greek", level: "Intermediate (8–9)", ribbon: "Brown", head: "Vaishnavi Vinod", co: ["Abi Tameem Suratwala", "Emilia Susan"] },
+    { word: "Xingfu (幸福)", language: "Mandarin Chinese", level: "Senior (10–12)", ribbon: "Purple", head: "Arnav Payyaram", co: ["Rohan Reddy", "Diya Deepak"] },
+    { word: "Saya", language: "Tagalog", level: "Senior (10–12)", ribbon: "Maroon", head: "Vamika Handa", co: ["Jovino Joji", "Abijithrajan.B"] },
+    { word: "Koa", language: "Maori", level: "Senior (10–12)", ribbon: "Silver", head: "Ram Prasad", co: ["Mishti Shetty", "Yug Mehta"] },
+    { word: "Felicidade", language: "Portuguese", level: "Senior (10–12)", ribbon: "Turquoise", head: "Tiana Paul", co: ["Manit Jatwani", "Sarah Hussain"] }
   ];
 
   const ribbonLabel = item => item.ribbon ? item.ribbon + " ribbon" : "";

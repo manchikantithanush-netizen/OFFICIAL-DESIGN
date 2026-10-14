@@ -43,6 +43,7 @@
             </button>
             <div class="more-menu" id="more-menu" aria-label="More dashboard options" aria-hidden="true">
               <a href="#contact-view" data-dashboard-page="contact"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
+              <button type="button" data-open-secretariat><i class="fa-solid fa-landmark" aria-hidden="true"></i><span>Official Secretariat</span></button>
               <button class="settings-nav-link" type="button"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></button>
             </div>
           </div>
@@ -78,6 +79,12 @@
             <h1 id="profile-title"></h1>
             <p id="profile-language"></p>
           </div>
+          <div class="leader-local-access">
+            <p><strong>Local-only planner:</strong> it has no secure sign-in, and plans stay in this browser without cross-device sync.</p>
+            <label for="local-baraza-select">Choose a Baraza for planning
+              <select id="local-baraza-select" data-local-baraza></select>
+            </label>
+          </div>
           <div class="profile-meta-grid">
             <article><span>Baraza level</span><strong id="profile-level"></strong></article>
             <article><span>Room location</span><strong>To be confirmed</strong><small>Room details will be added when available.</small></article>
@@ -93,25 +100,95 @@
           </section>
         </section>
 
+        <section class="secretariat-view" aria-labelledby="secretariat-title" hidden>
+          <header class="secretariat-hero">
+            <p class="eyebrow"><i class="fa-solid fa-landmark" aria-hidden="true"></i> Round Square Conference 2026</p>
+            <h1 id="secretariat-title">Official <em>Secretariat.</em></h1>
+            <p>Meet the people bringing this year’s conference together — from conference leadership to the teams behind every detail.</p>
+            <span class="secretariat-edition"><i class="fa-regular fa-calendar" aria-hidden="true"></i> Official Secretariat · 2026</span>
+          </header>
+
+          <section class="secretariat-section" aria-labelledby="conference-directors-title">
+            <div class="secretariat-section-heading">
+              <span class="secretariat-section-number">01</span>
+              <div><p class="eyebrow">Conference leadership</p><h2 id="conference-directors-title">Conference Directors</h2></div>
+            </div>
+            <div class="secretariat-director-grid">
+              <article class="secretariat-person-card secretariat-director-card"><span class="secretariat-person-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></span><p>Conference Director</p><h3>Hyfa Maryam</h3></article>
+              <article class="secretariat-person-card secretariat-director-card"><span class="secretariat-person-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></span><p>Conference Director</p><h3>Tiana Paul</h3></article>
+              <article class="secretariat-person-card secretariat-director-card"><span class="secretariat-person-icon"><i class="fa-solid fa-compass" aria-hidden="true"></i></span><p>Conference Director</p><h3>Vamika Handa</h3></article>
+            </div>
+          </section>
+
+          <section class="secretariat-section" aria-labelledby="departments-title">
+            <div class="secretariat-section-heading">
+              <span class="secretariat-section-number">02</span>
+              <div><p class="eyebrow">The teams that make it happen</p><h2 id="departments-title">Secretariat Departments</h2></div>
+            </div>
+            <div class="secretariat-department-grid">
+              <article class="secretariat-department-card">
+                <div class="secretariat-department-heading"><span><i class="fa-solid fa-people-group" aria-hidden="true"></i></span><h3>Conference Affairs</h3></div>
+                <p class="secretariat-role-label">Secretariat of Conference Affairs</p>
+                <ul class="secretariat-people-list">
+                  <li><span class="secretariat-person-initials">YM</span><strong>Yogit Myeni</strong></li>
+                  <li><span class="secretariat-person-initials">PP</span><strong>Pranav Praseen</strong></li>
+                  <li><span class="secretariat-person-initials">NA</span><strong>Niranjana Anushree</strong></li>
+                </ul>
+              </article>
+              <article class="secretariat-department-card secretariat-department-lead">
+                <div class="secretariat-department-heading"><span><i class="fa-solid fa-camera" aria-hidden="true"></i></span><h3>Photography</h3></div>
+                <p class="secretariat-role-label">Head of Photography</p>
+                <ul class="secretariat-people-list"><li><span class="secretariat-person-initials">SS</span><strong>Saahil Zubair Saleesh</strong></li></ul>
+              </article>
+              <article class="secretariat-department-card secretariat-department-lead">
+                <div class="secretariat-department-heading"><span><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i></span><h3>Administration</h3></div>
+                <p class="secretariat-role-label">Head of Administration</p>
+                <ul class="secretariat-people-list"><li><span class="secretariat-person-initials">MR</span><strong>Mohammed Risham</strong></li></ul>
+              </article>
+              <article class="secretariat-department-card secretariat-department-lead">
+                <div class="secretariat-department-heading"><span><i class="fa-solid fa-bullhorn" aria-hidden="true"></i></span><h3>Media</h3></div>
+                <p class="secretariat-role-label">Head of Media</p>
+                <ul class="secretariat-people-list"><li><span class="secretariat-person-initials">AR</span><strong>Ayana Rahman</strong></li></ul>
+              </article>
+              <article class="secretariat-department-card secretariat-technology-card">
+                <div class="secretariat-department-heading"><span><i class="fa-solid fa-microchip" aria-hidden="true"></i></span><h3>Technology &amp; Digital Operations</h3></div>
+                <p class="secretariat-role-label">Head of Technology &amp; Digital Operations</p>
+                <ul class="secretariat-people-list">
+                  <li class="secretariat-team-lead"><span class="secretariat-person-initials">TM</span><strong>Thanush Manchikanti</strong><span class="secretariat-role-tag">Department Head</span></li>
+                  <li><span class="secretariat-person-initials">KC</span><strong>Keshav Chaitan</strong></li>
+                  <li><span class="secretariat-person-initials">ED</span><strong>Evan Dennis</strong></li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="secretariat-section secretariat-advisers-section" aria-labelledby="advisers-title">
+            <div class="secretariat-section-heading">
+              <span class="secretariat-section-number">03</span>
+              <div><p class="eyebrow">Guidance &amp; experience</p><h2 id="advisers-title">Senior Personnel &amp; Advisers</h2></div>
+            </div>
+            <div class="secretariat-advisers-grid">
+              <article class="secretariat-adviser-card"><span class="secretariat-person-initials">AJ</span><div><p>Senior Personnel &amp; Adviser</p><h3>Ann Mary Joesph</h3></div></article>
+              <article class="secretariat-adviser-card"><span class="secretariat-person-initials">II</span><div><p>Senior Personnel &amp; Adviser</p><h3>Inshirah Iftikhar</h3></div></article>
+              <article class="secretariat-adviser-card"><span class="secretariat-person-initials">MU</span><div><p>Senior Personnel &amp; Adviser</p><h3>Mohammed Umair</h3></div></article>
+              <article class="secretariat-adviser-card"><span class="secretariat-person-initials">JJ</span><div><p>Senior Personnel &amp; Adviser</p><h3>Jovino Joji</h3></div></article>
+            </div>
+          </section>
+        </section>
+
         <section class="discussion-planner-view" id="discussion-planner" aria-labelledby="discussion-planner-title" hidden>
           <div class="planner-heading">
             <div>
               <p class="eyebrow">Baraza leader tools</p>
               <h1 id="discussion-planner-title">Discussion <em>Planner.</em></h1>
-              <p class="planner-intro">Prepare your Baraza conversation and keep each speaker on time.</p>
+              <p class="planner-intro">Prepare your Baraza conversation and keep each speaker on time. One plan per Baraza is saved only in this browser; there is no secure sign-in or cross-device sync.</p>
             </div>
             <span class="discussion-status-badge" data-discussion-status>Draft</span>
           </div>
           <div class="planner-toolbar">
             <button class="planner-button planner-button-secondary" type="button" data-create-discussion><i class="fa-solid fa-plus" aria-hidden="true"></i> Create Discussion</button>
-            <button class="planner-button planner-button-secondary" type="button" data-view-discussions><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> View Previous Discussions</button>
           </div>
           <p class="planner-status-message" data-planner-status role="status" aria-live="polite"></p>
-
-          <div class="planner-list-panel" data-discussion-list-panel hidden>
-            <div class="planner-section-heading"><div><p class="eyebrow">Your Baraza archive</p><h2>Previous discussions</h2></div><button class="planner-text-button" type="button" data-back-to-editor><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to planner</button></div>
-            <div class="discussion-list" data-discussion-list></div>
-          </div>
 
           <div class="discussion-editor" data-discussion-editor>
             <form class="planner-form" data-discussion-form novalidate>
@@ -170,13 +247,6 @@
               <button class="planner-button planner-button-secondary" type="button" data-timer-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Planner</button>
             </div>
           </div>
-        </section>
-
-        <section class="leader-dashboard-status" data-leader-dashboard-status role="status" aria-live="polite" hidden>
-          <p class="eyebrow">Baraza access</p>
-          <h1>Unable to load your dashboard</h1>
-          <p data-leader-dashboard-status-message></p>
-          <a href="signin.html">Return to sign in</a>
         </section>
 
         <section class="welcome-section" id="home">

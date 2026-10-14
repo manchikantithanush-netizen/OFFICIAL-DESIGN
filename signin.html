@@ -59,10 +59,11 @@
             <label for="gr-number">GR NUMBER <b>*</b></label>
             <div class="input-with-action">
               <input id="gr-number" class="gr-number-input" name="grNumber" type="password" inputmode="numeric" autocomplete="off" maxlength="5" pattern="[0-9]{1,5}" placeholder="_ _ _ _ _" aria-describedby="gr-number-hint" required />
-              <button class="password-toggle" type="button" aria-label="Show GR number or Baraza access code" aria-controls="gr-number" aria-pressed="false"><i class="fa-regular fa-eye" aria-hidden="true"></i></button>
+              <button class="password-toggle" type="button" aria-label="Show GR number" aria-controls="gr-number" aria-pressed="false"><i class="fa-regular fa-eye" aria-hidden="true"></i></button>
             </div>
-            <span id="gr-number-hint" class="input-hint">Students: GR number · Baraza leaders: assigned 5-digit access code</span>
+            <span id="gr-number-hint" class="input-hint">Students: enter your GR number</span>
             <span class="field-error" data-error-for="gr-number"></span>
+            <span id="baraza-local-hint" class="input-hint" hidden>Local-only planner. No secure sign-in; plans are saved only in this browser.</span>
 
             <button class="submit-button" type="submit">Continue to event <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
             <p class="form-status" role="status" aria-live="polite"></p>

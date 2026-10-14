@@ -14,20 +14,24 @@ if (verificationStatus && statusCard) {
     statusTitle.textContent = "Verifying your details";
   };
 
-  document.querySelector("#signin-form")?.addEventListener("barazaLeaderSignInStarted", () => {
+  document.querySelector("#signin-form")?.addEventListener("barazaLocalPlannerOpening", () => {
     statusCard.classList.remove("is-verified");
-    statusTitle.textContent = "Checking Baraza access";
-    statusCopy.textContent = "Verifying your access code. Please wait...";
+    statusTitle.textContent = "Opening local planner";
+    statusCopy.textContent = "This planner has no secure sign-in and saves only in this browser.";
     verificationStatus.classList.add("is-visible");
     verificationStatus.setAttribute("aria-hidden", "false");
     document.body.classList.add("is-verifying");
   });
 
-  document.querySelector("#signin-form")?.addEventListener("barazaLeaderSignInFailed", resetVerification);
-
-  const showVerification = (destination, copy) => {
+  const showVerification = (
+    destination,
+    copy,
+    completedTitle = "Details verified",
+    completedCopy = "Your event access is ready.",
+    openingTitle = "Verifying your details",
+  ) => {
     statusCard.classList.remove("is-verified");
-    statusTitle.textContent = "Verifying your details";
+    statusTitle.textContent = openingTitle;
     statusCopy.textContent = copy;
     verificationStatus.classList.add("is-visible");
     verificationStatus.setAttribute("aria-hidden", "false");
@@ -35,8 +39,8 @@ if (verificationStatus && statusCard) {
 
     window.setTimeout(() => {
       statusCard.classList.add("is-verified");
-      statusTitle.textContent = "Details verified";
-      statusCopy.textContent = "Your event access is ready.";
+      statusTitle.textContent = completedTitle;
+      statusCopy.textContent = completedCopy;
 
       window.setTimeout(() => {
         window.location.href = destination;
@@ -44,8 +48,14 @@ if (verificationStatus && statusCard) {
     }, 1000);
   };
 
-  document.querySelector("#signin-form")?.addEventListener("barazaLeaderSignInReady", () => {
-    showVerification("dashboard.html?view=baraza-leader", "Preparing your Baraza dashboard.");
+  document.querySelector("#signin-form")?.addEventListener("barazaLocalPlannerReady", () => {
+    showVerification(
+      "dashboard.html?view=baraza-leader",
+      "Opening the local-only Baraza planner.",
+      "Local planner ready",
+      "Anyone can access this planner on this device. Plans are not synced.",
+      "Opening local planner",
+    );
   });
 
   document.querySelector("#signin-form")?.addEventListener("signInDetailsReady", () => {
