@@ -19,7 +19,9 @@ const moreNavItem = document.querySelector(".more-nav-item");
 const moreNavButton = document.querySelector(".more-nav-button");
 const moreMenu = document.querySelector(".more-menu");
 const barazaNavLink = document.querySelector(".baraza-nav-link");
-const secretariatNavLink = document.querySelector("[data-open-secretariat]");
+const secretariatNavLinks = document.querySelectorAll("[data-open-secretariat]");
+const stationVenuesLinks = document.querySelectorAll("[data-open-station-venues]");
+const stationVenuesView = document.querySelector(".station-venues-view");
 const settingsView = document.querySelector(".settings-view");
 const dashboardSiteView = document.querySelector(".dashboard-site-view");
 const dashboardSiteFrame = document.querySelector(".dashboard-site-frame");
@@ -325,10 +327,11 @@ const closeMoreMenu = ({ restoreFocus = false } = {}) => {
 
 const showBarazaView = (view) => {
   dashboardViews.forEach((item) => {
-    if (item === directoryView || item === profileView || item === discussionPlannerView) return;
+    if (item === directoryView || item === profileView || item === discussionPlannerView || item === stationVenuesView) return;
     item.hidden = view !== "dashboard" && !(view === "settings" && item === settingsView);
   });
   if (discussionPlannerView) discussionPlannerView.hidden = true;
+  if (stationVenuesView) stationVenuesView.hidden = view !== "station-venues";
   directoryView.hidden = view !== "directory";
   profileView.hidden = view !== "profile";
   if (view === "settings") {
@@ -344,13 +347,14 @@ const showBarazaView = (view) => {
   if (dashboardSiteView) dashboardSiteView.hidden = view !== "about" && view !== "contact";
   if (secretariatView) secretariatView.hidden = view !== "secretariat";
   barazaNavLink?.classList.toggle("is-active", view === "directory" || view === "profile");
-  secretariatNavLink?.classList.toggle("is-active", view === "secretariat");
+  secretariatNavLinks.forEach((link) => link.classList.toggle("is-active", view === "secretariat"));
   settingsNavLink?.classList.toggle("is-active", view === "settings");
-  moreNavButton?.classList.toggle("is-active", view === "settings" || view === "contact" || view === "secretariat");
+  moreNavButton?.classList.toggle("is-active", view === "settings" || view === "contact" || view === "secretariat" || view === "station-venues");
   dashboardPageLinks.forEach((link) => {
     link.classList.toggle("is-active", link.dataset.dashboardPage === view);
   });
   dashboardShell?.classList.toggle("is-secretariat-view", view === "secretariat");
+  dashboardShell?.classList.toggle("is-station-venues-view", view === "station-venues");
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
@@ -416,10 +420,14 @@ barazaNavLink?.addEventListener("click", () => {
   showBarazaView("directory");
   setActiveLink("");
 });
-secretariatNavLink?.addEventListener("click", () => {
+secretariatNavLinks.forEach((link) => link.addEventListener("click", () => {
   closeMoreMenu();
   showBarazaView("secretariat");
-});
+}));
+stationVenuesLinks.forEach((link) => link.addEventListener("click", () => {
+  closeMoreMenu();
+  showBarazaView("station-venues");
+}));
 
 if (sections.length && "IntersectionObserver" in window) {
   const sectionObserver = new IntersectionObserver((entries) => {

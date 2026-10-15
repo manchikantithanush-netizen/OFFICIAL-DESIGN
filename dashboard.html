@@ -43,6 +43,7 @@
             </button>
             <div class="more-menu" id="more-menu" aria-label="More dashboard options" aria-hidden="true">
               <a href="#contact-view" data-dashboard-page="contact"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
+              <button type="button" data-open-station-venues><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>IHS Station Venues</span></button>
               <button type="button" data-open-secretariat><i class="fa-solid fa-landmark" aria-hidden="true"></i><span>Official Secretariat</span></button>
               <button class="settings-nav-link" type="button"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></button>
             </div>
@@ -60,6 +61,18 @@
 
         <section class="dashboard-site-view" aria-label="Website information" hidden>
           <iframe class="dashboard-site-frame" title="About Roundsquare" loading="lazy" scrolling="no" src="about:blank"></iframe>
+        </section>
+
+        <section class="station-venues-view" aria-labelledby="station-venues-title" hidden>
+          <div class="view-heading">
+            <p class="eyebrow"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> The Indian High School</p>
+            <h1 id="station-venues-title">IHS Station <em>Venues.</em></h1>
+            <p>Explore the station locations. Tap a picture to open it full size.</p>
+          </div>
+          <div class="station-venue-gallery" aria-label="Station venue pictures">
+            <figure><a href="Images/station1.jpeg" target="_blank" rel="noopener" aria-label="Open Station 1 venue picture full size"><img src="Images/station1.jpeg" alt="IHS station venue 1" /><span>Station 1</span></a></figure>
+            <figure><a href="Images/station2.jpeg" target="_blank" rel="noopener" aria-label="Open Station 2 venue picture full size"><img src="Images/station2.jpeg" alt="IHS station venue 2" /><span>Station 2</span></a></figure>
+          </div>
         </section>
 
         <section class="baraza-directory-view" aria-labelledby="directory-title" hidden>
@@ -252,6 +265,15 @@
             <p class="welcome-text">A day to connect, discover and grow. Everything you need for your Roundsquare experience is right here.</p>
             <a class="primary-action" href="#schedule">Explore your day <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
             <button class="find-baraza-button" type="button" data-open-your-baraza><i class="fa-solid fa-compass" aria-hidden="true"></i><span>Find your Baraza</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+            <div class="welcome-shortcuts">
+              <a href="#about-view" data-dashboard-page="about"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span><strong>About</strong><small>Learn about Round Square</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+              <button type="button" data-open-secretariat><i class="fa-solid fa-landmark" aria-hidden="true"></i><span><strong>Official Secretariat</strong><small>Meet the conference team</small></span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+              <button class="station-venues-button" type="button" data-open-station-venues>
+                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                <span><strong>IHS Station Venues</strong><small>View the station locations</small></span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
           <div class="welcome-art" aria-hidden="true">
             <div class="welcome-carousel">
