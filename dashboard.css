@@ -294,7 +294,6 @@ body.is-baraza-leader .leader-dashboard-welcome { display: block; }
 .station-venue-gallery a { display: block; overflow: hidden; border-radius: 12px; cursor: zoom-in; }
 .station-venue-gallery img { display: block; width: 100%; height: auto; border-radius: 12px; transition: transform .2s ease; }
 .station-venue-gallery a:hover img { transform: scale(1.015); }
-.station-venue-gallery span { display: block; padding: .8rem .35rem .15rem; color: var(--warm-gold); font-size: .8rem; font-weight: 800; }
 .welcome-art { position: relative; min-height: 285px; overflow: hidden; background: var(--deep-blue); border-radius: 28px; isolation: isolate; transform: translateY(-.7rem); }
 .welcome-art::before { position: absolute; z-index: 1; inset: 0; content: ""; background: linear-gradient(115deg, rgba(229, 160, 68, .28), rgba(124, 37, 42, .24)); pointer-events: none; }
 .welcome-carousel { position: absolute; z-index: 0; inset: 0; }
