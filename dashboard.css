@@ -254,6 +254,10 @@ body.is-baraza-leader .leader-dashboard-welcome { display: block; }
 .reminder-options button:hover { border-color: var(--warm-gold); background: rgba(242, 190, 85, .1); }
 .reminder-options button.is-selected { border-color: var(--warm-gold); background: rgba(242, 190, 85, .14); box-shadow: inset 3px 0 0 var(--warm-gold); }
 .reminder-options strong { font-size: .8rem; }.reminder-options small { color: var(--muted-blue-grey); font-size: .68rem; }
+.device-calendar-reminders-button { display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: .5rem; margin-top: .85rem; padding: .8rem; color: var(--warm-ivory); background: rgba(20, 41, 68, .85); border: 1px solid rgba(242, 190, 85, .45); border-radius: 10px; cursor: pointer; font: inherit; font-size: .68rem; font-weight: 800; letter-spacing: .04em; }
+.device-calendar-reminders-button:hover:not(:disabled) { background: rgba(242, 190, 85, .12); border-color: var(--warm-gold); }
+.device-calendar-reminders-button:disabled { cursor: not-allowed; opacity: .5; }
+.device-calendar-copy { margin: .45rem 0 0; color: var(--muted-blue-grey); font-size: .66rem; text-align: center; }
 .confirm-reminders-button { width: 100%; margin-top: 1rem; padding: .8rem; color: var(--deep-blue); background: var(--warm-gold); border: 1px solid var(--warm-gold); border-radius: 10px; cursor: pointer; font-size: .68rem; font-weight: 800; letter-spacing: .06em; }
 .confirm-reminders-button:hover { background: #f8d27c; }
 .reminder-status { min-height: 1.1rem; margin: .9rem 0 0; color: var(--warm-gold); font-size: .72rem; }

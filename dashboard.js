@@ -36,6 +36,7 @@ const reminderModal = document.querySelector(".reminder-modal");
 const reminderClose = document.querySelector(".reminder-close");
 const reminderStatus = document.querySelector(".reminder-status");
 const confirmRemindersButton = document.querySelector(".confirm-reminders-button");
+const deviceCalendarRemindersButton = document.querySelector(".device-calendar-reminders-button");
 const reminderOptions = document.querySelectorAll("[data-reminder-schedule]");
 const notificationCopy = document.querySelector(".notification-copy");
 const noNotifications = document.querySelector(".no-notifications");
@@ -840,6 +841,7 @@ const clearReminders = () => {
 const selectReminderSchedule = (scheduleName) => {
   if (!reminderSchedules[scheduleName]) return;
   selectedReminderSchedule = scheduleName;
+  deviceCalendarRemindersButton.disabled = false;
   reminderOptions.forEach((button) => {
     const isSelected = button.dataset.reminderSchedule === scheduleName;
     button.classList.toggle("is-selected", isSelected);
@@ -900,12 +902,16 @@ const calendarTime = (minutes) => {
   return `${pad(hour)}${pad(minutes % 60)}00`;
 };
 
-const createCalendarFile = () => {
-  const selectedPanel = document.querySelector("[data-agenda-panel].is-visible") ||
-    document.querySelector("[data-agenda-panel]:not([hidden])");
+const createCalendarFile = (scheduleName) => {
+  const selectedPanel = scheduleName
+    ? document.querySelector(`[data-agenda-panel="${scheduleName}"]`)
+    : document.querySelector("[data-agenda-panel].is-visible") ||
+      document.querySelector("[data-agenda-panel]:not([hidden])");
   if (!selectedPanel) return;
 
-  const selectedTab = document.querySelector(".agenda-tab.is-active");
+  const selectedTab = scheduleName
+    ? document.querySelector(`.agenda-tab[data-agenda="${scheduleName}"]`)
+    : document.querySelector(".agenda-tab.is-active");
   const agendaName = selectedTab?.textContent.trim() || "Event";
   let previousStart = 0;
   const rows = [...selectedPanel.querySelectorAll(".agenda-row")];
@@ -952,6 +958,15 @@ const createCalendarFile = () => {
 };
 
 addCalendarButton?.addEventListener("click", createCalendarFile);
+deviceCalendarRemindersButton?.addEventListener("click", () => {
+  if (!selectedReminderSchedule) {
+    reminderStatus.textContent = "Choose a schedule before adding it to your device calendar.";
+    return;
+  }
+  createCalendarFile(selectedReminderSchedule);
+  const selectedLabel = selectedReminderSchedule === "junior" ? "Junior" : "Intermediate & Senior";
+  reminderStatus.textContent = `${selectedLabel} schedule downloaded. Open the calendar file to add it to your device calendar.`;
+});
 
 const toggleNotifications = (isOpen) => {
   renderReminderNotifications();
