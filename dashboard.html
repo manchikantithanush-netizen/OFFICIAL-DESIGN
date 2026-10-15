@@ -79,9 +79,6 @@
             <h1 id="profile-title"></h1>
             <p id="profile-language"></p>
           </div>
-          <div class="leader-local-access">
-            <p><strong>Browser-local access:</strong> your Baraza code selects this dashboard, but codes are checked in the app and are not secure authentication. Plans stay in this browser and do not sync across devices.</p>
-          </div>
           <div class="profile-meta-grid">
             <article><span>Baraza level</span><strong id="profile-level"></strong></article>
             <article><span>Room location</span><strong>To be confirmed</strong><small>Room details will be added when available.</small></article>
@@ -178,13 +175,15 @@
             <div>
               <p class="eyebrow">Baraza leader tools</p>
               <h1 id="discussion-planner-title">Discussion <em>Planner.</em></h1>
-              <p class="planner-intro">Prepare your Baraza conversation and keep each speaker on time. One plan per Baraza is saved only in this browser; there is no secure sign-in or cross-device sync.</p>
+              <p class="planner-intro">Prepare your Baraza conversation and keep each speaker on time.</p>
             </div>
             <span class="discussion-status-badge" data-discussion-status>Draft</span>
           </div>
           <div class="planner-toolbar">
             <button class="planner-button planner-button-secondary" type="button" data-create-discussion><i class="fa-solid fa-plus" aria-hidden="true"></i> Create Discussion</button>
+            <button class="planner-button planner-button-secondary" type="button" data-previous-discussions><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Previous discussions</button>
           </div>
+          <p class="planner-status-message" data-previous-discussions-status role="status" aria-live="polite" hidden></p>
           <p class="planner-status-message" data-planner-status role="status" aria-live="polite"></p>
 
           <div class="discussion-editor" data-discussion-editor>

@@ -7,9 +7,7 @@ if (signInForm) {
   const grInput = document.querySelector("#gr-number");
   const grLabel = document.querySelector('label[for="gr-number"]');
   const grInputWrap = grInput.closest(".input-with-action");
-  const grHint = document.querySelector("#gr-number-hint");
   const grError = document.querySelector('[data-error-for="gr-number"]');
-  const localPlannerHint = document.querySelector("#baraza-local-hint");
   const gradeModal = document.querySelector(".grade-modal");
   const gradeOptions = document.querySelectorAll("[data-grade-group]");
   const gradeContinueButton = document.querySelector(".grade-continue-button");
@@ -23,10 +21,6 @@ if (signInForm) {
     const isBarazaLeader = nameInput.value.trim().toLocaleLowerCase("en") === "rsbaraza";
     grLabel.firstChild.textContent = isBarazaLeader ? "BARAZA ACCESS CODE " : "GR NUMBER ";
     grInputWrap.hidden = false;
-    grHint.textContent = isBarazaLeader
-      ? "Enter your assigned 5-digit Baraza access code"
-      : "Students: enter your GR number";
-    localPlannerHint.hidden = !isBarazaLeader;
     grInput.setAttribute("aria-label", isBarazaLeader ? "Baraza access code" : "GR number");
     passwordToggle?.setAttribute("aria-label", `Show ${isBarazaLeader ? "Baraza access code" : "GR number"}`);
     signInForm.querySelector(".submit-button").innerHTML = isBarazaLeader

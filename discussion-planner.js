@@ -4,6 +4,7 @@ const liveView = document.querySelector("[data-discussion-live]");
 const form = document.querySelector("[data-discussion-form]");
 const speakerList = document.querySelector("[data-speaker-editor-list]");
 const plannerStatus = document.querySelector("[data-planner-status]");
+const previousDiscussionsStatus = document.querySelector("[data-previous-discussions-status]");
 const statusBadge = document.querySelector("[data-discussion-status]");
 const MAX_DURATION_SECONDS = 7200;
 let currentRecord;
@@ -436,6 +437,10 @@ export const initializeDiscussionPlanner = (record) => {
     return;
   }
   currentRecord = record;
+  document.querySelector("[data-previous-discussions]")?.addEventListener("click", () => {
+    previousDiscussionsStatus.textContent = "Previous discussions are temporarily unavailable while we fix a bug. We're working to restore them.";
+    previousDiscussionsStatus.hidden = false;
+  });
   document.querySelector("[data-baraza-name]").textContent = record.happiness;
   try {
     currentDiscussion = readLocalDiscussion();
