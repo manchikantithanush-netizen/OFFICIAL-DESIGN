@@ -390,8 +390,11 @@ if (directoryGrid) {
     const head = document.createElement("small");
     head.className = "directory-head";
     head.textContent = `Head: ${displayLeader(record.head)}`;
-    const cardContent = [number, happiness, details];
-    card.append(...cardContent, head);
+    const tapHint = document.createElement("span");
+    tapHint.className = "directory-tap-hint";
+    tapHint.textContent = "Tap to see more information";
+    const cardContent = [number, happiness, details, head, tapHint];
+    card.append(...cardContent);
     card.addEventListener("click", () => openProfile(record));
     return card;
   }));

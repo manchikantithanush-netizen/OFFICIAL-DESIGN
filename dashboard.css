@@ -131,6 +131,10 @@ button { font: inherit; }
 .baraza-directory-card small { margin-top: .4rem; color: var(--muted-blue-grey); font-size: .65rem; }
 .baraza-directory-card em { margin-top: auto; padding-top: .8rem; color: var(--warm-gold); font-size: .62rem; font-style: normal; font-weight: 800; text-transform: uppercase; }
 .directory-head { margin-top: .55rem; color: var(--muted-blue-grey); font-size: .68rem; }
+.directory-tap-hint { margin-top: .8rem; color: var(--warm-gold); font-size: .62rem; font-weight: 700; }
+@media (max-width: 800px), (max-width: 1024px) and (max-aspect-ratio: 1/1) {
+  .baraza-directory-grid { grid-template-columns: minmax(0, 1fr); }
+}
 .baraza-profile-view { --baraza-theme: var(--warm-gold); --profile-accent: var(--baraza-theme); --profile-ink: var(--midnight-navy); padding: clamp(1.2rem, 4vw, 2.5rem); background: radial-gradient(ellipse at 0 0, color-mix(in srgb, var(--profile-accent) 28%, transparent), transparent 34rem), linear-gradient(145deg, color-mix(in srgb, var(--profile-accent) 13%, var(--midnight-navy)), var(--midnight-navy) 72%); border: 1px solid color-mix(in srgb, var(--profile-accent) 42%, transparent); border-radius: 28px; }
 .baraza-directory-card[data-theme="gold"], .baraza-profile-view[data-theme="gold"] { --baraza-theme: #f2be55; }
 .baraza-directory-card[data-theme="white"], .baraza-profile-view[data-theme="white"] { --baraza-theme: #d8e2ed; }
@@ -433,8 +437,9 @@ body.is-baraza-leader .leader-dashboard-welcome { display: block; }
   .resource-links {
     grid-template-columns: minmax(0, 1fr);
     gap: .75rem;
-    margin: 1.5rem 0 3rem;
+    margin: 1.5rem 0;
   }
+  .event-countdown { margin: 1.5rem 0 4rem; }
   .reminder-button { width: 100%; }
   .people-row { grid-template-columns: minmax(0, 1fr); }
   .person-card { min-width: 0; }
