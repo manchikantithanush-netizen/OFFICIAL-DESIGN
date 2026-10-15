@@ -21,7 +21,11 @@ const moreMenu = document.querySelector(".more-menu");
 const barazaNavLink = document.querySelector(".baraza-nav-link");
 const secretariatNavLinks = document.querySelectorAll("[data-open-secretariat]");
 const stationVenuesLinks = document.querySelectorAll("[data-open-station-venues]");
+const previousRsicLinks = document.querySelectorAll("[data-open-previous-rsic]");
 const stationVenuesView = document.querySelector(".station-venues-view");
+const previousRsicView = document.querySelector(".previous-rsic-view");
+const previousRsicGallery = document.querySelector("[data-previous-rsic-gallery]");
+const speakerMessagesView = document.querySelector(".speaker-messages-view");
 const settingsView = document.querySelector(".settings-view");
 const dashboardSiteView = document.querySelector(".dashboard-site-view");
 const dashboardSiteFrame = document.querySelector(".dashboard-site-frame");
@@ -55,6 +59,52 @@ const reminderHistoryKey = "roundsquare-reminder-history";
 const unreadNotificationsKey = "roundsquare-unread-notifications";
 const reminderTimers = [];
 const welcomeCarouselSlides = document.querySelectorAll(".welcome-slide");
+const previousRsicPhotos = [
+  "WhatsApp Image 2026-10-15 at 18.11.46.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.47.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.48.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.49 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.50 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.50.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.51 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.51 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.51.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.52 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.52 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.52.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.53 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.53 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.53 (3).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.54 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.54.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.55 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.55 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.55.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.56 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.56 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.56 (3).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.56.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.57 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.58 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.58 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.58.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.59 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.11.59.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.00 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.00 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.00.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.01 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.01.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.02.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.03 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.04 (1).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.04.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.05 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.05.jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.06 (2).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.06 (3).jpeg",
+  "WhatsApp Image 2026-10-15 at 18.12.06.jpeg",
+];
 let unreadNotifications = Number(window.localStorage.getItem(unreadNotificationsKey) || 0);
 let notificationToastTimer;
 let notificationToastStartX = null;
@@ -75,16 +125,16 @@ const directoryGrid = document.querySelector("[data-baraza-directory]");
 const dashboardViews = document.querySelectorAll(".dashboard-shell > section, .dashboard-shell > .resource-links, .dashboard-shell > .quick-links, .dashboard-shell > .dashboard-footer");
 const reminderSchedules = {
   intermediate: [
-    ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Baraza Session 1"],
-    ["12:40", "Lunch"], ["13:30", "Keynote Speaker"], ["14:00", "Creative Expression Session"],
-    ["14:30", "Photo Sessions"], ["15:00", "Baraza Session 2"], ["16:30", "Team Dance"],
-    ["17:45", "Dispersal"],
+    ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Creative Service Expression"],
+    ["11:00", "Bingo"], ["12:00", "Photo Session"], ["12:40", "Lunch"],
+    ["13:40", "Baraza Session 1"], ["14:40", "Break"], ["15:00", "Baraza Session 2"],
+    ["16:45", "Closing Ceremony"], ["17:30", "Dispersal"],
   ],
   junior: [
-    ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Scavenger Hunt"],
-    ["11:40", "Baraza Session 1"], ["12:40", "Lunch"], ["13:30", "Keynote Speaker"],
-    ["14:00", "Creative Expression Session"], ["14:30", "Photo Sessions"], ["15:00", "Baraza Session 2"],
-    ["16:30", "Team Dance"], ["17:45", "Dispersal"],
+    ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Creative Service Expression"],
+    ["11:00", "Scavenger Hunt"], ["12:00", "Photo Session"], ["12:40", "Lunch"],
+    ["13:40", "Baraza Session 1"], ["14:40", "Break"], ["15:00", "Baraza Session 2"],
+    ["16:45", "Closing Ceremony"], ["17:45", "Dispersal"],
   ],
 };
 
@@ -98,6 +148,27 @@ if (timeGreeting) {
         ? "evening"
         : "night";
   timeGreeting.textContent = greeting;
+}
+
+if (previousRsicGallery) {
+  previousRsicGallery.replaceChildren(...previousRsicPhotos.map((filename, index) => {
+    const link = document.createElement("a");
+    link.className = "previous-rsic-photo";
+    if (filename === "WhatsApp Image 2026-10-15 at 18.11.49 (2).jpeg") {
+      link.classList.add("previous-rsic-photo-reframe");
+    }
+    link.href = `Images/moreimages/${encodeURIComponent(filename)}`;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.setAttribute("aria-label", `Open Previous RSIC photo ${index + 1} full size`);
+    const image = document.createElement("img");
+    image.src = link.href;
+    image.alt = `Previous RSIC memory ${index + 1}`;
+    image.loading = "lazy";
+    image.decoding = "async";
+    link.append(image);
+    return link;
+  }));
 }
 
 if (studentName) {
@@ -284,6 +355,9 @@ document.querySelector("#baraza-title")?.replaceChildren(document.createTextNode
 document.querySelector("#baraza-subtitle")?.replaceChildren(document.createTextNode(studentConfig.label));
 document.querySelector("#intermediate-tab")?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
 document.querySelector(`[data-reminder-schedule="${studentConfig.schedule}"] strong`)?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
+document.querySelector("[data-event-time-range]")?.replaceChildren(document.createTextNode(
+  `9:00 AM — ${studentConfig.schedule === "junior" ? "5:45 PM" : "5:30 PM"}`,
+));
 
 if (welcomeCarouselSlides.length > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   window.setInterval(() => {
@@ -327,11 +401,13 @@ const closeMoreMenu = ({ restoreFocus = false } = {}) => {
 
 const showBarazaView = (view) => {
   dashboardViews.forEach((item) => {
-    if (item === directoryView || item === profileView || item === discussionPlannerView || item === stationVenuesView) return;
+    if (item === directoryView || item === profileView || item === discussionPlannerView || item === stationVenuesView || item === previousRsicView || item === speakerMessagesView) return;
     item.hidden = view !== "dashboard" && !(view === "settings" && item === settingsView);
   });
   if (discussionPlannerView) discussionPlannerView.hidden = true;
   if (stationVenuesView) stationVenuesView.hidden = view !== "station-venues";
+  if (previousRsicView) previousRsicView.hidden = view !== "previous-rsic";
+  if (speakerMessagesView) speakerMessagesView.hidden = view !== "messages";
   directoryView.hidden = view !== "directory";
   profileView.hidden = view !== "profile";
   if (view === "settings") {
@@ -349,12 +425,14 @@ const showBarazaView = (view) => {
   barazaNavLink?.classList.toggle("is-active", view === "directory" || view === "profile");
   secretariatNavLinks.forEach((link) => link.classList.toggle("is-active", view === "secretariat"));
   settingsNavLink?.classList.toggle("is-active", view === "settings");
-  moreNavButton?.classList.toggle("is-active", view === "settings" || view === "contact" || view === "secretariat" || view === "station-venues");
+  moreNavButton?.classList.toggle("is-active", view === "settings" || view === "contact" || view === "secretariat" || view === "station-venues" || view === "previous-rsic");
   dashboardPageLinks.forEach((link) => {
     link.classList.toggle("is-active", link.dataset.dashboardPage === view);
   });
   dashboardShell?.classList.toggle("is-secretariat-view", view === "secretariat");
   dashboardShell?.classList.toggle("is-station-venues-view", view === "station-venues");
+  dashboardShell?.classList.toggle("is-previous-rsic-view", view === "previous-rsic");
+  dashboardShell?.classList.toggle("is-messages-view", view === "messages");
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
@@ -434,6 +512,17 @@ stationVenuesLinks.forEach((link) => link.addEventListener("click", () => {
   closeMoreMenu();
   showBarazaView("station-venues");
 }));
+previousRsicLinks.forEach((link) => link.addEventListener("click", () => {
+  closeMoreMenu();
+  showBarazaView("previous-rsic");
+}));
+document.querySelectorAll("[data-open-message]").forEach((button) => {
+  button.addEventListener("click", () => {
+    closeMoreMenu();
+    speakerMessagesView?.setAttribute("data-focused-message", button.dataset.openMessage);
+    showBarazaView("messages");
+  });
+});
 
 if (sections.length && "IntersectionObserver" in window) {
   const sectionObserver = new IntersectionObserver((entries) => {
@@ -819,10 +908,16 @@ const createCalendarFile = () => {
   const selectedTab = document.querySelector(".agenda-tab.is-active");
   const agendaName = selectedTab?.textContent.trim() || "Event";
   let previousStart = 0;
-  const events = [...selectedPanel.querySelectorAll(".agenda-row")].map((row) => {
+  const rows = [...selectedPanel.querySelectorAll(".agenda-row")];
+  const events = rows.map((row, index) => {
     const timeParts = row.querySelector("time")?.textContent.trim().split("–").map((part) => part.trim()) || [];
     const startMinutes = calendarMinutes(timeParts[0], previousStart);
-    const endMinutes = timeParts[1] ? calendarMinutes(timeParts[1], startMinutes) : startMinutes + 15;
+    const nextTime = rows[index + 1]?.querySelector("time")?.textContent.trim().split("–")[0].trim();
+    const endMinutes = timeParts[1]
+      ? calendarMinutes(timeParts[1], startMinutes)
+      : nextTime
+        ? calendarMinutes(nextTime, startMinutes)
+        : startMinutes === null ? null : startMinutes + 15;
     const title = row.querySelector(":scope > span")?.textContent.trim() || "Event activity";
     if (startMinutes === null || endMinutes === null) return null;
 

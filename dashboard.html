@@ -42,9 +42,10 @@
               <i class="fa-solid fa-ellipsis" aria-hidden="true"></i><span>More</span>
             </button>
             <div class="more-menu" id="more-menu" aria-label="More dashboard options" aria-hidden="true">
-              <a href="#contact-view" data-dashboard-page="contact"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
               <button type="button" data-open-station-venues><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>IHS Station Venues</span></button>
+              <button type="button" data-open-previous-rsic><i class="fa-regular fa-images" aria-hidden="true"></i><span>Previous RSIC</span></button>
               <button type="button" data-open-secretariat><i class="fa-solid fa-landmark" aria-hidden="true"></i><span>Official Secretariat</span></button>
+              <a href="#contact-view" data-dashboard-page="contact"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>Contact</span></a>
               <button class="settings-nav-link" type="button"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></button>
             </div>
           </div>
@@ -55,8 +56,9 @@
           <h1 id="settings-title">Settings</h1>
           <div class="settings-row">
             <span>Website version</span>
-            <strong>1.10.0</strong>
+            <strong>1.14.0</strong>
           </div>
+          <p class="settings-credit">Made by Thanush, Evan, Keshav</p>
         </section>
 
         <section class="dashboard-site-view" aria-label="Website information" hidden>
@@ -72,6 +74,41 @@
           <div class="station-venue-gallery" aria-label="Station venue pictures">
             <figure><a href="Images/station1.jpeg" target="_blank" rel="noopener" aria-label="Open Station 1 venue picture full size"><img src="Images/station1.jpeg" alt="IHS station venue 1" /><span>Station 1</span></a></figure>
             <figure><a href="Images/station2.jpeg" target="_blank" rel="noopener" aria-label="Open Station 2 venue picture full size"><img src="Images/station2.jpeg" alt="IHS station venue 2" /><span>Station 2</span></a></figure>
+          </div>
+        </section>
+
+        <section class="previous-rsic-view" aria-labelledby="previous-rsic-title" hidden>
+          <div class="view-heading">
+            <p class="eyebrow"><i class="fa-regular fa-images" aria-hidden="true"></i> Moments from the archive</p>
+            <h1 id="previous-rsic-title">Previous <em>RSIC.</em></h1>
+            <p>A collage of memories, people and experiences from a previous Round Square International Conference.</p>
+          </div>
+          <div class="previous-rsic-gallery" data-previous-rsic-gallery aria-label="Previous RSIC photo gallery"></div>
+        </section>
+
+        <section class="speaker-messages-view" aria-labelledby="speaker-messages-title" hidden>
+          <div class="view-heading">
+            <p class="eyebrow">Words for our delegates</p>
+            <h1 id="speaker-messages-title">Messages to <em>delegates.</em></h1>
+            <p>Read the messages from our Head of School and Round Square Representative.</p>
+          </div>
+          <div class="speaker-messages-grid">
+            <article class="speaker-message-card" data-message-card="ceo">
+              <div class="speaker-message-heading">
+                <p class="eyebrow">Message 1</p>
+                <h2>CEO Address to Delegates</h2>
+                <p>Punit MK Vasu <span>· Head of School</span></p>
+              </div>
+              <img src="Images/message1.png" alt="Message to delegates from Punit MK Vasu, Head of School" />
+            </article>
+            <article class="speaker-message-card" data-message-card="representative">
+              <div class="speaker-message-heading">
+                <p class="eyebrow">Message 2</p>
+                <h2>Address to Delegates</h2>
+                <p>Dr. Abhilasha Chaube <span>· Round Square Representative</span></p>
+              </div>
+              <img src="Images/message2.png" alt="Message to delegates from Dr. Abhilasha Chaube, Round Square Representative" />
+            </article>
           </div>
         </section>
 
@@ -202,9 +239,7 @@
           </div>
           <div class="planner-toolbar">
             <button class="planner-button planner-button-secondary" type="button" data-create-discussion><i class="fa-solid fa-plus" aria-hidden="true"></i> Create Discussion</button>
-            <button class="planner-button planner-button-secondary" type="button" data-previous-discussions><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Previous discussions</button>
           </div>
-          <p class="planner-status-message" data-previous-discussions-status role="status" aria-live="polite" hidden></p>
           <p class="planner-status-message" data-planner-status role="status" aria-live="polite"></p>
 
           <div class="discussion-editor" data-discussion-editor>
@@ -290,6 +325,11 @@
               <img class="welcome-slide" data-src="Images/carousel/3.jpeg" alt="" />
               <img class="welcome-slide" data-src="Images/carousel/4.jpeg" alt="" />
               <img class="welcome-slide" data-src="Images/carousel/5.jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/moreimages/WhatsApp%20Image%202026-10-15%20at%2018.11.46.jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/moreimages/WhatsApp%20Image%202026-10-15%20at%2018.11.47.jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/moreimages/WhatsApp%20Image%202026-10-15%20at%2018.11.49%20(2).jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/moreimages/WhatsApp%20Image%202026-10-15%20at%2018.11.50%20(2).jpeg" alt="" />
+              <img class="welcome-slide" data-src="Images/moreimages/WhatsApp%20Image%202026-10-15%20at%2018.11.50.jpeg" alt="" />
             </div>
             <div class="art-ring art-ring-one"></div>
             <div class="art-ring art-ring-two"></div>
@@ -305,7 +345,7 @@
         </section>
         <section class="event-strip" aria-label="Event details">
           <div><i class="fa-regular fa-calendar" aria-hidden="true"></i><span><small>DATE</small><strong>17 October 2026</strong></span></div>
-          <div><i class="fa-regular fa-clock" aria-hidden="true"></i><span><small>TIME</small><strong>9:00 AM — 5:45 PM</strong></span></div>
+          <div><i class="fa-regular fa-clock" aria-hidden="true"></i><span><small>TIME</small><strong data-event-time-range>9:00 AM — 5:45 PM</strong></span></div>
           <div><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span><small>VENUE</small><strong>The Indian High School</strong></span></div>
         </section>
         <div class="resource-links">
@@ -349,29 +389,30 @@
               <button class="agenda-tab" type="button" role="tab" aria-selected="false" aria-controls="junior-agenda" id="junior-tab" data-agenda="junior">Junior</button>
             </div>
             <div class="agenda-list is-visible" id="intermediate-agenda" role="tabpanel" aria-labelledby="intermediate-tab" data-agenda-panel="intermediate">
-              <div class="agenda-row"><time>9:00 <span>–</span> 9:30</time><span>Registration</span></div>
-              <div class="agenda-row"><time>9:30 <span>–</span> 10:30</time><span>Opening Ceremony</span></div>
-              <div class="agenda-row agenda-row-highlight"><time>10:30 <span>–</span> 12:40</time><span>Baraza Session 1</span></div>
-              <div class="agenda-row agenda-row-lunch"><time>12:40 <span>–</span> 1:30</time><span>Lunch</span></div>
-              <div class="agenda-row"><time>1:30 <span>–</span> 2:00</time><span>Keynote Speaker</span></div>
-              <div class="agenda-row"><time>2:00 <span>–</span> 2:30</time><span>Creative Expression Session</span></div>
-              <div class="agenda-row"><time>2:30 <span>–</span> 3:00</time><span>Photo Sessions</span></div>
-              <div class="agenda-row agenda-row-highlight"><time>3:00 <span>–</span> 4:30</time><span>Baraza Session 2</span></div>
-              <div class="agenda-row"><time>4:30 <span>–</span> 5:30</time><span>Team Dance</span></div>
-              <div class="agenda-row agenda-row-final"><time>5:45</time><span>Dispersal</span></div>
+              <div class="agenda-row"><time>9:00 AM</time><span>Registration</span></div>
+              <div class="agenda-row"><time>9:30 AM</time><span>Opening Ceremony</span></div>
+              <div class="agenda-row"><time>10:30 AM</time><span>Creative Service Expression</span></div>
+              <div class="agenda-row"><time>11:00 AM</time><span>Bingo</span></div>
+              <div class="agenda-row"><time>12:00 PM</time><span>Photo Session</span></div>
+              <div class="agenda-row agenda-row-lunch"><time>12:40 PM</time><span>Lunch</span></div>
+              <div class="agenda-row agenda-row-highlight"><time>1:40 PM</time><span>Baraza Session 1</span></div>
+              <div class="agenda-row"><time>2:40 PM</time><span>Break</span></div>
+              <div class="agenda-row agenda-row-highlight"><time>3:00 PM</time><span>Baraza Session 2</span></div>
+              <div class="agenda-row"><time>4:45 PM</time><span>Closing Ceremony</span></div>
+              <div class="agenda-row agenda-row-final"><time>5:30 PM</time><span>Dispersal</span></div>
             </div>
             <div class="agenda-list" id="junior-agenda" role="tabpanel" aria-labelledby="junior-tab" data-agenda-panel="junior" hidden>
-              <div class="agenda-row"><time>9:00 <span>–</span> 9:30</time><span>Registration</span></div>
-              <div class="agenda-row"><time>9:30 <span>–</span> 10:30</time><span>Opening Ceremony</span></div>
-              <div class="agenda-row"><time>10:30 <span>–</span> 11:40</time><span>Scavenger Hunt</span></div>
-              <div class="agenda-row agenda-row-highlight"><time>11:40 <span>–</span> 12:40</time><span>Baraza Session 1</span></div>
-              <div class="agenda-row agenda-row-lunch"><time>12:40 <span>–</span> 1:30</time><span>Lunch</span></div>
-              <div class="agenda-row"><time>1:30 <span>–</span> 2:00</time><span>Keynote Speaker</span></div>
-              <div class="agenda-row"><time>2:00 <span>–</span> 2:30</time><span>Creative Expression Session</span></div>
-              <div class="agenda-row"><time>2:30 <span>–</span> 3:00</time><span>Photo Sessions</span></div>
-              <div class="agenda-row agenda-row-highlight"><time>3:00 <span>–</span> 4:30</time><span>Baraza Session 2</span></div>
-              <div class="agenda-row"><time>4:30 <span>–</span> 5:30</time><span>Team Dance</span></div>
-              <div class="agenda-row agenda-row-final"><time>5:45</time><span>Dispersal</span></div>
+              <div class="agenda-row"><time>9:00 AM</time><span>Registration</span></div>
+              <div class="agenda-row"><time>9:30 AM</time><span>Opening Ceremony</span></div>
+              <div class="agenda-row"><time>10:30 AM</time><span>Creative Service Expression</span></div>
+              <div class="agenda-row"><time>11:00 AM</time><span>Scavenger Hunt</span></div>
+              <div class="agenda-row"><time>12:00 PM</time><span>Photo Session</span></div>
+              <div class="agenda-row agenda-row-lunch"><time>12:40 PM</time><span>Lunch</span></div>
+              <div class="agenda-row agenda-row-highlight"><time>1:40 PM</time><span>Baraza Session 1</span></div>
+              <div class="agenda-row"><time>2:40 PM</time><span>Break</span></div>
+              <div class="agenda-row agenda-row-highlight"><time>3:00 PM</time><span>Baraza Session 2</span></div>
+              <div class="agenda-row"><time>4:45 PM</time><span>Closing Ceremony</span></div>
+              <div class="agenda-row agenda-row-final"><time>5:45 PM</time><span>Dispersal</span></div>
             </div>
           </div>
         </section>
@@ -379,16 +420,22 @@
         <section class="section-block" id="speakers">
           <div class="section-heading"><div><p class="eyebrow">People to meet</p><h2>Meet the <em>speakers.</em></h2></div><span class="speakers-note"><i class="fa-solid fa-star" aria-hidden="true"></i> Meaningful voices</span></div>
           <div class="people-row">
-            <a class="person-card person-card-featured" href="https://www.linkedin.com/in/punit-mk-vasu-180264172/" target="_blank" rel="noopener noreferrer">
-              <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/punitceo.jpeg" alt="Punit MK Vasu" /></div>
-              <div class="person-details"><strong>Punit MK Vasu</strong><span>Head of School</span><p>Leading The Indian High Group of Schools with a focus on inclusive, innovative and meaningful education.</p></div>
-              <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
-            </a>
-            <a class="person-card person-card-featured" href="https://www.linkedin.com/in/dr-abhilasha-chaube-352a10a2/" target="_blank" rel="noopener noreferrer">
-              <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/abhilasha.jpeg" alt="Dr. Abhilasha Chaube" /></div>
-              <div class="person-details"><strong>Dr. Abhilasha Chaube</strong><span>Round Square Representative</span><p>Creating engaging student experiences through Round Square initiatives, MUN and multicultural programmes.</p></div>
-              <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
-            </a>
+            <div class="speaker-card-wrap">
+              <a class="person-card person-card-featured" href="https://www.linkedin.com/in/punit-mk-vasu-180264172/" target="_blank" rel="noopener noreferrer">
+                <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/punitceo.jpeg" alt="Punit MK Vasu" /></div>
+                <div class="person-details"><strong>Punit MK Vasu</strong><span>Head of School</span><p>Leading The Indian High Group of Schools with a focus on inclusive, innovative and meaningful education.</p></div>
+                <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
+              </a>
+              <button class="read-message-button" type="button" data-open-message="ceo"><i class="fa-regular fa-envelope-open" aria-hidden="true"></i> Read message</button>
+            </div>
+            <div class="speaker-card-wrap">
+              <a class="person-card person-card-featured" href="https://www.linkedin.com/in/dr-abhilasha-chaube-352a10a2/" target="_blank" rel="noopener noreferrer">
+                <div class="person-photo-wrap"><img class="person-photo" src="Images/speakers/abhilasha.jpeg" alt="Dr. Abhilasha Chaube" /></div>
+                <div class="person-details"><strong>Dr. Abhilasha Chaube</strong><span>Round Square Representative</span><p>Creating engaging student experiences through Round Square initiatives, MUN and multicultural programmes.</p></div>
+                <i class="fa-solid fa-arrow-up-right-from-square person-card-icon" aria-hidden="true"></i>
+              </a>
+              <button class="read-message-button" type="button" data-open-message="representative"><i class="fa-regular fa-envelope-open" aria-hidden="true"></i> Read message</button>
+            </div>
           </div>
         </section>
 
@@ -424,8 +471,8 @@
           <h2 id="reminder-title">Choose your schedule</h2>
           <p class="reminder-copy">Select a schedule and allow browser notifications to receive activity reminders.</p>
           <div class="reminder-options">
-            <button type="button" data-reminder-schedule="intermediate"><strong>Intermediate &amp; Senior</strong><small>Barazas, keynote and team dance</small></button>
-            <button type="button" data-reminder-schedule="junior"><strong>Junior</strong><small>Scavenger hunt, Barazas and team dance</small></button>
+            <button type="button" data-reminder-schedule="intermediate"><strong>Intermediate &amp; Senior</strong><small>Bingo, Barazas and closing ceremony</small></button>
+            <button type="button" data-reminder-schedule="junior"><strong>Junior</strong><small>Scavenger hunt, Barazas and closing ceremony</small></button>
           </div>
           <button class="confirm-reminders-button" type="button"><i class="fa-solid fa-check" aria-hidden="true"></i> CONFIRM</button>
           <p class="reminder-status" role="status" aria-live="polite"></p>
