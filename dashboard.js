@@ -361,6 +361,7 @@ const renderProfile = (record) => {
   document.querySelector("#profile-title").textContent = record.happiness;
   document.querySelector("#profile-language").textContent = record.language;
   document.querySelector("#profile-level").textContent = record.level;
+  document.querySelector("#profile-room").textContent = record.room;
   document.querySelector("#profile-head").textContent = displayLeader(record.head);
   [record.coLeaders[0], record.coLeaders[1]].forEach((name, index) => {
     const leader = document.querySelector(`#profile-co-${index === 0 ? "one" : "two"}`);
@@ -386,7 +387,7 @@ if (directoryGrid) {
     const happiness = document.createElement("strong");
     happiness.textContent = record.happiness;
     const details = document.createElement("small");
-    details.textContent = `${record.language} · ${record.level}`;
+    details.textContent = `${record.language} · ${record.level} · Room ${record.room}`;
     const head = document.createElement("small");
     head.className = "directory-head";
     head.textContent = `Head: ${displayLeader(record.head)}`;
