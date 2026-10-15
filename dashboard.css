@@ -412,3 +412,32 @@ body.is-baraza-leader .leader-dashboard-welcome { display: block; }
 @media (max-width: 720px) {
   .happiness-compass-frame { right: .5rem; bottom: calc(5.8rem + env(safe-area-inset-bottom)); }
 }
+
+@media (max-width: 720px) {
+  .welcome-section {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    gap: 2rem;
+  }
+  .welcome-art {
+    min-height: 0;
+    height: clamp(15rem, 68vw, 20rem);
+    transform: none;
+  }
+  .event-strip {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .9rem;
+    margin: 2rem 0 3rem;
+    padding: 1rem;
+  }
+  .resource-links {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem;
+    margin: 1.5rem 0 3rem;
+  }
+  .reminder-button { width: 100%; }
+  .people-row { grid-template-columns: minmax(0, 1fr); }
+  .person-card { min-width: 0; }
+  .section-heading { align-items: flex-start; flex-wrap: wrap; }
+}
