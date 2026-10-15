@@ -367,6 +367,9 @@ const renderProfile = (record) => {
   document.querySelector("#profile-level").textContent = record.level;
   document.querySelector("#profile-room").textContent = record.room;
   document.querySelector("#profile-head").textContent = displayLeader(record.head);
+  record.admins.forEach((name, index) => {
+    document.querySelector(`#profile-admin-${index === 0 ? "one" : "two"}`).textContent = name;
+  });
   [record.coLeaders[0], record.coLeaders[1]].forEach((name, index) => {
     const leader = document.querySelector(`#profile-co-${index === 0 ? "one" : "two"}`);
     leader.textContent = displayLeader(name);
@@ -395,10 +398,13 @@ if (directoryGrid) {
     const head = document.createElement("small");
     head.className = "directory-head";
     head.textContent = `Head: ${displayLeader(record.head)}`;
+    const admins = document.createElement("small");
+    admins.className = "directory-admins";
+    admins.textContent = `Admins: ${record.admins.join(" · ")}`;
     const tapHint = document.createElement("span");
     tapHint.className = "directory-tap-hint";
     tapHint.textContent = "Tap to see more information";
-    const cardContent = [number, happiness, details, head, tapHint];
+    const cardContent = [number, happiness, details, head, admins, tapHint];
     card.append(...cardContent);
     card.addEventListener("click", () => openProfile(record));
     return card;

@@ -32,6 +32,9 @@ const renderLeaderDashboard = (record) => {
   profileView.querySelector("#profile-level").textContent = record.level;
   profileView.querySelector("#profile-room").textContent = record.room;
   profileView.querySelector("#profile-head").textContent = record.head;
+  record.admins.forEach((name, index) => {
+    profileView.querySelector(`#profile-admin-${index === 0 ? "one" : "two"}`).textContent = name;
+  });
   [record.coLeaders[0], record.coLeaders[1]].forEach((name, index) => {
     const leader = profileView.querySelector(`#profile-co-${index === 0 ? "one" : "two"}`);
     leader.textContent = name || "";
