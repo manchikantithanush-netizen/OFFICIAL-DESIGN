@@ -2,10 +2,14 @@ if (new URLSearchParams(window.location.search).get("view") === "baraza-leader")
   const { initializeBarazaLeaderDashboard } = await import("./baraza-leader-dashboard.js");
   await initializeBarazaLeaderDashboard();
 } else {
-  const [{ supabase }, { barazaRecords }] = await Promise.all([
-    import("./supabase-client.js"),
-    import("./baraza-data.js"),
-  ]);
+  const { barazaRecords } = await import("./baraza-data.js");
+  let supabase;
+  const supabaseClientPromise = import("./supabase-client.js")
+    .then(({ supabase: client }) => client)
+    .catch((error) => {
+      console.warn("Admin-message notifications are unavailable.", error);
+      return null;
+    });
 
 const dashboardLinks = document.querySelectorAll('.dashboard-nav a[href^="#"]:not([data-dashboard-page])');
 const dashboardPageLinks = document.querySelectorAll("[data-dashboard-page]");
@@ -715,16 +719,18 @@ updateNotificationBadge();
 const renderReminderNotifications = async () => {
   const history = getReminderHistory();
   let adminMessages = [];
-  try {
-    const { data, error } = await supabase
-      .from("admin_messages")
-    .select("id, title, message, content, created_at")
-      .order("created_at", { ascending: false })
-      .limit(20);
-    if (error) throw error;
-    adminMessages = data || [];
-  } catch (error) {
-    console.error("Unable to load admin messages.", error);
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("admin_messages")
+        .select("id, title, message, content, created_at")
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (error) throw error;
+      adminMessages = data || [];
+    } catch (error) {
+      console.error("Unable to load admin messages.", error);
+    }
   }
   if (!history.length && !adminMessages.length) {
     if (noNotifications) noNotifications.textContent = "NO NOTIFICATIONS";
@@ -768,15 +774,20 @@ const addReminderNotification = (message) => {
 };
 
 renderReminderNotifications();
-supabase
-  .channel("student-admin-messages")
-  .on("postgres_changes", { event: "*", schema: "public", table: "admin_messages" }, (payload) => {
-    renderReminderNotifications();
-    if (payload.eventType === "INSERT" && payload.new) {
-      addUnreadNotification(payload.new.title || "New update", payload.new.message || payload.new.content || "");
-    }
-  })
-  .subscribe();
+supabaseClientPromise.then((client) => {
+  if (!client) return;
+  supabase = client;
+  renderReminderNotifications();
+  supabase
+    .channel("student-admin-messages")
+    .on("postgres_changes", { event: "*", schema: "public", table: "admin_messages" }, (payload) => {
+      renderReminderNotifications();
+      if (payload.eventType === "INSERT" && payload.new) {
+        addUnreadNotification(payload.new.title || "New update", payload.new.message || payload.new.content || "");
+      }
+    })
+    .subscribe();
+});
 
 
 const showBrowserNotification = (title, body) => {
