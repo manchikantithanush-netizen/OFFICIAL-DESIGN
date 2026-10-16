@@ -186,7 +186,7 @@ const celebrationDismissCountdown = document.querySelector("[data-celebration-di
 const celebrationDismissTimer = document.querySelector("[data-celebration-dismiss-timer]");
 const countdownConfetti = document.querySelector(".countdown-confetti");
 const eventStartTimestamp = Date.parse("2026-10-17T09:00:00+04:00");
-const celebrationDuration = 15 * 60 * 1000;
+const celebrationDuration = 14 * 60 * 1000;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let celebrationInterval;
 let celebrationDismissTimeout;
@@ -326,8 +326,9 @@ const updateEventCountdown = () => {
     countdownUnits.forEach((unit) => { unit.textContent = "00"; });
     if (now < eventStartTimestamp + celebrationDuration) {
       beginCountdownCelebration(eventStartTimestamp + celebrationDuration);
+    } else {
+      dismissEventCountdown();
     }
-    dismissEventCountdown();
     return;
   }
 
