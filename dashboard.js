@@ -486,6 +486,8 @@ const renderProfile = (record) => {
       if (photoPath && name) {
         photo.src = photoPath;
         photo.alt = `Portrait of ${name}`;
+        const pos = record.coLeaderPhotoPositions?.[index];
+        photo.style.objectPosition = pos || "center 25%";
       }
       photo.onerror = () => {
         photo.hidden = true;

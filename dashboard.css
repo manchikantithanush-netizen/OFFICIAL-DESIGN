@@ -207,6 +207,8 @@ button { font: inherit; }
 .admin-panel { margin-top: 1rem; }
 .leader-signout-link { display: none; align-items: center; gap: .5rem; padding: .65rem .9rem; color: var(--warm-ivory); background: rgba(20, 41, 68, .72); border: 1px solid var(--line); border-radius: 999px; font-size: .72rem; font-weight: 700; }
 .leader-signout-link:hover, .leader-signout-link:focus-visible { color: var(--midnight-navy); background: var(--warm-gold); }
+.leader-feedback-link { display: inline-flex; align-items: center; gap: .5rem; padding: .65rem .9rem; color: var(--warm-gold); background: rgba(242, 190, 85, .1); border: 1px solid rgba(242, 190, 85, .3); border-radius: 999px; font-size: .72rem; font-weight: 700; text-decoration: none; }
+.leader-feedback-link:hover, .leader-feedback-link:focus-visible { color: var(--midnight-navy); background: var(--warm-gold); border-color: var(--warm-gold); }
 .leader-dashboard-welcome { margin: 0 0 .8rem; color: var(--muted-blue-grey); font-size: .8rem; font-weight: 700; }
 body.is-baraza-leader .dashboard-shell { padding-bottom: 3rem; }
 body.is-baraza-leader .dashboard-shell > :not(.dashboard-header):not(.dashboard-nav):not(.baraza-profile-view):not(.discussion-planner-view),
