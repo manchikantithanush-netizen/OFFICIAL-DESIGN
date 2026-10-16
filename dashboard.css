@@ -367,7 +367,8 @@ body.is-baraza-leader .leader-dashboard-welcome { display: block; }
 @media (max-width: 720px) { .notification-panel { place-items: start center; padding: 4.5rem 1rem 6rem; }.notification-card { width: min(100%, 26rem); max-height: calc(100dvh - 7rem); padding: 1.5rem; }.notification-toast { top: 4.5rem; right: 1rem; left: 1rem; width: auto; } }
 .event-countdown { position: relative; max-height: 1200px; margin: -3rem 0 6rem; padding: clamp(1.5rem, 4vw, 2.5rem); overflow: hidden; background: linear-gradient(135deg, rgba(242, 190, 85, .16), rgba(188, 80, 70, .2)); border: 1px solid rgba(242, 190, 85, .42); border-radius: 24px; text-align: center; opacity: 1; transform: translateY(0) scale(1); transition: opacity .85s ease, transform .85s ease, max-height .85s ease, margin .85s ease, padding .85s ease, border-width .85s ease; }
 .countdown-content { position: relative; z-index: 1; }
-.countdown-confetti { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+.countdown-confetti { position: fixed; z-index: 20; inset: 0; display: none; width: 100vw; height: 100vh; pointer-events: none; }
+.countdown-confetti.is-active { display: block; }
 .event-countdown.is-celebrating { background: radial-gradient(ellipse at 50% 0, rgba(74, 222, 128, .25), transparent 65%), linear-gradient(135deg, rgba(6, 78, 59, .96), rgba(20, 83, 45, .96)); border-color: rgba(134, 239, 172, .82); box-shadow: 0 20px 55px rgba(16, 185, 129, .2), inset 0 1px rgba(220, 252, 231, .22); }
 .event-countdown.is-celebrating .eyebrow,
 .event-countdown.is-celebrating h2,

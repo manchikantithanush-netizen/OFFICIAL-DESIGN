@@ -191,7 +191,7 @@ const initializeEventCountdown = (eventCountdown) => {
   const countdownNote = eventCountdown.querySelector(".countdown-note");
   const celebrationDismissCountdown = eventCountdown.querySelector("[data-celebration-dismiss-countdown]");
   const celebrationDismissTimer = eventCountdown.querySelector("[data-celebration-dismiss-timer]");
-  const countdownConfetti = eventCountdown.querySelector(".countdown-confetti");
+  const countdownConfetti = document.querySelector(".countdown-confetti");
   let celebrationInterval;
   let celebrationDismissTimeout;
   let eventCountdownUpdateInterval;
@@ -201,6 +201,7 @@ const initializeEventCountdown = (eventCountdown) => {
   const drawCountdownConfetti = () => {
     if (!countdownConfetti || reducedMotion) return;
 
+    countdownConfetti.classList.add("is-active");
     const context = countdownConfetti.getContext("2d");
     if (!context) {
       console.error("Unable to initialize countdown celebration confetti.");
@@ -208,7 +209,7 @@ const initializeEventCountdown = (eventCountdown) => {
     }
 
     const startedAt = performance.now();
-    const duration = 7000;
+    const duration = 8500;
     const colors = ["#4ade80", "#a3e635", "#f2be55", "#f4ebdd", "#34d399"];
     const particles = [];
     let burstCount = 0;
@@ -225,10 +226,10 @@ const initializeEventCountdown = (eventCountdown) => {
         particles.push({
           x: Math.random() * width,
           y: -10 - Math.random() * 80,
-          velocityX: (Math.random() - 0.5) * 2.8,
-          velocityY: 1.5 + Math.random() * 3.5,
+          velocityX: (Math.random() - 0.5) * 2.4,
+          velocityY: 1 + Math.random() * 2,
           rotation: Math.random() * Math.PI,
-          rotationSpeed: (Math.random() - 0.5) * 0.16,
+          rotationSpeed: (Math.random() - 0.5) * 0.1,
           size: 4 + Math.random() * 6,
           color: colors[Math.floor(Math.random() * colors.length)],
         });
@@ -239,14 +240,14 @@ const initializeEventCountdown = (eventCountdown) => {
       const width = countdownConfetti.clientWidth;
       const height = countdownConfetti.clientHeight;
       context.clearRect(0, 0, width, height);
-      if (elapsed < duration && Math.floor(elapsed / 1700) > burstCount) {
+      if (elapsed < duration && Math.floor(elapsed / 2200) > burstCount) {
         burstCount += 1;
         burst();
       }
       particles.forEach((particle) => {
         particle.x += particle.velocityX;
         particle.y += particle.velocityY;
-        particle.velocityY += 0.035;
+        particle.velocityY += 0.018;
         particle.rotation += particle.rotationSpeed;
         context.save();
         context.translate(particle.x, particle.y);
@@ -262,6 +263,7 @@ const initializeEventCountdown = (eventCountdown) => {
         confettiFrame = window.requestAnimationFrame(animate);
       } else {
         context.clearRect(0, 0, width, height);
+        countdownConfetti.classList.remove("is-active");
         confettiFrame = undefined;
       }
     };
