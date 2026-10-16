@@ -1311,7 +1311,7 @@
     </form>
     <div class="hc-footer">
       <span>Event guide · Verified local information</span>
-      <a href="mailto:roundsquaresupport.ihs@gmail.com">Ask an organiser</a>
+      <a href="Contact/index.html" target="_top">Ask an organiser</a>
     </div>
   </div>
 </section>
@@ -1347,6 +1347,7 @@
   const dialAnswerActions = document.getElementById("hc-dial-answer-actions");
   const peopleGrid = document.getElementById("hc-people-grid");
   const supportEmail = "roundsquaresupport.ihs@gmail.com";
+  const contactPage = "Contact/index.html";
 
   if (!button || !scrim || !panel || !close || !backButton || !homeButton || !homeView || !chatView ||
       !messages || !log || !form || !input || !send || !discoveryText ||
@@ -1522,7 +1523,7 @@
         const link = document.createElement("a");
         link.className = "hc-action";
         link.href = action.href;
-        link.target = "_blank";
+        link.target = action.target || "_blank";
         link.rel = "noopener";
         link.textContent = action.label;
         actionRow.appendChild(link);
@@ -1639,7 +1640,8 @@
       if (result.contact) {
         const email = document.createElement("a");
         email.className = "hc-action";
-        email.href = "mailto:" + supportEmail;
+        email.href = contactPage;
+        email.target = "_top";
         email.textContent = "Ask an organiser";
         dialAnswerActions.appendChild(email);
       }
@@ -1824,7 +1826,7 @@
     if (result.link) addResourceCard(result.link === "itinerary" ? "Full event itinerary" : "Delegate event handbook", result.link);
     if (result.extraLink) addResourceCard("Delegate event handbook", result.extraLink);
     if (result.contact) {
-      addResultCard("Ask an organiser", "For help confirming event information", [], [{ label: "Email team", href: "mailto:" + supportEmail }]);
+      addResultCard("Ask an organiser", "For help confirming event information", [], [{ label: "Contact page", href: contactPage, target: "_top" }]);
     }
   }
 

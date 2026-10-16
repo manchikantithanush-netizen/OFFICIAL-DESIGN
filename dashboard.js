@@ -806,8 +806,11 @@ const scheduleReminders = (scheduleName) => {
 };
 
 const requestReminders = async (scheduleName) => {
-  let browserNotificationsEnabled = !("Notification" in window);
+  window.localStorage.setItem(reminderScheduleKey, scheduleName);
+  scheduleReminders(scheduleName);
+  let browserNotificationsEnabled = false;
   if ("Notification" in window && Notification.permission !== "granted") {
+    reminderStatus.textContent = "In-dashboard reminders are enabled. Allow browser notifications for activity alerts.";
     try {
       const permission = await Notification.requestPermission();
       browserNotificationsEnabled = permission === "granted";
@@ -818,8 +821,6 @@ const requestReminders = async (scheduleName) => {
   } else if ("Notification" in window) {
     browserNotificationsEnabled = Notification.permission === "granted";
   }
-  window.localStorage.setItem(reminderScheduleKey, scheduleName);
-  scheduleReminders(scheduleName);
   reminderStatus.textContent = browserNotificationsEnabled
     ? `${studentConfig.scheduleLabel} reminders are ready.`
     : "Reminders saved. In-dashboard alerts are enabled; browser notifications are not allowed.";
@@ -955,10 +956,10 @@ const createCalendarFile = (scheduleName) => {
   downloadLink.href = blobUrl;
   downloadLink.download = `${agendaName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-schedule.ics`;
   downloadLink.click();
-  URL.revokeObjectURL(blobUrl);
+  window.setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
 };
 
-addCalendarButton?.addEventListener("click", createCalendarFile);
+addCalendarButton?.addEventListener("click", () => createCalendarFile());
 deviceCalendarRemindersButton?.addEventListener("click", () => {
   if (!selectedReminderSchedule) {
     reminderStatus.textContent = "Choose a schedule before adding it to your device calendar.";
