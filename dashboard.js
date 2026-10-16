@@ -133,13 +133,13 @@ const reminderSchedules = {
     ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Creative Service Expression"],
     ["11:00", "Bingo"], ["12:00", "Photo Session"], ["12:40", "Lunch"],
     ["13:40", "Baraza Session 1"], ["14:40", "Break"], ["15:00", "Baraza Session 2"],
-    ["16:45", "Closing Ceremony"], ["17:30", "Dispersal"],
+    ["16:45", "Move to Auditorium"], ["17:00", "Closing Ceremony"], ["17:30", "Dispersal"],
   ],
   junior: [
     ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Creative Service Expression"],
     ["11:00", "Scavenger Hunt"], ["12:00", "Photo Session"], ["12:40", "Lunch"],
     ["13:40", "Baraza Session 1"], ["14:40", "Break"], ["15:00", "Baraza Session 2"],
-    ["16:45", "Closing Ceremony"], ["17:30", "Dispersal"],
+    ["16:45", "Move to Auditorium"], ["17:00", "Closing Ceremony"], ["17:30", "Dispersal"],
   ],
 };
 
@@ -181,181 +181,182 @@ if (studentName) {
   if (name) studentName.textContent = `${name}.`;
 }
 
-const eventCountdown = document.querySelector(".event-countdown");
-const countdownUnits = document.querySelectorAll("[data-countdown-unit]");
-const countdownTitle = document.querySelector("#countdown-title");
-const countdownEyebrow = document.querySelector("[data-countdown-eyebrow]");
-const countdownNote = document.querySelector(".countdown-note");
-const celebrationDismissCountdown = document.querySelector("[data-celebration-dismiss-countdown]");
-const celebrationDismissTimer = document.querySelector("[data-celebration-dismiss-timer]");
-const countdownConfetti = document.querySelector(".countdown-confetti");
 const eventStartTimestamp = Date.parse("2026-10-17T09:30:00+04:00");
-const celebrationDuration = 14 * 60 * 1000;
+const celebrationDuration = 10 * 60 * 1000;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-let celebrationInterval;
-let celebrationDismissTimeout;
-let eventCountdownUpdateInterval;
-let confettiFrame;
-let currentCelebrationKey;
+const initializeEventCountdown = (eventCountdown) => {
+  const countdownUnits = eventCountdown.querySelectorAll("[data-countdown-unit]");
+  const countdownTitle = eventCountdown.querySelector("[data-countdown-title]");
+  const countdownEyebrow = eventCountdown.querySelector("[data-countdown-eyebrow]");
+  const countdownNote = eventCountdown.querySelector(".countdown-note");
+  const celebrationDismissCountdown = eventCountdown.querySelector("[data-celebration-dismiss-countdown]");
+  const celebrationDismissTimer = eventCountdown.querySelector("[data-celebration-dismiss-timer]");
+  const countdownConfetti = eventCountdown.querySelector(".countdown-confetti");
+  let celebrationInterval;
+  let celebrationDismissTimeout;
+  let eventCountdownUpdateInterval;
+  let confettiFrame;
+  let currentCelebrationKey;
 
-const drawCountdownConfetti = () => {
-  if (!countdownConfetti || reducedMotion) return;
+  const drawCountdownConfetti = () => {
+    if (!countdownConfetti || reducedMotion) return;
 
-  const context = countdownConfetti.getContext("2d");
-  if (!context) {
-    console.error("Unable to initialize countdown celebration confetti.");
-    return;
-  }
+    const context = countdownConfetti.getContext("2d");
+    if (!context) {
+      console.error("Unable to initialize countdown celebration confetti.");
+      return;
+    }
 
-  const startedAt = performance.now();
-  const duration = 7000;
-  const colors = ["#4ade80", "#a3e635", "#f2be55", "#f4ebdd", "#34d399"];
-  const particles = [];
-  let burstCount = 0;
-  const resizeCanvas = () => {
-    const bounds = countdownConfetti.getBoundingClientRect();
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-    countdownConfetti.width = Math.round(bounds.width * pixelRatio);
-    countdownConfetti.height = Math.round(bounds.height * pixelRatio);
-    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-  };
-  const burst = () => {
-    const width = countdownConfetti.clientWidth;
-    for (let index = 0; index < 60; index += 1) {
-      particles.push({
-        x: Math.random() * width,
-        y: -10 - Math.random() * 80,
-        velocityX: (Math.random() - 0.5) * 2.8,
-        velocityY: 1.5 + Math.random() * 3.5,
-        rotation: Math.random() * Math.PI,
-        rotationSpeed: (Math.random() - 0.5) * 0.16,
-        size: 4 + Math.random() * 6,
-        color: colors[Math.floor(Math.random() * colors.length)],
-      });
-    }
-  };
-  const animate = (now) => {
-    const elapsed = now - startedAt;
-    const width = countdownConfetti.clientWidth;
-    const height = countdownConfetti.clientHeight;
-    context.clearRect(0, 0, width, height);
-    if (elapsed < duration && Math.floor(elapsed / 1700) > burstCount) {
-      burstCount += 1;
-      burst();
-    }
-    particles.forEach((particle) => {
-      particle.x += particle.velocityX;
-      particle.y += particle.velocityY;
-      particle.velocityY += 0.035;
-      particle.rotation += particle.rotationSpeed;
-      context.save();
-      context.translate(particle.x, particle.y);
-      context.rotate(particle.rotation);
-      context.fillStyle = particle.color;
-      context.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size * 0.62);
-      context.restore();
-    });
-    for (let index = particles.length - 1; index >= 0; index -= 1) {
-      if (particles[index].y > height + 12) particles.splice(index, 1);
-    }
-    if (elapsed < duration || particles.length) {
-      confettiFrame = window.requestAnimationFrame(animate);
-    } else {
+    const startedAt = performance.now();
+    const duration = 7000;
+    const colors = ["#4ade80", "#a3e635", "#f2be55", "#f4ebdd", "#34d399"];
+    const particles = [];
+    let burstCount = 0;
+    const resizeCanvas = () => {
+      const bounds = countdownConfetti.getBoundingClientRect();
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      countdownConfetti.width = Math.round(bounds.width * pixelRatio);
+      countdownConfetti.height = Math.round(bounds.height * pixelRatio);
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    };
+    const burst = () => {
+      const width = countdownConfetti.clientWidth;
+      for (let index = 0; index < 60; index += 1) {
+        particles.push({
+          x: Math.random() * width,
+          y: -10 - Math.random() * 80,
+          velocityX: (Math.random() - 0.5) * 2.8,
+          velocityY: 1.5 + Math.random() * 3.5,
+          rotation: Math.random() * Math.PI,
+          rotationSpeed: (Math.random() - 0.5) * 0.16,
+          size: 4 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        });
+      }
+    };
+    const animate = (now) => {
+      const elapsed = now - startedAt;
+      const width = countdownConfetti.clientWidth;
+      const height = countdownConfetti.clientHeight;
       context.clearRect(0, 0, width, height);
-      confettiFrame = undefined;
-    }
+      if (elapsed < duration && Math.floor(elapsed / 1700) > burstCount) {
+        burstCount += 1;
+        burst();
+      }
+      particles.forEach((particle) => {
+        particle.x += particle.velocityX;
+        particle.y += particle.velocityY;
+        particle.velocityY += 0.035;
+        particle.rotation += particle.rotationSpeed;
+        context.save();
+        context.translate(particle.x, particle.y);
+        context.rotate(particle.rotation);
+        context.fillStyle = particle.color;
+        context.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size * 0.62);
+        context.restore();
+      });
+      for (let index = particles.length - 1; index >= 0; index -= 1) {
+        if (particles[index].y > height + 12) particles.splice(index, 1);
+      }
+      if (elapsed < duration || particles.length) {
+        confettiFrame = window.requestAnimationFrame(animate);
+      } else {
+        context.clearRect(0, 0, width, height);
+        confettiFrame = undefined;
+      }
+    };
+
+    resizeCanvas();
+    burst();
+    window.addEventListener("resize", resizeCanvas, { once: true });
+    confettiFrame = window.requestAnimationFrame(animate);
   };
 
-  resizeCanvas();
-  burst();
-  window.addEventListener("resize", resizeCanvas, { once: true });
-  confettiFrame = window.requestAnimationFrame(animate);
-};
-
-const dismissEventCountdown = () => {
-  if (!eventCountdown || eventCountdown.hidden || eventCountdown.classList.contains("is-dismissing")) return;
-  currentCelebrationKey = undefined;
-  eventCountdown.classList.add("is-dismissing");
-  eventCountdown.setAttribute("aria-hidden", "true");
-  celebrationDismissCountdown.hidden = true;
-  window.setTimeout(() => {
-    eventCountdown.hidden = true;
-  }, 850);
-};
-
-const beginCountdownCelebration = (dismissAt) => {
-  if (!eventCountdown) return;
-  const celebrationKey = `event:${dismissAt}`;
-  if (currentCelebrationKey === celebrationKey && eventCountdown.classList.contains("is-celebrating")) return;
-  currentCelebrationKey = celebrationKey;
-  if (celebrationInterval) window.clearInterval(celebrationInterval);
-  if (celebrationDismissTimeout) window.clearTimeout(celebrationDismissTimeout);
-  if (confettiFrame) window.cancelAnimationFrame(confettiFrame);
-
-  eventCountdown.hidden = false;
-  eventCountdown.removeAttribute("aria-hidden");
-  eventCountdown.classList.remove("is-dismissing");
-  eventCountdown.classList.add("is-celebrating");
-  countdownEyebrow.textContent = "ROUND SQUARE 2026 · EVENT DAY";
-  countdownTitle.textContent = "Round Square is now underway.";
-  countdownNote.textContent = "Welcome to the Pursuit of Happiness at The Indian High School.";
-  countdownUnits.forEach((unit) => { unit.textContent = "00"; });
-  celebrationDismissCountdown.hidden = false;
-  drawCountdownConfetti();
-
-  const updateDismissTimer = () => {
-    const remaining = Math.max(0, dismissAt - Date.now());
-    const totalSeconds = Math.ceil(remaining / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    celebrationDismissTimer.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-    if (remaining <= 0) {
-      window.clearInterval(celebrationInterval);
-      celebrationInterval = undefined;
-      dismissEventCountdown();
-    }
+  const dismissEventCountdown = () => {
+    if (eventCountdown.hidden || eventCountdown.classList.contains("is-dismissing")) return;
+    currentCelebrationKey = undefined;
+    eventCountdown.classList.add("is-dismissing");
+    eventCountdown.setAttribute("aria-hidden", "true");
+    celebrationDismissCountdown.hidden = true;
+    window.setTimeout(() => {
+      eventCountdown.hidden = true;
+    }, 850);
   };
 
-  updateDismissTimer();
-  celebrationInterval = window.setInterval(updateDismissTimer, 1000);
-  celebrationDismissTimeout = window.setTimeout(() => dismissEventCountdown(), Math.max(0, dismissAt - Date.now()));
-};
+  const beginCountdownCelebration = (dismissAt) => {
+    const celebrationKey = `event:${dismissAt}`;
+    if (currentCelebrationKey === celebrationKey && eventCountdown.classList.contains("is-celebrating")) return;
+    currentCelebrationKey = celebrationKey;
+    if (celebrationInterval) window.clearInterval(celebrationInterval);
+    if (celebrationDismissTimeout) window.clearTimeout(celebrationDismissTimeout);
+    if (confettiFrame) window.cancelAnimationFrame(confettiFrame);
 
-const updateEventCountdown = () => {
-  if (!eventCountdown || !countdownUnits.length) return;
-  const now = Date.now();
-  if (now >= eventStartTimestamp) {
-    window.clearInterval(eventCountdownUpdateInterval);
-    eventCountdownUpdateInterval = undefined;
+    eventCountdown.hidden = false;
+    eventCountdown.removeAttribute("aria-hidden");
+    eventCountdown.classList.remove("is-dismissing");
+    eventCountdown.classList.add("is-celebrating");
+    countdownEyebrow.textContent = "ROUND SQUARE 2026 · EVENT DAY";
+    countdownTitle.textContent = "Round Square is now underway.";
+    countdownNote.textContent = "Welcome to the Pursuit of Happiness at The Indian High School.";
     countdownUnits.forEach((unit) => { unit.textContent = "00"; });
-    if (now < eventStartTimestamp + celebrationDuration) {
-      beginCountdownCelebration(eventStartTimestamp + celebrationDuration);
-    } else {
-      dismissEventCountdown();
-    }
-    return;
-  }
+    celebrationDismissCountdown.hidden = false;
+    drawCountdownConfetti();
 
-  const totalSeconds = Math.floor((eventStartTimestamp - now) / 1000);
-  const values = {
-    days: Math.floor(totalSeconds / 86400),
-    hours: Math.floor((totalSeconds % 86400) / 3600),
-    minutes: Math.floor((totalSeconds % 3600) / 60),
-    seconds: totalSeconds % 60,
+    const updateDismissTimer = () => {
+      const remaining = Math.max(0, dismissAt - Date.now());
+      const totalSeconds = Math.ceil(remaining / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      celebrationDismissTimer.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+      if (remaining <= 0) {
+        window.clearInterval(celebrationInterval);
+        celebrationInterval = undefined;
+        dismissEventCountdown();
+      }
+    };
+
+    updateDismissTimer();
+    celebrationInterval = window.setInterval(updateDismissTimer, 1000);
+    celebrationDismissTimeout = window.setTimeout(() => dismissEventCountdown(), Math.max(0, dismissAt - Date.now()));
   };
-  countdownUnits.forEach((unit) => {
-    unit.textContent = String(values[unit.dataset.countdownUnit]).padStart(2, "0");
-  });
-};
 
-if (eventCountdown) {
-  updateEventCountdown();
+  const updateEventCountdown = () => {
+    if (!countdownUnits.length) return;
+    const now = Date.now();
+    if (now >= eventStartTimestamp) {
+      window.clearInterval(eventCountdownUpdateInterval);
+      eventCountdownUpdateInterval = undefined;
+      countdownUnits.forEach((unit) => { unit.textContent = "00"; });
+      if (now < eventStartTimestamp + celebrationDuration) {
+        beginCountdownCelebration(eventStartTimestamp + celebrationDuration);
+      } else {
+        dismissEventCountdown();
+      }
+      return;
+    }
+
+    const totalSeconds = Math.floor((eventStartTimestamp - now) / 1000);
+    const values = {
+      days: Math.floor(totalSeconds / 86400),
+      hours: Math.floor((totalSeconds % 86400) / 3600),
+      minutes: Math.floor((totalSeconds % 3600) / 60),
+      seconds: totalSeconds % 60,
+    };
+    countdownUnits.forEach((unit) => {
+      unit.textContent = String(values[unit.dataset.countdownUnit]).padStart(2, "0");
+    });
+  };
+
   if (!eventCountdown.classList.contains("is-celebrating")
     && !eventCountdown.classList.contains("is-dismissing")
     && !eventCountdown.hidden) {
+    updateEventCountdown();
     eventCountdownUpdateInterval = window.setInterval(updateEventCountdown, 1000);
   }
-}
+};
+
+const eventCountdown = document.querySelector(".event-countdown");
+if (eventCountdown) initializeEventCountdown(eventCountdown);
 
 document.querySelector("#baraza-title")?.replaceChildren(document.createTextNode(studentConfig.baraza));
 document.querySelector("#baraza-subtitle")?.replaceChildren(document.createTextNode(studentConfig.label));
