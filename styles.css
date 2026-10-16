@@ -68,10 +68,10 @@ h1, h2, h3 { line-height: 1.08; }
 .hero-heading-image { display: block; width: min(100%, 320px); height: auto; margin-bottom: 1.5rem; }
 .hero-copy { max-width: 540px; margin-bottom: 2rem; color: var(--muted-blue-grey); font-size: 1.06rem; line-height: 1.75; }
 .highlight { color: var(--warm-gold); font-weight: 800; }
-.event-details { display: flex; align-items: center; gap: 1.25rem; width: fit-content; margin-bottom: 2rem; padding: 1rem 1.25rem; background: rgba(20, 41, 68, .5); border: 1px solid rgba(242, 190, 85, .45); border-radius: 14px; box-shadow: 0 12px 30px rgba(0, 0, 0, .12); }
+.event-details { display: flex; align-items: center; gap: 1.25rem; width: fit-content; margin-bottom: 2rem; padding: 1.1rem 1.4rem; background: linear-gradient(115deg, rgba(242, 190, 85, .16), rgba(20, 41, 68, .78)); border: 1px solid rgba(242, 190, 85, .7); border-left: 4px solid var(--warm-gold); border-radius: 12px; box-shadow: 0 14px 34px rgba(0, 0, 0, .2); }
 .event-details > div { display: flex; flex-direction: column; gap: .15rem; }
 .event-label { color: var(--warm-gold); font-size: .65rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
-.event-details strong { color: var(--warm-ivory); font-size: .93rem; font-weight: 600; }
+.event-details strong { color: var(--warm-ivory); font-size: 1.05rem; font-weight: 800; }
 .event-divider { width: 1px; height: 2.25rem; background: rgba(244, 235, 221, .25); }
 .hero-actions { display: flex; align-items: center; gap: 1.6rem; }
 .text-link { color: var(--warm-ivory); font-size: .92rem; font-weight: 700; }
@@ -116,11 +116,12 @@ h2 { margin-bottom: 1.25rem; font-size: clamp(2.2rem, 5vw, 4.25rem); letter-spac
   .marquee-banner { font-size: .56rem; letter-spacing: .1em; }
   .marquee-message { min-height: 2.2rem; gap: .7rem; padding: .55rem .75rem; }
   .hero { padding: 4rem 0 5rem; }
-  .hero-grid, .intro-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+  .hero-grid, .intro-grid { grid-template-columns: minmax(0, 1fr); gap: 3.5rem; }
   .hero-art, .art-panel { min-height: 440px; }
   .art-panel { padding: 2.5rem 2rem; }
-  .event-details { width: 100%; justify-content: space-between; gap: .75rem; }
-  .event-details strong { font-size: .82rem; }
+  .event-details { display: grid; width: 100%; min-width: 0; grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); gap: .8rem; }
+  .event-details > div { min-width: 0; }
+  .event-details strong { font-size: .9rem; overflow-wrap: anywhere; }
   .intro-section { padding: 5rem 0; }
   .approach-ideals { max-width: 500px; }
   .approach-ideals span:nth-child(2n) { transform: none; }

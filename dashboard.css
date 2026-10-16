@@ -312,7 +312,7 @@ body.is-baraza-leader .leader-dashboard-welcome { display: block; }
 .art-label { position: absolute; z-index: 2; right: 1.5rem; bottom: 1.3rem; color: var(--warm-ivory); font-family: Georgia, serif; font-size: 1.1rem; line-height: 1.05; text-align: right; text-shadow: 0 2px 12px rgba(7, 23, 44, .75); }
 .art-star { position: absolute; z-index: 2; color: var(--warm-ivory); font-size: 1.5rem; animation: float 4s ease-in-out infinite; text-shadow: 0 2px 12px rgba(7, 23, 44, .65); }
 .star-one { top: 1.5rem; left: 1.7rem; }.star-two { right: 2.5rem; top: 2.5rem; animation-delay: -2s; }
-.event-strip { display: flex; justify-content: space-between; gap: 1rem; margin: 3rem 0 6rem; padding: 1.2rem 1.5rem; background: rgba(20, 41, 68, .56); border: 1px solid var(--line); border-radius: 18px; }
+.event-strip { display: flex; justify-content: space-between; gap: 1rem; margin: 3rem 0 6rem; padding: 1.2rem 1.5rem; background: linear-gradient(110deg, rgba(242, 190, 85, .12), rgba(20, 41, 68, .82)); border: 1px solid rgba(242, 190, 85, .56); border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, .2); }
 .baraza-banner { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1rem; padding: 1.1rem 1.35rem; color: var(--warm-ivory); background: linear-gradient(110deg, rgba(242, 190, 85, .2), rgba(20, 41, 68, .78)); border: 1px solid rgba(242, 190, 85, .48); border-radius: 18px; box-shadow: 0 12px 30px rgba(0, 0, 0, .14); }
 .baraza-banner-icon { display: grid; width: 2.8rem; height: 2.8rem; flex: 0 0 2.8rem; place-items: center; color: var(--midnight-navy); background: var(--warm-gold); border-radius: 50%; font-size: 1.1rem; }
 .baraza-banner .eyebrow { margin: 0 0 .15rem; font-size: .58rem; }
@@ -320,7 +320,7 @@ body.is-baraza-leader .leader-dashboard-welcome { display: block; }
 .baraza-banner p:last-child { margin: .2rem 0 0; color: var(--muted-blue-grey); font-size: .7rem; }
 .baraza-banner-tag { margin-left: auto; padding: .4rem .65rem; color: var(--midnight-navy); background: var(--warm-gold); border-radius: 999px; font-size: .58rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
 .event-strip > div { display: flex; align-items: center; gap: .8rem; }.event-strip > div + div { padding-left: 1.5rem; border-left: 1px solid var(--line); }
-.event-strip i { color: var(--warm-gold); font-size: 1.15rem; }.event-strip span { display: flex; flex-direction: column; gap: .15rem; }.event-strip small { color: var(--muted-blue-grey); font-size: .54rem; font-weight: 800; letter-spacing: .15em; }.event-strip strong { font-size: .78rem; font-weight: 600; }
+.event-strip i { color: var(--warm-gold); font-size: 1.2rem; }.event-strip span { display: flex; flex-direction: column; gap: .2rem; }.event-strip small { color: var(--muted-blue-grey); font-size: .6rem; font-weight: 800; letter-spacing: .15em; }.event-strip strong { font-size: .95rem; font-weight: 800; }.event-strip > div:nth-child(-n+2) strong { color: var(--warm-gold); }
 .section-block { margin-bottom: 6rem; scroll-margin-top: 6rem; }.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }.section-heading .eyebrow { margin-bottom: .35rem; }.section-heading h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; letter-spacing: -.06em; }.section-link { color: var(--warm-gold); font-size: .74rem; font-weight: 800; }.section-link i { margin-left: .35rem; font-size: .65rem; }
 .schedule-date { display: inline-flex; align-items: center; gap: .45rem; padding: .55rem .75rem; color: var(--muted-blue-grey); background: rgba(20, 41, 68, .6); border: 1px solid var(--line); border-radius: 999px; font-size: .68rem; font-weight: 700; }.schedule-date i { color: var(--warm-gold); }
 .agenda-panel { padding: clamp(1rem, 3vw, 1.7rem); background: linear-gradient(145deg, rgba(244, 235, 221, .97), rgba(240, 223, 202, .97)); border: 1px solid rgba(242, 190, 85, .5); border-radius: 24px; box-shadow: 0 25px 60px rgba(0, 0, 0, .2); }
@@ -502,6 +502,7 @@ body.is-baraza-leader .leader-dashboard-welcome { display: block; }
     margin: 2rem 0 3rem;
     padding: 1rem;
   }
+  .event-strip > div + div { padding-left: 0; border-left: 0; }
   .resource-links {
     grid-template-columns: minmax(0, 1fr);
     gap: .75rem;
