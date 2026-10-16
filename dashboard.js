@@ -135,7 +135,7 @@ const reminderSchedules = {
     ["09:00", "Registration"], ["09:30", "Opening Ceremony"], ["10:30", "Creative Service Expression"],
     ["11:00", "Scavenger Hunt"], ["12:00", "Photo Session"], ["12:40", "Lunch"],
     ["13:40", "Baraza Session 1"], ["14:40", "Break"], ["15:00", "Baraza Session 2"],
-    ["16:45", "Closing Ceremony"], ["17:45", "Dispersal"],
+    ["16:45", "Closing Ceremony"], ["17:30", "Dispersal"],
   ],
 };
 
@@ -357,7 +357,7 @@ document.querySelector("#baraza-subtitle")?.replaceChildren(document.createTextN
 document.querySelector("#intermediate-tab")?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
 document.querySelector(`[data-reminder-schedule="${studentConfig.schedule}"] strong`)?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
 document.querySelector("[data-event-time-range]")?.replaceChildren(document.createTextNode(
-  `9:00 AM — ${studentConfig.schedule === "junior" ? "5:45 PM" : "5:30 PM"}`,
+  `9:00 AM — 5:30 PM`,
 ));
 
 if (welcomeCarouselSlides.length > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
