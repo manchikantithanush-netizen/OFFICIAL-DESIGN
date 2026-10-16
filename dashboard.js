@@ -454,6 +454,21 @@ const renderProfile = (record) => {
   document.querySelector("#profile-level").textContent = record.level;
   document.querySelector("#profile-room").textContent = record.room;
   document.querySelector("#profile-head").textContent = displayLeader(record.head);
+  const headPhoto = document.querySelector("#profile-head-photo");
+  const headCard = headPhoto?.closest(".head-leader-card");
+  if (headPhoto) {
+    headPhoto.hidden = !record.headPhoto;
+    headPhoto.removeAttribute("src");
+    headCard?.classList.toggle("has-photo", Boolean(record.headPhoto));
+    if (record.headPhoto) {
+      headPhoto.src = record.headPhoto;
+      headPhoto.alt = `Portrait of ${record.head}`;
+    }
+    headPhoto.onerror = () => {
+      headPhoto.hidden = true;
+      headCard?.classList.remove("has-photo");
+    };
+  }
   record.admins.forEach((name, index) => {
     document.querySelector(`#profile-admin-${index === 0 ? "one" : "two"}`).textContent = name;
   });
@@ -461,6 +476,22 @@ const renderProfile = (record) => {
     const leader = document.querySelector(`#profile-co-${index === 0 ? "one" : "two"}`);
     leader.textContent = displayLeader(name);
     leader.parentElement.hidden = !name;
+    const photo = document.querySelector(`#profile-co-${index === 0 ? "one" : "two"}-photo`);
+    const photoPath = record.coLeaderPhotos?.[index];
+    const card = photo?.closest(".co-leader-card");
+    if (photo) {
+      photo.hidden = !photoPath || !name;
+      photo.removeAttribute("src");
+      card?.classList.toggle("has-photo", Boolean(photoPath && name));
+      if (photoPath && name) {
+        photo.src = photoPath;
+        photo.alt = `Portrait of ${name}`;
+      }
+      photo.onerror = () => {
+        photo.hidden = true;
+        card?.classList.remove("has-photo");
+      };
+    }
   });
 };
 
@@ -482,16 +513,28 @@ if (directoryGrid) {
     happiness.textContent = record.happiness;
     const details = document.createElement("small");
     details.textContent = `${record.language} · ${record.level} · Room ${record.room}`;
+    const headRow = document.createElement("div");
+    headRow.className = "directory-head-row";
+    if (record.headPhoto) {
+      const headPhoto = document.createElement("img");
+      headPhoto.className = "directory-head-photo";
+      headPhoto.src = record.headPhoto;
+      headPhoto.alt = `Portrait of ${record.head}`;
+      headPhoto.loading = "lazy";
+      headPhoto.onerror = () => headPhoto.remove();
+      headRow.appendChild(headPhoto);
+    }
     const head = document.createElement("small");
     head.className = "directory-head";
     head.textContent = `Head: ${displayLeader(record.head)}`;
+    headRow.appendChild(head);
     const admins = document.createElement("small");
     admins.className = "directory-admins";
     admins.textContent = `Admins: ${record.admins.join(" · ")}`;
     const tapHint = document.createElement("span");
     tapHint.className = "directory-tap-hint";
     tapHint.textContent = "Tap to see more information";
-    const cardContent = [number, happiness, details, head, admins, tapHint];
+    const cardContent = [number, happiness, details, headRow, admins, tapHint];
     card.append(...cardContent);
     card.addEventListener("click", () => openProfile(record));
     return card;

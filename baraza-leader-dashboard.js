@@ -32,6 +32,21 @@ const renderLeaderDashboard = (record) => {
   profileView.querySelector("#profile-level").textContent = record.level;
   profileView.querySelector("#profile-room").textContent = record.room;
   profileView.querySelector("#profile-head").textContent = record.head;
+  const headPhoto = profileView.querySelector("#profile-head-photo");
+  const headCard = headPhoto?.closest(".head-leader-card");
+  if (headPhoto) {
+    headPhoto.hidden = !record.headPhoto;
+    headPhoto.removeAttribute("src");
+    headCard?.classList.toggle("has-photo", Boolean(record.headPhoto));
+    if (record.headPhoto) {
+      headPhoto.src = record.headPhoto;
+      headPhoto.alt = `Portrait of ${record.head}`;
+    }
+    headPhoto.onerror = () => {
+      headPhoto.hidden = true;
+      headCard?.classList.remove("has-photo");
+    };
+  }
   record.admins.forEach((name, index) => {
     profileView.querySelector(`#profile-admin-${index === 0 ? "one" : "two"}`).textContent = name;
   });
@@ -39,6 +54,22 @@ const renderLeaderDashboard = (record) => {
     const leader = profileView.querySelector(`#profile-co-${index === 0 ? "one" : "two"}`);
     leader.textContent = name || "";
     leader.parentElement.hidden = !name;
+    const photo = profileView.querySelector(`#profile-co-${index === 0 ? "one" : "two"}-photo`);
+    const photoPath = record.coLeaderPhotos?.[index];
+    const card = photo?.closest(".co-leader-card");
+    if (photo) {
+      photo.hidden = !photoPath || !name;
+      photo.removeAttribute("src");
+      card?.classList.toggle("has-photo", Boolean(photoPath && name));
+      if (photoPath && name) {
+        photo.src = photoPath;
+        photo.alt = `Portrait of ${name}`;
+      }
+      photo.onerror = () => {
+        photo.hidden = true;
+        card?.classList.remove("has-photo");
+      };
+    }
   });
   return true;
 };
