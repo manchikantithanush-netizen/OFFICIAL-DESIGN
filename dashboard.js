@@ -358,7 +358,7 @@ document.querySelector("#baraza-subtitle")?.replaceChildren(document.createTextN
 document.querySelector("#intermediate-tab")?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
 document.querySelector(`[data-reminder-schedule="${studentConfig.schedule}"] strong`)?.replaceChildren(document.createTextNode(studentConfig.scheduleLabel));
 document.querySelector("[data-event-time-range]")?.replaceChildren(document.createTextNode(
-  `9:00 AM — 5:30 PM`,
+  `9:30 AM — 5:30 PM`,
 ));
 
 if (welcomeCarouselSlides.length > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
