@@ -185,7 +185,7 @@ const countdownNote = document.querySelector(".countdown-note");
 const celebrationDismissCountdown = document.querySelector("[data-celebration-dismiss-countdown]");
 const celebrationDismissTimer = document.querySelector("[data-celebration-dismiss-timer]");
 const countdownConfetti = document.querySelector(".countdown-confetti");
-const eventStartTimestamp = Date.parse("2026-10-17T09:00:00+04:00");
+const eventStartTimestamp = Date.parse("2026-10-17T09:30:00+04:00");
 const celebrationDuration = 14 * 60 * 1000;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let celebrationInterval;
