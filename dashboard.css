@@ -184,6 +184,9 @@ button { font: inherit; }
 .baraza-directory-card[data-theme="silver"], .baraza-profile-view[data-theme="silver"] { --baraza-theme: #b9c0c9; }
 .baraza-directory-card[data-theme="turquoise"], .baraza-profile-view[data-theme="turquoise"] { --baraza-theme: #4db7b4; }
 .baraza-profile-view .view-heading { max-width: none; }
+.baraza-directory-view .view-heading { max-width: none; text-align: center; }
+.baraza-directory-description { max-width: 36rem; margin: 1rem auto 0; color: var(--muted-blue-grey); }
+.baraza-guidelines-link { width: min(100%, 30rem); margin: 1.25rem auto 0; text-align: left; }
 .baraza-profile-view .view-heading h1 { color: var(--profile-accent); text-shadow: 0 8px 35px color-mix(in srgb, var(--profile-accent) 24%, transparent); }
 .baraza-profile-view .view-heading > p:last-child { color: color-mix(in srgb, var(--profile-accent) 70%, var(--warm-ivory)); }
 .baraza-profile-view .view-back-button { transition: color .2s ease; }
