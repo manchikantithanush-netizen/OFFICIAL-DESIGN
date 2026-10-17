@@ -112,7 +112,9 @@ const previousRsicPhotos = [
 ];
 let unreadNotifications = Number(window.localStorage.getItem(unreadNotificationsKey) || 0);
 let notificationToastTimer;
+let notificationRingTimer;
 let notificationToastStartX = null;
+let notificationAudioContext;
 let selectedReminderSchedule = window.localStorage.getItem(reminderScheduleKey);
 let welcomeCarouselIndex = 0;
 let welcomeCarouselPendingIndex = null;
@@ -724,8 +726,49 @@ const updateNotificationBadge = () => {
   notificationBadge.setAttribute("aria-label", `${unreadNotifications} unread notification${unreadNotifications === 1 ? "" : "s"}`);
 };
 
+const prepareNotificationAudio = () => {
+  if (!window.AudioContext) return;
+  notificationAudioContext ||= new AudioContext();
+  if (notificationAudioContext.state === "suspended") {
+    notificationAudioContext.resume().catch((error) => {
+      console.warn("Notification chime could not be enabled.", error);
+    });
+  }
+};
+
+document.addEventListener("pointerdown", prepareNotificationAudio, { once: true });
+document.addEventListener("keydown", prepareNotificationAudio, { once: true });
+
+const playNotificationChime = () => {
+  if (!window.AudioContext) return;
+  notificationAudioContext ||= new AudioContext();
+  if (notificationAudioContext.state !== "running") {
+    notificationAudioContext.resume().then(() => {
+      if (notificationAudioContext.state === "running") playNotificationChime();
+    }).catch((error) => {
+      console.warn("Notification chime could not be played.", error);
+    });
+    return;
+  }
+  const chimeTime = notificationAudioContext.currentTime;
+  [880, 1175].forEach((frequency, index) => {
+    const startTime = chimeTime + index * 0.16;
+    const oscillator = notificationAudioContext.createOscillator();
+    const gain = notificationAudioContext.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(frequency, startTime);
+    gain.gain.setValueAtTime(0.0001, startTime);
+    gain.gain.exponentialRampToValueAtTime(0.16, startTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.32);
+    oscillator.connect(gain);
+    gain.connect(notificationAudioContext.destination);
+    oscillator.start(startTime);
+    oscillator.stop(startTime + 0.33);
+  });
+};
+
 const showNotificationToast = (title, message) => {
-  if (!notificationToast || notificationPanel?.classList.contains("is-open")) return;
+  if (!notificationToast) return;
   notificationToastTitle.textContent = title;
   notificationToastMessage.textContent = message;
   notificationToast.classList.remove("is-dismissing");
@@ -759,6 +802,14 @@ const addUnreadNotification = (title, message) => {
   unreadNotifications += 1;
   window.localStorage.setItem(unreadNotificationsKey, String(unreadNotifications));
   updateNotificationBadge();
+  playNotificationChime();
+  notificationButton?.classList.remove("is-ringing");
+  if (notificationButton) {
+    void notificationButton.offsetWidth;
+    notificationButton.classList.add("is-ringing");
+    window.clearTimeout(notificationRingTimer);
+    notificationRingTimer = window.setTimeout(() => notificationButton.classList.remove("is-ringing"), 1000);
+  }
   showNotificationToast(title, message);
 };
 

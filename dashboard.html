@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="dashboard.css" />
     <link rel="stylesheet" href="discussion-planner.css" />
+    <link rel="stylesheet" href="dashboard-farewell.css" />
     <link rel="icon" type="image/png" href="Images/ihslogo.png" />
   </head>
   <body>
@@ -481,12 +482,12 @@
           <div class="notification-list" aria-live="polite">
             <p class="notification-empty">You are all caught up for now.</p>
           </div>
-          <div class="notification-toast" role="status" aria-live="polite" aria-hidden="true">
-            <i class="fa-regular fa-bell" aria-hidden="true"></i>
-            <span><strong class="notification-toast-title">New notification</strong><small class="notification-toast-message"></small></span>
-          </div>
           <button class="notification-clear-button" type="button"><i class="fa-solid fa-trash-can" aria-hidden="true"></i> CLEAR REMINDERS</button>
         </div>
+      </div>
+      <div class="notification-toast" role="status" aria-live="polite" aria-hidden="true">
+        <i class="fa-regular fa-bell" aria-hidden="true"></i>
+        <span><strong class="notification-toast-title">New notification</strong><small class="notification-toast-message"></small></span>
       </div>
       <div class="reminder-modal" aria-hidden="true">
         <div class="reminder-card" role="dialog" aria-modal="true" aria-labelledby="reminder-title">
@@ -506,8 +507,17 @@
       </div>
     </main>
     <canvas class="countdown-confetti" aria-hidden="true"></canvas>
+    <section class="global-farewell" data-global-farewell hidden aria-hidden="true" aria-labelledby="global-farewell-title">
+      <canvas class="global-farewell-fireworks" data-farewell-fireworks aria-hidden="true"></canvas>
+      <div class="global-farewell-copy" role="status" aria-live="assertive" aria-atomic="true">
+        <p class="global-farewell-eyebrow">THE FINAL CIRCLE</p>
+        <h1 id="global-farewell-title">Roundsquare<br /><span>comes to an End.</span></h1>
+        <p class="global-farewell-message">The event may be over. The friendships, courage, and joy stay with us.</p>
+      </div>
+    </section>
     <iframe class="happiness-compass-frame" src="Round_Square_FAQ.html?embed=dashboard" title="Happiness Compass FAQ" loading="eager"></iframe>
     <script type="module" src="dashboard.js"></script>
+    <script type="module" src="dashboard-farewell.js"></script>
     <script>
       (() => {
         const frame = document.querySelector(".happiness-compass-frame");

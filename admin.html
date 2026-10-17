@@ -33,6 +33,15 @@
           <p class="eyebrow">Access granted</p>
           <h2>Send an update</h2>
           <p>Publish a message for students who have signed in to the dashboard.</p>
+          <section class="farewell-control" aria-labelledby="farewell-control-title">
+            <p class="eyebrow">One-time global announcement</p>
+            <h3 id="farewell-control-title">Close the circle</h3>
+            <p>When launched, every dashboard will turn blue and play the Roundsquare farewell celebration.</p>
+            <button class="farewell-launch" type="button" disabled aria-describedby="farewell-status">CHECKING STATUS…</button>
+            <button class="farewell-stop" type="button" disabled hidden aria-describedby="farewell-status">PAUSE CELEBRATION EVERYWHERE</button>
+            <button class="farewell-restart" type="button" disabled hidden aria-describedby="farewell-status">START AGAIN EVERYWHERE</button>
+            <p class="farewell-status" id="farewell-status" role="status" aria-live="polite">No dashboards will change unless you launch this announcement.</p>
+          </section>
           <form class="admin-message-form">
             <label for="message-title">Message title</label>
             <input id="message-title" name="title" type="text" maxlength="80" placeholder="Important event update" required />

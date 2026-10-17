@@ -46,6 +46,20 @@ textarea:focus { border-color: var(--warm-gold); box-shadow: 0 0 0 3px rgba(242,
 .admin-submit, .sign-out { display: inline-flex; align-items: center; justify-content: center; gap: .65rem; width: 100%; min-height: 3.3rem; margin-top: 1rem; color: var(--midnight-navy); background: linear-gradient(110deg, var(--warm-gold), var(--amber)); border: 0; border-radius: 999px; font-weight: 800; box-shadow: 0 8px 22px rgba(229, 160, 68, .16); }
 .admin-submit:hover, .sign-out:hover { filter: brightness(1.08); transform: translateY(-2px); }
 .form-status { min-height: 1.2rem; margin: .85rem 0 0; color: var(--muted-blue-grey); font-size: .75rem; text-align: center; }
+.farewell-control { margin: 1.75rem 0 1.5rem; padding: 1.25rem; background: linear-gradient(145deg, rgba(22, 74, 145, .3), rgba(20, 41, 68, .55)); border: 1px solid rgba(126, 188, 255, .38); border-radius: 16px; text-align: left; }
+.farewell-control .eyebrow { margin-bottom: .55rem; color: #9dceff; font-size: .58rem; }
+.farewell-control h3 { margin: 0; font-family: "Plus Jakarta Sans", sans-serif; font-size: 1.05rem; }
+.farewell-control > p:not(.eyebrow, .farewell-status) { margin: .5rem 0 0; color: var(--muted-blue-grey); font-size: .74rem; line-height: 1.5; }
+.farewell-launch { width: 100%; min-height: 3rem; margin-top: 1rem; padding: .7rem 1rem; color: #f2f8ff; background: linear-gradient(110deg, #2476d2, #15459a); border: 1px solid rgba(157, 206, 255, .5); border-radius: 999px; font-size: .73rem; font-weight: 800; letter-spacing: .06em; box-shadow: 0 8px 22px rgba(24, 87, 173, .22); }
+.farewell-launch:not(:disabled):hover { filter: brightness(1.15); transform: translateY(-2px); }
+.farewell-launch:disabled { cursor: not-allowed; opacity: .72; }
+.farewell-stop, .farewell-restart { width: 100%; min-height: 3rem; margin-top: .65rem; padding: .7rem 1rem; color: #fff1f0; background: linear-gradient(110deg, #bd4047, #81232f); border: 1px solid rgba(255, 165, 160, .56); border-radius: 999px; font-size: .73rem; font-weight: 800; letter-spacing: .06em; box-shadow: 0 8px 22px rgba(145, 34, 47, .2); }
+.farewell-restart { color: #effff6; background: linear-gradient(110deg, #278457, #176344); border-color: rgba(139, 231, 177, .58); box-shadow: 0 8px 22px rgba(24, 120, 76, .2); }
+.farewell-stop:not(:disabled):hover { filter: brightness(1.15); transform: translateY(-2px); }
+.farewell-restart:not(:disabled):hover { filter: brightness(1.15); transform: translateY(-2px); }
+.farewell-stop:disabled { cursor: not-allowed; opacity: .72; }
+.farewell-restart:disabled { cursor: not-allowed; opacity: .72; }
+.farewell-status { min-height: 1.2rem; margin: .7rem 0 0; color: var(--muted-blue-grey); font-size: .68rem; line-height: 1.5; }
 .admin-messages-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(244, 235, 221, .12); }
 .admin-messages-heading h3 { margin: 0; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
 .clear-messages, .remove-message { color: #f08c82; background: transparent; border: 1px solid rgba(240, 140, 130, .55); border-radius: 999px; cursor: pointer; font-size: .62rem; font-weight: 800; letter-spacing: .05em; }

@@ -1,0 +1,159 @@
+body.is-global-farewell {
+  --midnight-navy: #061a43;
+  --deep-blue: #10356d;
+  --warm-gold: #9acfff;
+  --amber: #4c9eff;
+  --warm-ivory: #edf7ff;
+  --muted-blue-grey: #a8c3e4;
+  --line: rgba(186, 220, 255, .18);
+}
+
+body.is-global-farewell .dashboard-page {
+  background:
+    radial-gradient(circle at 8% 0, rgba(62, 142, 255, .18), transparent 27rem),
+    radial-gradient(circle at 90% 45%, rgba(18, 62, 125, .78), transparent 32rem),
+    var(--midnight-navy);
+  transition: background 1.2s ease;
+}
+
+.global-farewell[hidden] {
+  display: none;
+}
+
+.global-farewell {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+  padding: 2rem;
+  color: #f3f8ff;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(29, 93, 177, .74), transparent 56%),
+    linear-gradient(145deg, rgba(3, 18, 52, .98), rgba(8, 43, 99, .98) 55%, rgba(4, 20, 56, .99));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .65s ease, visibility .65s ease;
+}
+
+.global-farewell.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.global-farewell.is-dismissing {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.global-farewell-fireworks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.global-farewell-copy {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 54rem);
+  text-align: center;
+  animation: farewell-copy-in 1.4s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.global-farewell-eyebrow {
+  margin: 0 0 1.3rem;
+  color: #b5d8ff;
+  font-size: clamp(.66rem, 2vw, .82rem);
+  font-weight: 800;
+  letter-spacing: .42em;
+}
+
+.global-farewell-copy h1 {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(3.5rem, 12vw, 8.6rem);
+  font-weight: 800;
+  letter-spacing: -.085em;
+  line-height: .94;
+  text-shadow: 0 12px 60px rgba(65, 153, 255, .38);
+}
+
+.global-farewell-copy h1 span {
+  display: inline-block;
+  color: #a8d7ff;
+  animation: farewell-word-in 1s .45s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.global-farewell-message {
+  max-width: 34rem;
+  margin: 1.7rem auto 0;
+  color: rgba(232, 243, 255, .84);
+  font-size: clamp(.95rem, 2.4vw, 1.2rem);
+  line-height: 1.7;
+  animation: farewell-message-in 1s .85s ease both;
+}
+
+.global-farewell-close {
+  position: absolute;
+  z-index: 2;
+  right: max(1.5rem, env(safe-area-inset-right));
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+  padding: .8rem 1.25rem;
+  color: #eaf5ff;
+  background: rgba(174, 215, 255, .1);
+  border: 1px solid rgba(190, 224, 255, .4);
+  border-radius: 999px;
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.global-farewell-close:hover {
+  background: rgba(174, 215, 255, .2);
+}
+
+@keyframes farewell-copy-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes farewell-word-in {
+  from { opacity: 0; transform: translateY(28px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes farewell-message-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .global-farewell {
+    padding: 1.5rem;
+  }
+
+  .global-farewell-eyebrow {
+    letter-spacing: .28em;
+  }
+
+  .global-farewell-message {
+    margin-top: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .global-farewell-copy,
+  .global-farewell-copy h1 span,
+  .global-farewell-message {
+    animation: none;
+  }
+}

@@ -64,4 +64,67 @@ create policy "Anyone can remove admin messages"
   using (true);
 
 alter table public.admin_messages replica identity full;
-alter publication supabase_realtime add table public.admin_messages;
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'admin_messages'
+  ) then
+    alter publication supabase_realtime add table public.admin_messages;
+  end if;
+end
+$$;
+
+create table if not exists public.global_celebration (
+  event_key text primary key check (event_key = 'roundsquare-over'),
+  activated_at timestamptz,
+  stopped_at timestamptz
+);
+
+alter table public.global_celebration
+  add column if not exists stopped_at timestamptz;
+
+insert into public.global_celebration (event_key, activated_at)
+values ('roundsquare-over', null)
+on conflict (event_key) do nothing;
+
+alter table public.global_celebration enable row level security;
+
+drop policy if exists "Anyone can read global celebration" on public.global_celebration;
+create policy "Anyone can read global celebration"
+  on public.global_celebration for select
+  to anon, authenticated
+  using (true);
+
+drop policy if exists "Anyone can activate global celebration" on public.global_celebration;
+drop policy if exists "Anyone can stop global celebration" on public.global_celebration;
+drop policy if exists "Anyone can update global celebration" on public.global_celebration;
+
+create policy "Anyone can update global celebration"
+  on public.global_celebration for update
+  to anon, authenticated
+  using (true)
+  with check (
+    (activated_at is null and stopped_at is null)
+    or activated_at is not null
+  );
+
+grant select, update on public.global_celebration to anon, authenticated;
+alter table public.global_celebration replica identity full;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'global_celebration'
+  ) then
+    alter publication supabase_realtime add table public.global_celebration;
+  end if;
+end
+$$;
